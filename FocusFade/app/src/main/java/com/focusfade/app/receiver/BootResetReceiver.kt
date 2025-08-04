@@ -42,9 +42,6 @@ class BootResetReceiver : BroadcastReceiver() {
                     startServices(context)
                 }
                 
-                // Schedule daily reset
-                DailyResetScheduler.scheduleDailyReset(context, settingsManager)
-                
             } catch (e: Exception) {
                 // Handle any errors during boot initialization
             }
@@ -55,13 +52,21 @@ class BootResetReceiver : BroadcastReceiver() {
         try {
             // Start screen time tracking service
             val screenTrackingIntent = Intent(context, ScreenTimeTrackingService::class.java)
-            context.startForegroundService(screenTrackingIntent)
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                context.startForegroundService(screenTrackingIntent)
+            } else {
+                context.startService(screenTrackingIntent)
+            }
             
             // Start blur overlay service
             val blurServiceIntent = Intent(context, BlurOverlayService::class.java).apply {
                 action = BlurOverlayService.ACTION_START_SERVICE
             }
-            context.startForegroundService(blurServiceIntent)
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                context.startForegroundService(blurServiceIntent)
+            } else {
+                context.startService(blurServiceIntent)
+            }
             
         } catch (e: Exception) {
             // Handle service start errors

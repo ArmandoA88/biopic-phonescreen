@@ -85,6 +85,15 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this@MainActivity, "Blur reset", Toast.LENGTH_SHORT).show()
             }
             
+            // Manual blur toggle button
+            buttonToggleManualBlur.setOnClickListener {
+                val intent = Intent(this@MainActivity, BlurOverlayService::class.java).apply {
+                    action = BlurOverlayService.ACTION_TOGGLE_MANUAL_BLUR
+                }
+                startService(intent)
+                Toast.makeText(this@MainActivity, "Manual blur toggled", Toast.LENGTH_SHORT).show()
+            }
+            
             // Settings button
             buttonSettings.setOnClickListener {
                 startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
@@ -228,13 +237,21 @@ class MainActivity : AppCompatActivity() {
         try {
             // Start screen time tracking service
             val screenTrackingIntent = Intent(this, ScreenTimeTrackingService::class.java)
-            startForegroundService(screenTrackingIntent)
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                startForegroundService(screenTrackingIntent)
+            } else {
+                startService(screenTrackingIntent)
+            }
             
             // Start blur overlay service
             val blurServiceIntent = Intent(this, BlurOverlayService::class.java).apply {
                 action = BlurOverlayService.ACTION_START_SERVICE
             }
-            startForegroundService(blurServiceIntent)
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                startForegroundService(blurServiceIntent)
+            } else {
+                startService(blurServiceIntent)
+            }
             
             // Schedule daily reset
             DailyResetScheduler.scheduleDailyReset(this, settingsManager)

@@ -42,18 +42,26 @@ class BlurOverlayService : Service() {
         const val ACTION_START_SERVICE = "START_SERVICE"
         const val ACTION_STOP_SERVICE = "STOP_SERVICE"
         const val ACTION_RESET_BLUR = "RESET_BLUR"
+        const val ACTION_TOGGLE_MANUAL_BLUR = "TOGGLE_MANUAL_BLUR"
+        const val ACTION_SET_MANUAL_BLUR = "SET_MANUAL_BLUR"
+        const val EXTRA_BLUR_LEVEL = "blur_level"
         
         private const val UPDATE_INTERVAL = 1000L // 1 second
     }
     
     private lateinit var windowManager: WindowManager
     private lateinit var blurOverlayView: BlurOverlayView
+    private lateinit var blurControlBar: View
     private lateinit var settingsManager: SettingsManager
     private lateinit var focusStateManager: FocusStateManager
     private lateinit var whitelistManager: WhitelistManager
     
     private var overlayParams: WindowManager.LayoutParams? = null
+    private var controlBarParams: WindowManager.LayoutParams? = null
     private var isOverlayShown = false
+    private var isControlBarShown = false
+    private var isManualBlurMode = false
+    private var manualBlurLevel = 0f
     
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
     private var updateJob: Job? = null
@@ -77,12 +85,23 @@ class BlurOverlayService : Service() {
             ACTION_START_SERVICE -> {
                 startForeground(NOTIFICATION_ID, createNotification())
                 showOverlay()
+                setupBlurControlBar()
+                showControlBar()
             }
             ACTION_STOP_SERVICE -> {
                 stopSelf()
             }
             ACTION_RESET_BLUR -> {
                 focusStateManager.resetBlur()
+                isManualBlurMode = false
+                manualBlurLevel = 0f
+            }
+            ACTION_TOGGLE_MANUAL_BLUR -> {
+                toggleManualBlurMode()
+            }
+            ACTION_SET_MANUAL_BLUR -> {
+                val blurLevel = intent.getFloatExtra(EXTRA_BLUR_LEVEL, 0f)
+                setManualBlurLevel(blurLevel)
             }
         }
         
@@ -94,6 +113,7 @@ class BlurOverlayService : Service() {
     override fun onDestroy() {
         super.onDestroy()
         hideOverlay()
+        hideControlBar()
         serviceScope.cancel()
     }
     
@@ -196,8 +216,11 @@ class BlurOverlayService : Service() {
         // Monitor blur level changes and update overlay
         updateJob = serviceScope.launch {
             focusStateManager.currentBlurLevel.collect { blurLevel ->
-                blurOverlayView.updateBlurLevel(blurLevel)
-                updateNotification(blurLevel)
+                if (!isManualBlurMode) {
+                    blurOverlayView.updateBlurLevel(blurLevel)
+                }
+                updateNotification(if (isManualBlurMode) manualBlurLevel else blurLevel)
+                updateControlBarUI()
             }
         }
         
@@ -247,5 +270,156 @@ class BlurOverlayService : Service() {
         
         val notificationManager = getSystemService(NotificationManager::class.java)
         notificationManager.notify(NOTIFICATION_ID, notification)
+    }
+    
+    private fun setupBlurControlBar() {
+        blurControlBar = createBlurControlBar()
+        
+        controlBarParams = WindowManager.LayoutParams(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+            } else {
+                @Suppress("DEPRECATION")
+                WindowManager.LayoutParams.TYPE_PHONE
+            },
+            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
+                    WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
+            PixelFormat.TRANSLUCENT
+        ).apply {
+            gravity = Gravity.TOP or Gravity.CENTER_HORIZONTAL
+            y = 100 // Position from top
+        }
+    }
+    
+    private fun createBlurControlBar(): View {
+        val container = FrameLayout(this).apply {
+            setBackgroundColor(Color.parseColor("#CC000000"))
+            setPadding(32, 16, 32, 16)
+        }
+        
+        val layout = android.widget.LinearLayout(this).apply {
+            orientation = android.widget.LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+        }
+        
+        // Manual blur toggle button
+        val toggleButton = android.widget.Button(this).apply {
+            text = "Manual Blur: OFF"
+            setTextColor(Color.WHITE)
+            setBackgroundColor(Color.parseColor("#FF4444"))
+            setPadding(24, 12, 24, 12)
+            setOnClickListener {
+                toggleManualBlurMode()
+            }
+        }
+        
+        // Blur level slider
+        val slider = android.widget.SeekBar(this).apply {
+            max = 100
+            progress = 0
+            setPadding(32, 0, 32, 0)
+            setOnSeekBarChangeListener(object : android.widget.SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(seekBar: android.widget.SeekBar?, progress: Int, fromUser: Boolean) {
+                    if (fromUser && isManualBlurMode) {
+                        setManualBlurLevel(progress.toFloat())
+                    }
+                }
+                override fun onStartTrackingTouch(seekBar: android.widget.SeekBar?) {}
+                override fun onStopTrackingTouch(seekBar: android.widget.SeekBar?) {}
+            })
+        }
+        
+        // Blur level text
+        val blurText = android.widget.TextView(this).apply {
+            text = "0%"
+            setTextColor(Color.WHITE)
+            textSize = 16f
+            minWidth = 100
+            gravity = Gravity.CENTER
+        }
+        
+        layout.addView(toggleButton)
+        layout.addView(slider, android.widget.LinearLayout.LayoutParams(0, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
+        layout.addView(blurText)
+        
+        container.addView(layout)
+        
+        // Store references for updates
+        container.tag = mapOf(
+            "toggleButton" to toggleButton,
+            "slider" to slider,
+            "blurText" to blurText
+        )
+        
+        return container
+    }
+    
+    private fun showControlBar() {
+        if (!isControlBarShown && controlBarParams != null) {
+            try {
+                windowManager.addView(blurControlBar, controlBarParams)
+                isControlBarShown = true
+            } catch (e: Exception) {
+                // Handle overlay permission issues
+            }
+        }
+    }
+    
+    private fun hideControlBar() {
+        if (isControlBarShown) {
+            try {
+                windowManager.removeView(blurControlBar)
+                isControlBarShown = false
+            } catch (e: Exception) {
+                // View might already be removed
+            }
+        }
+    }
+    
+    private fun toggleManualBlurMode() {
+        isManualBlurMode = !isManualBlurMode
+        updateControlBarUI()
+        
+        if (isManualBlurMode) {
+            // Pause automatic blur updates
+            focusStateManager.pauseBlurAccumulation()
+        } else {
+            // Resume automatic blur updates
+            focusStateManager.resumeBlurAccumulation()
+            manualBlurLevel = 0f
+        }
+    }
+    
+    private fun setManualBlurLevel(blurLevel: Float) {
+        if (isManualBlurMode) {
+            manualBlurLevel = blurLevel.coerceIn(0f, 100f)
+            blurOverlayView.updateBlurLevel(manualBlurLevel, animate = false)
+            updateControlBarUI()
+        }
+    }
+    
+    private fun updateControlBarUI() {
+        val components = blurControlBar.tag as? Map<String, View> ?: return
+        
+        val toggleButton = components["toggleButton"] as? android.widget.Button
+        val slider = components["slider"] as? android.widget.SeekBar
+        val blurText = components["blurText"] as? android.widget.TextView
+        
+        toggleButton?.apply {
+            text = if (isManualBlurMode) "Manual Blur: ON" else "Manual Blur: OFF"
+            setBackgroundColor(if (isManualBlurMode) Color.parseColor("#44FF44") else Color.parseColor("#FF4444"))
+        }
+        
+        slider?.apply {
+            isEnabled = isManualBlurMode
+            if (isManualBlurMode) {
+                progress = manualBlurLevel.toInt()
+            }
+        }
+        
+        val currentBlur = if (isManualBlurMode) manualBlurLevel else focusStateManager.currentBlurLevel.value
+        blurText?.text = "${currentBlur.toInt()}%"
     }
 }
