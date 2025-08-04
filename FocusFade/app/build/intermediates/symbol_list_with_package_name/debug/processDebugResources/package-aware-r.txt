@@ -3220,6 +3220,7 @@ id buttonPanel
 id buttonResetBlur
 id buttonResetSettings
 id buttonSettings
+id buttonToggleManualBlur
 id buttonWhitelist
 id cache_measures
 id callMeasure

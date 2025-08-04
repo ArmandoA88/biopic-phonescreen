@@ -118,3 +118,5 @@ Desktop.ini
 
 # Kotlin
 *.kt.class
+
+.fake

@@ -43,6 +43,7 @@ id buttonGrantPermission
 id buttonResetBlur
 id buttonResetSettings
 id buttonSettings
+id buttonToggleManualBlur
 id buttonWhitelist
 id cardPermissionRequired
 id headerAllApps
