@@ -1,0 +1,87 @@
+<resources>
+    <string name="app_name">FocusFade</string>
+    <string name="app_description">Mindful screen time through visual feedback</string>
+    
+    <!-- Main Activity -->
+    <string name="service_status">Service Status</string>
+    <string name="enable_focusfade">Enable FocusFade</string>
+    <string name="focusfade_active">FocusFade is active</string>
+    <string name="focusfade_disabled">FocusFade is disabled</string>
+    <string name="current_status">Current Status</string>
+    <string name="current_blur_format">Current Blur: %d%%</string>
+    <string name="reset_blur">Reset Blur</string>
+    <string name="blur_reset">Blur reset</string>
+    <string name="quick_settings">Quick Settings</string>
+    <string name="blur_gain_format">Blur gain: +10%% every %d minutes</string>
+    <string name="blur_recovery_format">Blur recovery: -10%% every %d minutes</string>
+    <string name="max_blur_format">Max blur level: %d%%</string>
+    <string name="daily_reset">Daily Reset</string>
+    <string name="next_reset_format">Next reset: %s</string>
+    <string name="settings">Settings</string>
+    <string name="whitelist_apps">Whitelist Apps</string>
+    
+    <!-- Permissions -->
+    <string name="overlay_permission_required">Overlay permission is required for FocusFade to work</string>
+    <string name="usage_stats_permission_granted">Usage stats permission granted</string>
+    <string name="usage_stats_permission_needed">Usage stats permission is needed for app whitelisting</string>
+    <string name="welcome_message">Welcome to FocusFade! Grant permissions to get started.</string>
+    
+    <!-- Service -->
+    <string name="focusfade_service">FocusFade Service</string>
+    <string name="service_description">Manages screen blur overlay</string>
+    <string name="focusfade_active_notification">FocusFade Active</string>
+    <string name="monitoring_screen_time">Monitoring screen time</string>
+    <string name="blur_level_format">Blur level: %d%%</string>
+    <string name="reset">Reset</string>
+    <string name="stop">Stop</string>
+    <string name="services_started">FocusFade services started</string>
+    <string name="services_stopped">FocusFade services stopped</string>
+    <string name="failed_to_start_services">Failed to start services: %s</string>
+    <string name="error_stopping_services">Error stopping services: %s</string>
+    
+    <!-- Settings Activity -->
+    <string name="blur_settings">Blur Settings</string>
+    <string name="blur_gain_rate">Blur Gain Rate</string>
+    <string name="blur_gain_rate_description">How fast blur increases while screen is on</string>
+    <string name="blur_recovery_rate">Blur Recovery Rate</string>
+    <string name="blur_recovery_rate_description">How fast blur decreases when screen is off</string>
+    <string name="min_blur_level">Minimum Blur Level</string>
+    <string name="max_blur_level">Maximum Blur Level</string>
+    <string name="daily_reset_time">Daily Reset Time</string>
+    <string name="daily_reset_description">Time when blur resets to 0% each day</string>
+    <string name="advanced_settings">Advanced Settings</string>
+    <string name="reset_all_settings">Reset All Settings</string>
+    <string name="reset_settings_confirmation">Are you sure you want to reset all settings to defaults?</string>
+    <string name="settings_reset">Settings reset to defaults</string>
+    
+    <!-- Whitelist Activity -->
+    <string name="whitelisted_apps">Whitelisted Apps</string>
+    <string name="suggested_apps">Suggested Apps</string>
+    <string name="all_apps">All Apps</string>
+    <string name="no_whitelisted_apps">No apps whitelisted</string>
+    <string name="add_apps_description">Add apps that won\'t trigger blur accumulation</string>
+    <string name="app_added_to_whitelist">App added to whitelist</string>
+    <string name="app_removed_from_whitelist">App removed from whitelist</string>
+    <string name="usage_stats_permission_required">Usage stats permission is required to detect foreground apps</string>
+    <string name="grant_permission">Grant Permission</string>
+    
+    <!-- Time formats -->
+    <string name="today_at_format">Today at %s</string>
+    <string name="tomorrow_at_format">Tomorrow at %s</string>
+    <string name="time_format">%02d:%02d</string>
+    
+    <!-- Error messages -->
+    <string name="error_generic">An error occurred</string>
+    <string name="error_permission_denied">Permission denied</string>
+    <string name="error_service_start">Failed to start service</string>
+    <string name="error_service_stop">Failed to stop service</string>
+    
+    <!-- Accessibility -->
+    <string name="blur_level_slider">Blur level slider</string>
+    <string name="service_toggle">Service toggle</string>
+    <string name="app_icon">App icon</string>
+    
+    <!-- Notifications -->
+    <string name="notification_channel_name">FocusFade Service</string>
+    <string name="notification_channel_description">Notifications for FocusFade service status</string>
+</resources>
