@@ -24,6 +24,9 @@ public final class ActivityMainBinding implements ViewBinding {
   private final ScrollView rootView;
 
   @NonNull
+  public final MaterialButton buttonDebugLogs;
+
+  @NonNull
   public final MaterialButton buttonResetBlur;
 
   @NonNull
@@ -68,15 +71,17 @@ public final class ActivityMainBinding implements ViewBinding {
   @NonNull
   public final TextView textServiceStatus;
 
-  private ActivityMainBinding(@NonNull ScrollView rootView, @NonNull MaterialButton buttonResetBlur,
-      @NonNull MaterialButton buttonSettings, @NonNull MaterialButton buttonToggleManualBlur,
-      @NonNull MaterialButton buttonWhitelist, @NonNull ProgressBar progressBlurLevel,
-      @NonNull Slider sliderBlurGainRate, @NonNull Slider sliderBlurRecoveryRate,
-      @NonNull Slider sliderMaxBlurLevel, @NonNull SwitchMaterial switchServiceEnabled,
-      @NonNull TextView textBlurGainRate, @NonNull TextView textBlurRecoveryRate,
-      @NonNull TextView textCurrentBlurLevel, @NonNull TextView textMaxBlurLevel,
-      @NonNull TextView textNextReset, @NonNull TextView textServiceStatus) {
+  private ActivityMainBinding(@NonNull ScrollView rootView, @NonNull MaterialButton buttonDebugLogs,
+      @NonNull MaterialButton buttonResetBlur, @NonNull MaterialButton buttonSettings,
+      @NonNull MaterialButton buttonToggleManualBlur, @NonNull MaterialButton buttonWhitelist,
+      @NonNull ProgressBar progressBlurLevel, @NonNull Slider sliderBlurGainRate,
+      @NonNull Slider sliderBlurRecoveryRate, @NonNull Slider sliderMaxBlurLevel,
+      @NonNull SwitchMaterial switchServiceEnabled, @NonNull TextView textBlurGainRate,
+      @NonNull TextView textBlurRecoveryRate, @NonNull TextView textCurrentBlurLevel,
+      @NonNull TextView textMaxBlurLevel, @NonNull TextView textNextReset,
+      @NonNull TextView textServiceStatus) {
     this.rootView = rootView;
+    this.buttonDebugLogs = buttonDebugLogs;
     this.buttonResetBlur = buttonResetBlur;
     this.buttonSettings = buttonSettings;
     this.buttonToggleManualBlur = buttonToggleManualBlur;
@@ -121,6 +126,12 @@ public final class ActivityMainBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.buttonDebugLogs;
+      MaterialButton buttonDebugLogs = ViewBindings.findChildViewById(rootView, id);
+      if (buttonDebugLogs == null) {
+        break missingId;
+      }
+
       id = R.id.buttonResetBlur;
       MaterialButton buttonResetBlur = ViewBindings.findChildViewById(rootView, id);
       if (buttonResetBlur == null) {
@@ -211,11 +222,11 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ActivityMainBinding((ScrollView) rootView, buttonResetBlur, buttonSettings,
-          buttonToggleManualBlur, buttonWhitelist, progressBlurLevel, sliderBlurGainRate,
-          sliderBlurRecoveryRate, sliderMaxBlurLevel, switchServiceEnabled, textBlurGainRate,
-          textBlurRecoveryRate, textCurrentBlurLevel, textMaxBlurLevel, textNextReset,
-          textServiceStatus);
+      return new ActivityMainBinding((ScrollView) rootView, buttonDebugLogs, buttonResetBlur,
+          buttonSettings, buttonToggleManualBlur, buttonWhitelist, progressBlurLevel,
+          sliderBlurGainRate, sliderBlurRecoveryRate, sliderMaxBlurLevel, switchServiceEnabled,
+          textBlurGainRate, textBlurRecoveryRate, textCurrentBlurLevel, textMaxBlurLevel,
+          textNextReset, textServiceStatus);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

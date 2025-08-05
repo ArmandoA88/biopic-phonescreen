@@ -43,7 +43,7 @@
 24-->[androidx.core:core:1.12.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\334a1a42ad195b4af3f5f6f58d2936c6\transformed\core-1.12.0\AndroidManifest.xml:26:22-94
 25
 26    <application
-26-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:14:5-90:19
+26-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:14:5-97:19
 27        android:allowBackup="true"
 27-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:15:9-35
 28        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
@@ -110,339 +110,351 @@
 63            android:theme="@style/Theme.FocusFade" />
 63-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:47:13-51
 64
-65        <!-- Blur Overlay Service -->
-66        <service
-66-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:51:9-59:19
-67            android:name="com.focusfade.app.service.BlurOverlayService"
-67-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:52:13-55
-68            android:enabled="true"
-68-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:53:13-35
-69            android:exported="false"
-69-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:54:13-37
-70            android:foregroundServiceType="specialUse" >
-70-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:55:13-55
-71            <property
-71-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:56:13-58:52
-72                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
-72-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:57:17-76
-73                android:value="focus_management" />
-73-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:58:17-49
-74        </service>
-75
-76        <!-- Screen Time Tracking Service -->
-77        <service
-77-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:62:9-70:19
-78            android:name="com.focusfade.app.service.ScreenTimeTrackingService"
-78-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:63:13-62
-79            android:enabled="true"
-79-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:64:13-35
-80            android:exported="false"
-80-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:65:13-37
-81            android:foregroundServiceType="specialUse" >
-81-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:66:13-55
-82            <property
-82-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:56:13-58:52
-83                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
-83-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:57:17-76
-84                android:value="screen_time_tracking" />
-84-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:58:17-49
-85        </service>
-86
-87        <!-- Boot Receiver -->
-88        <receiver
-88-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:73:9-82:20
-89            android:name="com.focusfade.app.receiver.BootResetReceiver"
-89-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:74:13-55
-90            android:enabled="true"
-90-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:75:13-35
-91            android:exported="false" >
-91-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:76:13-37
-92            <intent-filter android:priority="1000" >
-92-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:77:13-81:29
-92-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:77:28-51
-93                <action android:name="android.intent.action.BOOT_COMPLETED" />
-93-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:78:17-79
-93-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:78:25-76
-94                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
-94-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:79:17-82
-94-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:79:25-79
-95
-96                <category android:name="android.intent.category.DEFAULT" />
-96-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:80:17-76
-96-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:80:27-73
-97            </intent-filter>
-98        </receiver>
-99
-100        <!-- Daily Reset Receiver -->
-101        <receiver
-101-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:85:9-88:40
-102            android:name="com.focusfade.app.receiver.DailyResetReceiver"
-102-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:86:13-56
-103            android:enabled="true"
-103-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:87:13-35
-104            android:exported="false" />
-104-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:88:13-37
-105
-106        <provider
-106-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\f6eb126fd7bfce5563291f1d33b37740\transformed\emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
-107            android:name="androidx.startup.InitializationProvider"
-107-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\f6eb126fd7bfce5563291f1d33b37740\transformed\emoji2-1.2.0\AndroidManifest.xml:25:13-67
-108            android:authorities="com.focusfade.app.androidx-startup"
-108-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\f6eb126fd7bfce5563291f1d33b37740\transformed\emoji2-1.2.0\AndroidManifest.xml:26:13-68
-109            android:exported="false" >
-109-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\f6eb126fd7bfce5563291f1d33b37740\transformed\emoji2-1.2.0\AndroidManifest.xml:27:13-37
-110            <meta-data
-110-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\f6eb126fd7bfce5563291f1d33b37740\transformed\emoji2-1.2.0\AndroidManifest.xml:29:13-31:52
-111                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-111-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\f6eb126fd7bfce5563291f1d33b37740\transformed\emoji2-1.2.0\AndroidManifest.xml:30:17-75
-112                android:value="androidx.startup" />
-112-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\f6eb126fd7bfce5563291f1d33b37740\transformed\emoji2-1.2.0\AndroidManifest.xml:31:17-49
-113            <meta-data
-113-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:34:13-36:52
-114                android:name="androidx.work.WorkManagerInitializer"
-114-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:35:17-68
-115                android:value="androidx.startup" />
-115-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:36:17-49
-116            <meta-data
-116-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\acfee947b11a2f5a274b41fa16dfe12a\transformed\lifecycle-process-2.7.0\AndroidManifest.xml:29:13-31:52
-117                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-117-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\acfee947b11a2f5a274b41fa16dfe12a\transformed\lifecycle-process-2.7.0\AndroidManifest.xml:30:17-78
-118                android:value="androidx.startup" />
-118-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\acfee947b11a2f5a274b41fa16dfe12a\transformed\lifecycle-process-2.7.0\AndroidManifest.xml:31:17-49
-119            <meta-data
-119-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:29:13-31:52
-120                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
-120-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:30:17-85
-121                android:value="androidx.startup" />
-121-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:31:17-49
-122        </provider>
-123
-124        <service
-124-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:39:9-45:35
-125            android:name="androidx.work.impl.background.systemalarm.SystemAlarmService"
-125-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:40:13-88
-126            android:directBootAware="false"
-126-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:41:13-44
-127            android:enabled="@bool/enable_system_alarm_service_default"
-127-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:42:13-72
-128            android:exported="false" />
-128-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:43:13-37
-129        <service
-129-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:46:9-52:35
-130            android:name="androidx.work.impl.background.systemjob.SystemJobService"
-130-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:47:13-84
-131            android:directBootAware="false"
-131-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:48:13-44
-132            android:enabled="@bool/enable_system_job_service_default"
-132-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:49:13-70
-133            android:exported="true"
-133-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:50:13-36
-134            android:permission="android.permission.BIND_JOB_SERVICE" />
-134-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:51:13-69
-135        <service
-135-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:53:9-59:35
-136            android:name="androidx.work.impl.foreground.SystemForegroundService"
-136-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:54:13-81
-137            android:directBootAware="false"
-137-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:55:13-44
-138            android:enabled="@bool/enable_system_foreground_service_default"
-138-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:56:13-77
-139            android:exported="false" />
-139-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:57:13-37
-140
-141        <receiver
-141-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:61:9-66:35
-142            android:name="androidx.work.impl.utils.ForceStopRunnable$BroadcastReceiver"
-142-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:62:13-88
-143            android:directBootAware="false"
-143-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:63:13-44
-144            android:enabled="true"
-144-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:64:13-35
-145            android:exported="false" />
-145-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:65:13-37
-146        <receiver
-146-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:67:9-77:20
-147            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryChargingProxy"
-147-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:68:13-106
-148            android:directBootAware="false"
-148-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:69:13-44
-149            android:enabled="false"
-149-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:70:13-36
-150            android:exported="false" >
-150-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:71:13-37
-151            <intent-filter>
-151-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:73:13-76:29
-152                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
-152-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:74:17-87
-152-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:74:25-84
-153                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
-153-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:75:17-90
-153-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:75:25-87
-154            </intent-filter>
-155        </receiver>
-156        <receiver
-156-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:78:9-88:20
-157            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryNotLowProxy"
-157-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:79:13-104
-158            android:directBootAware="false"
-158-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:80:13-44
-159            android:enabled="false"
-159-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:81:13-36
-160            android:exported="false" >
-160-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:82:13-37
-161            <intent-filter>
-161-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:84:13-87:29
-162                <action android:name="android.intent.action.BATTERY_OKAY" />
-162-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:85:17-77
-162-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:85:25-74
-163                <action android:name="android.intent.action.BATTERY_LOW" />
-163-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:86:17-76
-163-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:86:25-73
-164            </intent-filter>
-165        </receiver>
-166        <receiver
-166-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:89:9-99:20
-167            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$StorageNotLowProxy"
-167-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:90:13-104
-168            android:directBootAware="false"
-168-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:91:13-44
-169            android:enabled="false"
-169-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:92:13-36
-170            android:exported="false" >
-170-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:93:13-37
-171            <intent-filter>
-171-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:95:13-98:29
-172                <action android:name="android.intent.action.DEVICE_STORAGE_LOW" />
-172-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:96:17-83
-172-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:96:25-80
-173                <action android:name="android.intent.action.DEVICE_STORAGE_OK" />
-173-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:97:17-82
-173-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:97:25-79
-174            </intent-filter>
-175        </receiver>
-176        <receiver
-176-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:100:9-109:20
-177            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$NetworkStateProxy"
-177-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:101:13-103
-178            android:directBootAware="false"
-178-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:102:13-44
-179            android:enabled="false"
-179-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:103:13-36
-180            android:exported="false" >
-180-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:104:13-37
-181            <intent-filter>
-181-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:106:13-108:29
-182                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-182-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:107:17-79
-182-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:107:25-76
-183            </intent-filter>
-184        </receiver>
-185        <receiver
-185-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:110:9-121:20
-186            android:name="androidx.work.impl.background.systemalarm.RescheduleReceiver"
-186-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:111:13-88
-187            android:directBootAware="false"
-187-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:112:13-44
-188            android:enabled="false"
-188-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:113:13-36
-189            android:exported="false" >
-189-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:114:13-37
-190            <intent-filter>
-190-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:116:13-120:29
-191                <action android:name="android.intent.action.BOOT_COMPLETED" />
-191-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:78:17-79
-191-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:78:25-76
-192                <action android:name="android.intent.action.TIME_SET" />
-192-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:118:17-73
-192-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:118:25-70
-193                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
-193-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:119:17-81
-193-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:119:25-78
-194            </intent-filter>
-195        </receiver>
-196        <receiver
-196-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:122:9-131:20
-197            android:name="androidx.work.impl.background.systemalarm.ConstraintProxyUpdateReceiver"
-197-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:123:13-99
-198            android:directBootAware="false"
-198-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:124:13-44
-199            android:enabled="@bool/enable_system_alarm_service_default"
-199-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:125:13-72
-200            android:exported="false" >
-200-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:126:13-37
-201            <intent-filter>
-201-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:128:13-130:29
-202                <action android:name="androidx.work.impl.background.systemalarm.UpdateProxies" />
-202-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:129:17-98
-202-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:129:25-95
-203            </intent-filter>
-204        </receiver>
-205        <receiver
-205-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:132:9-142:20
-206            android:name="androidx.work.impl.diagnostics.DiagnosticsReceiver"
-206-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:133:13-78
-207            android:directBootAware="false"
-207-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:134:13-44
-208            android:enabled="true"
-208-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:135:13-35
-209            android:exported="true"
-209-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:136:13-36
-210            android:permission="android.permission.DUMP" >
-210-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:137:13-57
-211            <intent-filter>
-211-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:139:13-141:29
-212                <action android:name="androidx.work.diagnostics.REQUEST_DIAGNOSTICS" />
-212-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:140:17-88
-212-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:140:25-85
-213            </intent-filter>
-214        </receiver>
-215
-216        <service
-216-->[androidx.room:room-runtime:2.5.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\b0f2c68cf2394b8eb90e83d9a6df6af9\transformed\room-runtime-2.5.0\AndroidManifest.xml:24:9-28:63
-217            android:name="androidx.room.MultiInstanceInvalidationService"
-217-->[androidx.room:room-runtime:2.5.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\b0f2c68cf2394b8eb90e83d9a6df6af9\transformed\room-runtime-2.5.0\AndroidManifest.xml:25:13-74
-218            android:directBootAware="true"
-218-->[androidx.room:room-runtime:2.5.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\b0f2c68cf2394b8eb90e83d9a6df6af9\transformed\room-runtime-2.5.0\AndroidManifest.xml:26:13-43
-219            android:exported="false" />
-219-->[androidx.room:room-runtime:2.5.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\b0f2c68cf2394b8eb90e83d9a6df6af9\transformed\room-runtime-2.5.0\AndroidManifest.xml:27:13-37
-220
-221        <receiver
-221-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:34:9-52:20
-222            android:name="androidx.profileinstaller.ProfileInstallReceiver"
-222-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:35:13-76
-223            android:directBootAware="false"
-223-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:36:13-44
-224            android:enabled="true"
-224-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:37:13-35
-225            android:exported="true"
-225-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:38:13-36
-226            android:permission="android.permission.DUMP" >
-226-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:39:13-57
-227            <intent-filter>
-227-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:40:13-42:29
-228                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
-228-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:41:17-91
-228-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:41:25-88
-229            </intent-filter>
-230            <intent-filter>
-230-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:43:13-45:29
-231                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
-231-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:44:17-85
-231-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:44:25-82
-232            </intent-filter>
-233            <intent-filter>
-233-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:46:13-48:29
-234                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
-234-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:47:17-88
-234-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:47:25-85
-235            </intent-filter>
-236            <intent-filter>
-236-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:49:13-51:29
-237                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
-237-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:50:17-95
-237-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:50:25-92
-238            </intent-filter>
-239        </receiver>
-240    </application>
-241
-242</manifest>
+65        <!-- Debug Log Activity -->
+66        <activity
+66-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:51:9-55:58
+67            android:name="com.focusfade.app.DebugLogActivity"
+67-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:52:13-45
+68            android:exported="false"
+68-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:53:13-37
+69            android:parentActivityName="com.focusfade.app.MainActivity"
+69-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:55:13-55
+70            android:theme="@style/Theme.FocusFade" />
+70-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:54:13-51
+71
+72        <!-- Blur Overlay Service -->
+73        <service
+73-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:58:9-66:19
+74            android:name="com.focusfade.app.service.BlurOverlayService"
+74-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:59:13-55
+75            android:enabled="true"
+75-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:60:13-35
+76            android:exported="false"
+76-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:61:13-37
+77            android:foregroundServiceType="specialUse" >
+77-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:62:13-55
+78            <property
+78-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:63:13-65:52
+79                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+79-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:64:17-76
+80                android:value="focus_management" />
+80-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:65:17-49
+81        </service>
+82
+83        <!-- Screen Time Tracking Service -->
+84        <service
+84-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:69:9-77:19
+85            android:name="com.focusfade.app.service.ScreenTimeTrackingService"
+85-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:70:13-62
+86            android:enabled="true"
+86-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:71:13-35
+87            android:exported="false"
+87-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:72:13-37
+88            android:foregroundServiceType="specialUse" >
+88-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:73:13-55
+89            <property
+89-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:63:13-65:52
+90                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+90-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:64:17-76
+91                android:value="screen_time_tracking" />
+91-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:65:17-49
+92        </service>
+93
+94        <!-- Boot Receiver -->
+95        <receiver
+95-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:80:9-89:20
+96            android:name="com.focusfade.app.receiver.BootResetReceiver"
+96-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:81:13-55
+97            android:enabled="true"
+97-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:82:13-35
+98            android:exported="false" >
+98-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:83:13-37
+99            <intent-filter android:priority="1000" >
+99-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:84:13-88:29
+99-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:84:28-51
+100                <action android:name="android.intent.action.BOOT_COMPLETED" />
+100-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:85:17-79
+100-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:85:25-76
+101                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+101-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:86:17-82
+101-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:86:25-79
+102
+103                <category android:name="android.intent.category.DEFAULT" />
+103-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:87:17-76
+103-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:87:27-73
+104            </intent-filter>
+105        </receiver>
+106
+107        <!-- Daily Reset Receiver -->
+108        <receiver
+108-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:92:9-95:40
+109            android:name="com.focusfade.app.receiver.DailyResetReceiver"
+109-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:93:13-56
+110            android:enabled="true"
+110-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:94:13-35
+111            android:exported="false" />
+111-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:95:13-37
+112
+113        <provider
+113-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\f6eb126fd7bfce5563291f1d33b37740\transformed\emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
+114            android:name="androidx.startup.InitializationProvider"
+114-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\f6eb126fd7bfce5563291f1d33b37740\transformed\emoji2-1.2.0\AndroidManifest.xml:25:13-67
+115            android:authorities="com.focusfade.app.androidx-startup"
+115-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\f6eb126fd7bfce5563291f1d33b37740\transformed\emoji2-1.2.0\AndroidManifest.xml:26:13-68
+116            android:exported="false" >
+116-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\f6eb126fd7bfce5563291f1d33b37740\transformed\emoji2-1.2.0\AndroidManifest.xml:27:13-37
+117            <meta-data
+117-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\f6eb126fd7bfce5563291f1d33b37740\transformed\emoji2-1.2.0\AndroidManifest.xml:29:13-31:52
+118                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+118-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\f6eb126fd7bfce5563291f1d33b37740\transformed\emoji2-1.2.0\AndroidManifest.xml:30:17-75
+119                android:value="androidx.startup" />
+119-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\f6eb126fd7bfce5563291f1d33b37740\transformed\emoji2-1.2.0\AndroidManifest.xml:31:17-49
+120            <meta-data
+120-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:34:13-36:52
+121                android:name="androidx.work.WorkManagerInitializer"
+121-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:35:17-68
+122                android:value="androidx.startup" />
+122-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:36:17-49
+123            <meta-data
+123-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\acfee947b11a2f5a274b41fa16dfe12a\transformed\lifecycle-process-2.7.0\AndroidManifest.xml:29:13-31:52
+124                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+124-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\acfee947b11a2f5a274b41fa16dfe12a\transformed\lifecycle-process-2.7.0\AndroidManifest.xml:30:17-78
+125                android:value="androidx.startup" />
+125-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\acfee947b11a2f5a274b41fa16dfe12a\transformed\lifecycle-process-2.7.0\AndroidManifest.xml:31:17-49
+126            <meta-data
+126-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:29:13-31:52
+127                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+127-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:30:17-85
+128                android:value="androidx.startup" />
+128-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:31:17-49
+129        </provider>
+130
+131        <service
+131-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:39:9-45:35
+132            android:name="androidx.work.impl.background.systemalarm.SystemAlarmService"
+132-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:40:13-88
+133            android:directBootAware="false"
+133-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:41:13-44
+134            android:enabled="@bool/enable_system_alarm_service_default"
+134-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:42:13-72
+135            android:exported="false" />
+135-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:43:13-37
+136        <service
+136-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:46:9-52:35
+137            android:name="androidx.work.impl.background.systemjob.SystemJobService"
+137-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:47:13-84
+138            android:directBootAware="false"
+138-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:48:13-44
+139            android:enabled="@bool/enable_system_job_service_default"
+139-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:49:13-70
+140            android:exported="true"
+140-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:50:13-36
+141            android:permission="android.permission.BIND_JOB_SERVICE" />
+141-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:51:13-69
+142        <service
+142-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:53:9-59:35
+143            android:name="androidx.work.impl.foreground.SystemForegroundService"
+143-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:54:13-81
+144            android:directBootAware="false"
+144-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:55:13-44
+145            android:enabled="@bool/enable_system_foreground_service_default"
+145-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:56:13-77
+146            android:exported="false" />
+146-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:57:13-37
+147
+148        <receiver
+148-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:61:9-66:35
+149            android:name="androidx.work.impl.utils.ForceStopRunnable$BroadcastReceiver"
+149-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:62:13-88
+150            android:directBootAware="false"
+150-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:63:13-44
+151            android:enabled="true"
+151-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:64:13-35
+152            android:exported="false" />
+152-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:65:13-37
+153        <receiver
+153-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:67:9-77:20
+154            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryChargingProxy"
+154-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:68:13-106
+155            android:directBootAware="false"
+155-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:69:13-44
+156            android:enabled="false"
+156-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:70:13-36
+157            android:exported="false" >
+157-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:71:13-37
+158            <intent-filter>
+158-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:73:13-76:29
+159                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+159-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:74:17-87
+159-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:74:25-84
+160                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+160-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:75:17-90
+160-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:75:25-87
+161            </intent-filter>
+162        </receiver>
+163        <receiver
+163-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:78:9-88:20
+164            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryNotLowProxy"
+164-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:79:13-104
+165            android:directBootAware="false"
+165-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:80:13-44
+166            android:enabled="false"
+166-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:81:13-36
+167            android:exported="false" >
+167-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:82:13-37
+168            <intent-filter>
+168-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:84:13-87:29
+169                <action android:name="android.intent.action.BATTERY_OKAY" />
+169-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:85:17-77
+169-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:85:25-74
+170                <action android:name="android.intent.action.BATTERY_LOW" />
+170-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:86:17-76
+170-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:86:25-73
+171            </intent-filter>
+172        </receiver>
+173        <receiver
+173-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:89:9-99:20
+174            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$StorageNotLowProxy"
+174-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:90:13-104
+175            android:directBootAware="false"
+175-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:91:13-44
+176            android:enabled="false"
+176-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:92:13-36
+177            android:exported="false" >
+177-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:93:13-37
+178            <intent-filter>
+178-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:95:13-98:29
+179                <action android:name="android.intent.action.DEVICE_STORAGE_LOW" />
+179-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:96:17-83
+179-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:96:25-80
+180                <action android:name="android.intent.action.DEVICE_STORAGE_OK" />
+180-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:97:17-82
+180-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:97:25-79
+181            </intent-filter>
+182        </receiver>
+183        <receiver
+183-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:100:9-109:20
+184            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$NetworkStateProxy"
+184-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:101:13-103
+185            android:directBootAware="false"
+185-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:102:13-44
+186            android:enabled="false"
+186-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:103:13-36
+187            android:exported="false" >
+187-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:104:13-37
+188            <intent-filter>
+188-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:106:13-108:29
+189                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+189-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:107:17-79
+189-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:107:25-76
+190            </intent-filter>
+191        </receiver>
+192        <receiver
+192-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:110:9-121:20
+193            android:name="androidx.work.impl.background.systemalarm.RescheduleReceiver"
+193-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:111:13-88
+194            android:directBootAware="false"
+194-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:112:13-44
+195            android:enabled="false"
+195-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:113:13-36
+196            android:exported="false" >
+196-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:114:13-37
+197            <intent-filter>
+197-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:116:13-120:29
+198                <action android:name="android.intent.action.BOOT_COMPLETED" />
+198-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:85:17-79
+198-->C:\Users\Casa-Desktop\Desktop\biopic phonescreen\FocusFade\app\src\main\AndroidManifest.xml:85:25-76
+199                <action android:name="android.intent.action.TIME_SET" />
+199-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:118:17-73
+199-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:118:25-70
+200                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+200-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:119:17-81
+200-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:119:25-78
+201            </intent-filter>
+202        </receiver>
+203        <receiver
+203-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:122:9-131:20
+204            android:name="androidx.work.impl.background.systemalarm.ConstraintProxyUpdateReceiver"
+204-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:123:13-99
+205            android:directBootAware="false"
+205-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:124:13-44
+206            android:enabled="@bool/enable_system_alarm_service_default"
+206-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:125:13-72
+207            android:exported="false" >
+207-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:126:13-37
+208            <intent-filter>
+208-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:128:13-130:29
+209                <action android:name="androidx.work.impl.background.systemalarm.UpdateProxies" />
+209-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:129:17-98
+209-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:129:25-95
+210            </intent-filter>
+211        </receiver>
+212        <receiver
+212-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:132:9-142:20
+213            android:name="androidx.work.impl.diagnostics.DiagnosticsReceiver"
+213-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:133:13-78
+214            android:directBootAware="false"
+214-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:134:13-44
+215            android:enabled="true"
+215-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:135:13-35
+216            android:exported="true"
+216-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:136:13-36
+217            android:permission="android.permission.DUMP" >
+217-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:137:13-57
+218            <intent-filter>
+218-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:139:13-141:29
+219                <action android:name="androidx.work.diagnostics.REQUEST_DIAGNOSTICS" />
+219-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:140:17-88
+219-->[androidx.work:work-runtime:2.9.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\2016c0f93c7cc845aba655fa415532b0\transformed\work-runtime-2.9.0\AndroidManifest.xml:140:25-85
+220            </intent-filter>
+221        </receiver>
+222
+223        <service
+223-->[androidx.room:room-runtime:2.5.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\b0f2c68cf2394b8eb90e83d9a6df6af9\transformed\room-runtime-2.5.0\AndroidManifest.xml:24:9-28:63
+224            android:name="androidx.room.MultiInstanceInvalidationService"
+224-->[androidx.room:room-runtime:2.5.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\b0f2c68cf2394b8eb90e83d9a6df6af9\transformed\room-runtime-2.5.0\AndroidManifest.xml:25:13-74
+225            android:directBootAware="true"
+225-->[androidx.room:room-runtime:2.5.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\b0f2c68cf2394b8eb90e83d9a6df6af9\transformed\room-runtime-2.5.0\AndroidManifest.xml:26:13-43
+226            android:exported="false" />
+226-->[androidx.room:room-runtime:2.5.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\b0f2c68cf2394b8eb90e83d9a6df6af9\transformed\room-runtime-2.5.0\AndroidManifest.xml:27:13-37
+227
+228        <receiver
+228-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:34:9-52:20
+229            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+229-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:35:13-76
+230            android:directBootAware="false"
+230-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:36:13-44
+231            android:enabled="true"
+231-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:37:13-35
+232            android:exported="true"
+232-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:38:13-36
+233            android:permission="android.permission.DUMP" >
+233-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:39:13-57
+234            <intent-filter>
+234-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:40:13-42:29
+235                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+235-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:41:17-91
+235-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:41:25-88
+236            </intent-filter>
+237            <intent-filter>
+237-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:43:13-45:29
+238                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+238-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:44:17-85
+238-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:44:25-82
+239            </intent-filter>
+240            <intent-filter>
+240-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:46:13-48:29
+241                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+241-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:47:17-88
+241-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:47:25-85
+242            </intent-filter>
+243            <intent-filter>
+243-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:49:13-51:29
+244                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+244-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:50:17-95
+244-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Casa-Desktop\.gradle\caches\transforms-4\7fc75ebdb383915877331a7d0bc58700\transformed\profileinstaller-1.3.0\AndroidManifest.xml:50:25-92
+245            </intent-filter>
+246        </receiver>
+247    </application>
+248
+249</manifest>

@@ -1,70 +1,70 @@
 [
     {
-        "merged": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-debug-42:\\layout_activity_main.xml.flat",
-        "source": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-main-44:\\layout\\activity_main.xml"
+        "merged": "com.focusfade.app-debug-42:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.focusfade.app-main-44:/drawable/ic_launcher_background.xml"
     },
     {
-        "merged": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-debug-42:\\mipmap-hdpi_ic_launcher_round.xml.flat",
-        "source": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-main-44:\\mipmap-hdpi\\ic_launcher_round.xml"
+        "merged": "com.focusfade.app-debug-42:/drawable_ic_refresh.xml.flat",
+        "source": "com.focusfade.app-main-44:/drawable/ic_refresh.xml"
     },
     {
-        "merged": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-debug-42:\\mipmap-hdpi_ic_launcher.xml.flat",
-        "source": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-main-44:\\mipmap-hdpi\\ic_launcher.xml"
+        "merged": "com.focusfade.app-debug-42:/drawable_ic_expand_more.xml.flat",
+        "source": "com.focusfade.app-main-44:/drawable/ic_expand_more.xml"
     },
     {
-        "merged": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-debug-42:\\layout_item_app.xml.flat",
-        "source": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-main-44:\\layout\\item_app.xml"
+        "merged": "com.focusfade.app-debug-42:/layout_activity_debug_log.xml.flat",
+        "source": "com.focusfade.app-main-44:/layout/activity_debug_log.xml"
     },
     {
-        "merged": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-debug-42:\\xml_backup_rules.xml.flat",
-        "source": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-main-44:\\xml\\backup_rules.xml"
+        "merged": "com.focusfade.app-debug-42:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.focusfade.app-main-44:/mipmap-anydpi-v26/ic_launcher_round.xml"
     },
     {
-        "merged": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-debug-42:\\drawable_ic_stop.xml.flat",
-        "source": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-main-44:\\drawable\\ic_stop.xml"
+        "merged": "com.focusfade.app-debug-42:/mipmap-hdpi_ic_launcher.xml.flat",
+        "source": "com.focusfade.app-main-44:/mipmap-hdpi/ic_launcher.xml"
     },
     {
-        "merged": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-debug-42:\\drawable_ic_expand_more.xml.flat",
-        "source": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-main-44:\\drawable\\ic_expand_more.xml"
+        "merged": "com.focusfade.app-debug-42:/layout_item_app.xml.flat",
+        "source": "com.focusfade.app-main-44:/layout/item_app.xml"
     },
     {
-        "merged": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-debug-42:\\layout_activity_settings.xml.flat",
-        "source": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-main-44:\\layout\\activity_settings.xml"
+        "merged": "com.focusfade.app-debug-42:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.focusfade.app-main-44:/drawable/ic_launcher_foreground.xml"
     },
     {
-        "merged": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-debug-42:\\layout_activity_whitelist.xml.flat",
-        "source": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-main-44:\\layout\\activity_whitelist.xml"
+        "merged": "com.focusfade.app-debug-42:/layout_activity_whitelist.xml.flat",
+        "source": "com.focusfade.app-main-44:/layout/activity_whitelist.xml"
     },
     {
-        "merged": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-debug-42:\\drawable_ic_refresh.xml.flat",
-        "source": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-main-44:\\drawable\\ic_refresh.xml"
+        "merged": "com.focusfade.app-debug-42:/xml_backup_rules.xml.flat",
+        "source": "com.focusfade.app-main-44:/xml/backup_rules.xml"
     },
     {
-        "merged": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-debug-42:\\xml_data_extraction_rules.xml.flat",
-        "source": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-main-44:\\xml\\data_extraction_rules.xml"
-    },
-    {
-        "merged": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-debug-42:\\drawable_ic_notification.xml.flat",
-        "source": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-main-44:\\drawable\\ic_notification.xml"
-    },
-    {
-        "merged": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-debug-42:\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
-        "source": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-main-44:\\mipmap-anydpi-v26\\ic_launcher_round.xml"
+        "merged": "com.focusfade.app-debug-42:/layout_activity_settings.xml.flat",
+        "source": "com.focusfade.app-main-44:/layout/activity_settings.xml"
     },
     {
         "merged": "com.focusfade.app-debug-42:/layout_activity_main.xml.flat",
         "source": "com.focusfade.app-main-44:/layout/activity_main.xml"
     },
     {
-        "merged": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-debug-42:\\drawable_ic_launcher_background.xml.flat",
-        "source": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-main-44:\\drawable\\ic_launcher_background.xml"
+        "merged": "com.focusfade.app-debug-42:/xml_data_extraction_rules.xml.flat",
+        "source": "com.focusfade.app-main-44:/xml/data_extraction_rules.xml"
     },
     {
-        "merged": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-debug-42:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
-        "source": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-main-44:\\mipmap-anydpi-v26\\ic_launcher.xml"
+        "merged": "com.focusfade.app-debug-42:/mipmap-hdpi_ic_launcher_round.xml.flat",
+        "source": "com.focusfade.app-main-44:/mipmap-hdpi/ic_launcher_round.xml"
     },
     {
-        "merged": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-debug-42:\\drawable_ic_launcher_foreground.xml.flat",
-        "source": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-main-44:\\drawable\\ic_launcher_foreground.xml"
+        "merged": "com.focusfade.app-debug-42:/drawable_ic_stop.xml.flat",
+        "source": "com.focusfade.app-main-44:/drawable/ic_stop.xml"
+    },
+    {
+        "merged": "com.focusfade.app-debug-42:/drawable_ic_notification.xml.flat",
+        "source": "com.focusfade.app-main-44:/drawable/ic_notification.xml"
+    },
+    {
+        "merged": "com.focusfade.app-debug-42:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.focusfade.app-main-44:/mipmap-anydpi-v26/ic_launcher.xml"
     }
 ]

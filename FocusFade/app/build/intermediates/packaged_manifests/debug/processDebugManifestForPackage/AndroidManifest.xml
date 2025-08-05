@@ -62,6 +62,13 @@
             android:parentActivityName="com.focusfade.app.MainActivity"
             android:theme="@style/Theme.FocusFade" />
 
+        <!-- Debug Log Activity -->
+        <activity
+            android:name="com.focusfade.app.DebugLogActivity"
+            android:exported="false"
+            android:parentActivityName="com.focusfade.app.MainActivity"
+            android:theme="@style/Theme.FocusFade" />
+
         <!-- Blur Overlay Service -->
         <service
             android:name="com.focusfade.app.service.BlurOverlayService"

@@ -38,8 +38,16 @@ drawable ic_notification
 drawable ic_refresh
 drawable ic_stop
 id buttonAction
+id buttonBack
+id buttonClearLogs
 id buttonDailyResetTime
+id buttonDebugLogs
+id buttonFilterAll
+id buttonFilterErrors
+id buttonFilterService
+id buttonFilterSettings
 id buttonGrantPermission
+id buttonRefreshLogs
 id buttonResetBlur
 id buttonResetSettings
 id buttonSettings
@@ -54,6 +62,7 @@ id progressBlurLevel
 id recyclerAllApps
 id recyclerSuggestedApps
 id recyclerWhitelistedApps
+id scrollViewLogs
 id sectionAllApps
 id sectionSuggestedApps
 id sectionWhitelistedApps
@@ -67,6 +76,7 @@ id textBlurGainRate
 id textBlurRecoveryRate
 id textCurrentBlurLevel
 id textDailyResetTime
+id textLogs
 id textMaxBlurLevel
 id textMinBlurLevel
 id textNextReset
@@ -75,6 +85,7 @@ id textPackageName
 id textServiceStatus
 id textStatus
 id toolbar
+layout activity_debug_log
 layout activity_main
 layout activity_settings
 layout activity_whitelist

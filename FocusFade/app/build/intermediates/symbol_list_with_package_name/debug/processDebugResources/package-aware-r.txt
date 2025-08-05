@@ -3214,9 +3214,17 @@ id bounceBoth
 id bounceEnd
 id bounceStart
 id buttonAction
+id buttonBack
+id buttonClearLogs
 id buttonDailyResetTime
+id buttonDebugLogs
+id buttonFilterAll
+id buttonFilterErrors
+id buttonFilterService
+id buttonFilterSettings
 id buttonGrantPermission
 id buttonPanel
+id buttonRefreshLogs
 id buttonResetBlur
 id buttonResetSettings
 id buttonSettings
@@ -3507,6 +3515,7 @@ id scroll
 id scrollIndicatorDown
 id scrollIndicatorUp
 id scrollView
+id scrollViewLogs
 id scrollable
 id search_badge
 id search_bar
@@ -3589,6 +3598,7 @@ id textBlurRecoveryRate
 id textCurrentBlurLevel
 id textDailyResetTime
 id textEnd
+id textLogs
 id textMaxBlurLevel
 id textMinBlurLevel
 id textNextReset
@@ -3763,6 +3773,7 @@ layout abc_search_dropdown_item_icons_2line
 layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
+layout activity_debug_log
 layout activity_main
 layout activity_settings
 layout activity_whitelist
