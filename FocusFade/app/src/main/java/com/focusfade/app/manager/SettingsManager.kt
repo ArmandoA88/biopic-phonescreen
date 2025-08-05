@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
+import android.util.Log
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "focus_fade_settings")
 
@@ -22,6 +23,8 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 class SettingsManager(private val context: Context) {
     
     companion object {
+        private const val TAG = "SettingsManager"
+        
         // Settings keys
         private val BLUR_GAIN_RATE = intPreferencesKey("blur_gain_rate") // minutes per 10% blur
         private val BLUR_RECOVERY_RATE = intPreferencesKey("blur_recovery_rate") // minutes per 10% recovery
@@ -43,10 +46,20 @@ class SettingsManager(private val context: Context) {
     }
     
     // Blur gain rate (minutes per 10% blur increase)
-    fun getBlurGainRate(): Int = runBlocking {
-        context.dataStore.data.map { preferences ->
-            preferences[BLUR_GAIN_RATE] ?: DEFAULT_BLUR_GAIN_RATE
-        }.first()
+    fun getBlurGainRate(): Int {
+        return try {
+            Log.v(TAG, "getBlurGainRate() called")
+            val result = runBlocking {
+                context.dataStore.data.map { preferences ->
+                    preferences[BLUR_GAIN_RATE] ?: DEFAULT_BLUR_GAIN_RATE
+                }.first()
+            }
+            Log.v(TAG, "getBlurGainRate() returning: $result")
+            result
+        } catch (e: Exception) {
+            Log.e(TAG, "Error in getBlurGainRate()", e)
+            DEFAULT_BLUR_GAIN_RATE
+        }
     }
     
     suspend fun setBlurGainRate(rate: Int) {
@@ -60,10 +73,16 @@ class SettingsManager(private val context: Context) {
     }
     
     // Blur recovery rate (minutes per 10% blur decrease)
-    fun getBlurRecoveryRate(): Int = runBlocking {
-        context.dataStore.data.map { preferences ->
-            preferences[BLUR_RECOVERY_RATE] ?: DEFAULT_BLUR_RECOVERY_RATE
-        }.first()
+    fun getBlurRecoveryRate(): Int {
+        return try {
+            runBlocking {
+                context.dataStore.data.map { preferences ->
+                    preferences[BLUR_RECOVERY_RATE] ?: DEFAULT_BLUR_RECOVERY_RATE
+                }.first()
+            }
+        } catch (e: Exception) {
+            DEFAULT_BLUR_RECOVERY_RATE
+        }
     }
     
     suspend fun setBlurRecoveryRate(rate: Int) {
@@ -77,10 +96,16 @@ class SettingsManager(private val context: Context) {
     }
     
     // Minimum blur level
-    fun getMinBlurLevel(): Float = runBlocking {
-        context.dataStore.data.map { preferences ->
-            preferences[MIN_BLUR_LEVEL] ?: DEFAULT_MIN_BLUR_LEVEL
-        }.first()
+    fun getMinBlurLevel(): Float {
+        return try {
+            runBlocking {
+                context.dataStore.data.map { preferences ->
+                    preferences[MIN_BLUR_LEVEL] ?: DEFAULT_MIN_BLUR_LEVEL
+                }.first()
+            }
+        } catch (e: Exception) {
+            DEFAULT_MIN_BLUR_LEVEL
+        }
     }
     
     suspend fun setMinBlurLevel(level: Float) {
@@ -94,10 +119,16 @@ class SettingsManager(private val context: Context) {
     }
     
     // Maximum blur level
-    fun getMaxBlurLevel(): Float = runBlocking {
-        context.dataStore.data.map { preferences ->
-            preferences[MAX_BLUR_LEVEL] ?: DEFAULT_MAX_BLUR_LEVEL
-        }.first()
+    fun getMaxBlurLevel(): Float {
+        return try {
+            runBlocking {
+                context.dataStore.data.map { preferences ->
+                    preferences[MAX_BLUR_LEVEL] ?: DEFAULT_MAX_BLUR_LEVEL
+                }.first()
+            }
+        } catch (e: Exception) {
+            DEFAULT_MAX_BLUR_LEVEL
+        }
     }
     
     suspend fun setMaxBlurLevel(level: Float) {
@@ -111,16 +142,28 @@ class SettingsManager(private val context: Context) {
     }
     
     // Daily reset time
-    fun getDailyResetHour(): Int = runBlocking {
-        context.dataStore.data.map { preferences ->
-            preferences[DAILY_RESET_HOUR] ?: DEFAULT_DAILY_RESET_HOUR
-        }.first()
+    fun getDailyResetHour(): Int {
+        return try {
+            runBlocking {
+                context.dataStore.data.map { preferences ->
+                    preferences[DAILY_RESET_HOUR] ?: DEFAULT_DAILY_RESET_HOUR
+                }.first()
+            }
+        } catch (e: Exception) {
+            DEFAULT_DAILY_RESET_HOUR
+        }
     }
     
-    fun getDailyResetMinute(): Int = runBlocking {
-        context.dataStore.data.map { preferences ->
-            preferences[DAILY_RESET_MINUTE] ?: DEFAULT_DAILY_RESET_MINUTE
-        }.first()
+    fun getDailyResetMinute(): Int {
+        return try {
+            runBlocking {
+                context.dataStore.data.map { preferences ->
+                    preferences[DAILY_RESET_MINUTE] ?: DEFAULT_DAILY_RESET_MINUTE
+                }.first()
+            }
+        } catch (e: Exception) {
+            DEFAULT_DAILY_RESET_MINUTE
+        }
     }
     
     suspend fun setDailyResetTime(hour: Int, minute: Int) {
@@ -137,10 +180,16 @@ class SettingsManager(private val context: Context) {
     }
     
     // Whitelisted apps
-    fun getWhitelistedApps(): Set<String> = runBlocking {
-        context.dataStore.data.map { preferences ->
-            preferences[WHITELISTED_APPS] ?: emptySet()
-        }.first()
+    fun getWhitelistedApps(): Set<String> {
+        return try {
+            runBlocking {
+                context.dataStore.data.map { preferences ->
+                    preferences[WHITELISTED_APPS] ?: emptySet()
+                }.first()
+            }
+        } catch (e: Exception) {
+            emptySet()
+        }
     }
     
     suspend fun setWhitelistedApps(apps: Set<String>) {
@@ -168,10 +217,16 @@ class SettingsManager(private val context: Context) {
     }
     
     // Service enabled state
-    fun isServiceEnabled(): Boolean = runBlocking {
-        context.dataStore.data.map { preferences ->
-            preferences[SERVICE_ENABLED] ?: true
-        }.first()
+    fun isServiceEnabled(): Boolean {
+        return try {
+            runBlocking {
+                context.dataStore.data.map { preferences ->
+                    preferences[SERVICE_ENABLED] ?: true
+                }.first()
+            }
+        } catch (e: Exception) {
+            true
+        }
     }
     
     suspend fun setServiceEnabled(enabled: Boolean) {
@@ -185,10 +240,16 @@ class SettingsManager(private val context: Context) {
     }
     
     // First launch flag
-    fun isFirstLaunch(): Boolean = runBlocking {
-        context.dataStore.data.map { preferences ->
-            preferences[FIRST_LAUNCH] ?: true
-        }.first()
+    fun isFirstLaunch(): Boolean {
+        return try {
+            runBlocking {
+                context.dataStore.data.map { preferences ->
+                    preferences[FIRST_LAUNCH] ?: true
+                }.first()
+            }
+        } catch (e: Exception) {
+            true
+        }
     }
     
     suspend fun setFirstLaunchComplete() {

@@ -35,6 +35,8 @@ class FocusStateManager private constructor(
     private var lastScreenOnTime = 0L
     private var lastScreenOffTime = 0L
     private var accumulatedScreenOnTime = 0L
+    private var blurStartTime = 0L
+    private var isBlurAccumulationPaused = false
     
     /**
      * Called when screen turns on
@@ -43,6 +45,7 @@ class FocusStateManager private constructor(
         if (!_isScreenOn.value) {
             _isScreenOn.value = true
             lastScreenOnTime = System.currentTimeMillis()
+            blurStartTime = System.currentTimeMillis()
             
             // Stop blur recovery if it was happening
             stopBlurRecovery()
@@ -69,22 +72,22 @@ class FocusStateManager private constructor(
     
     /**
      * Updates blur level based on current screen time
+     * New behavior: Start at 10% blur, increase by 10% every 10 seconds
      */
     fun updateBlurLevel() {
-        if (!_isScreenOn.value) return
+        if (!_isScreenOn.value || isBlurAccumulationPaused) return
         
         val currentTime = System.currentTimeMillis()
-        val currentSessionTime = if (lastScreenOnTime > 0) {
-            currentTime - lastScreenOnTime
+        val timeOnScreen = if (blurStartTime > 0) {
+            currentTime - blurStartTime
         } else 0L
         
-        val totalScreenTime = accumulatedScreenOnTime + currentSessionTime
-        val blurGainRate = settingsManager.getBlurGainRate()
         val maxBlurLevel = settingsManager.getMaxBlurLevel()
         
-        // Calculate blur based on total screen time
-        val blurIncrease = (totalScreenTime / (blurGainRate * 60 * 1000f)) * 10f // 10% per interval
-        val newBlurLevel = min(maxBlurLevel, blurIncrease)
+        // New logic: Start at 10%, increase by 10% every 10 seconds
+        val secondsOnScreen = timeOnScreen / 1000f
+        val intervalsCompleted = (secondsOnScreen / 10f).toInt() // Every 10 seconds
+        val newBlurLevel = min(maxBlurLevel, 10f + (intervalsCompleted * 10f))
         
         _currentBlurLevel.value = newBlurLevel
     }
@@ -137,6 +140,8 @@ class FocusStateManager private constructor(
         accumulatedScreenOnTime = 0L
         lastScreenOnTime = 0L
         lastScreenOffTime = 0L
+        blurStartTime = System.currentTimeMillis() // Reset blur start time
+        isBlurAccumulationPaused = false
     }
     
     /**
@@ -157,18 +162,17 @@ class FocusStateManager private constructor(
      * Pauses blur accumulation (for whitelisted apps)
      */
     fun pauseBlurAccumulation() {
-        if (_isScreenOn.value && lastScreenOnTime > 0) {
-            accumulatedScreenOnTime += (System.currentTimeMillis() - lastScreenOnTime)
-            lastScreenOnTime = 0L
-        }
+        isBlurAccumulationPaused = true
     }
     
     /**
      * Resumes blur accumulation
      */
     fun resumeBlurAccumulation() {
+        isBlurAccumulationPaused = false
         if (_isScreenOn.value) {
-            lastScreenOnTime = System.currentTimeMillis()
+            // Reset blur start time to current time when resuming
+            blurStartTime = System.currentTimeMillis()
         }
     }
     

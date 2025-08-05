@@ -15,7 +15,6 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.core.app.NotificationCompat
-import androidx.lifecycle.lifecycleScope
 import com.focusfade.app.MainActivity
 import com.focusfade.app.R
 import com.focusfade.app.manager.FocusStateManager
@@ -30,6 +29,8 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
+import android.util.Log
+import com.focusfade.app.utils.CrashLogger
 
 /**
  * Foreground service that manages the blur overlay
@@ -47,6 +48,7 @@ class BlurOverlayService : Service() {
         const val EXTRA_BLUR_LEVEL = "blur_level"
         
         private const val UPDATE_INTERVAL = 1000L // 1 second
+        private const val TAG = "BlurOverlayService"
     }
     
     private lateinit var windowManager: WindowManager
@@ -69,15 +71,43 @@ class BlurOverlayService : Service() {
     
     override fun onCreate() {
         super.onCreate()
+        CrashLogger.log("DEBUG", TAG, "Service onCreate() started")
         
-        windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
-        settingsManager = SettingsManager(this)
-        focusStateManager = FocusStateManager.getInstance(this, settingsManager)
-        whitelistManager = WhitelistManager(this, settingsManager)
-        
-        createNotificationChannel()
-        setupBlurOverlay()
-        startMonitoring()
+        try {
+            windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
+            CrashLogger.log("DEBUG", TAG, "WindowManager initialized")
+            
+            settingsManager = SettingsManager(this)
+            CrashLogger.log("DEBUG", TAG, "SettingsManager initialized")
+            
+            focusStateManager = FocusStateManager.getInstance(this, settingsManager)
+            CrashLogger.log("DEBUG", TAG, "FocusStateManager initialized")
+            
+            whitelistManager = WhitelistManager(this, settingsManager)
+            CrashLogger.log("DEBUG", TAG, "WhitelistManager initialized")
+            
+            createNotificationChannel()
+            CrashLogger.log("DEBUG", TAG, "Notification channel created")
+            
+            setupBlurOverlay()
+            CrashLogger.log("DEBUG", TAG, "Blur overlay setup complete")
+            
+            // Initialize asynchronously to avoid blocking
+            serviceScope.launch {
+                try {
+                    CrashLogger.log("DEBUG", TAG, "Starting monitoring...")
+                    startMonitoring()
+                    CrashLogger.log("DEBUG", TAG, "Monitoring started successfully")
+                } catch (e: Exception) {
+                    CrashLogger.log("ERROR", TAG, "Error starting monitoring", e)
+                }
+            }
+            
+            CrashLogger.log("DEBUG", TAG, "Service onCreate() completed successfully")
+        } catch (e: Exception) {
+            CrashLogger.log("ERROR", TAG, "Critical error in onCreate()", e)
+            throw e
+        }
     }
     
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -112,8 +142,18 @@ class BlurOverlayService : Service() {
     
     override fun onDestroy() {
         super.onDestroy()
+        
+        // Cancel all jobs first
+        updateJob?.cancel()
+        whitelistCheckJob?.cancel()
+        updateJob = null
+        whitelistCheckJob = null
+        
+        // Hide overlays
         hideOverlay()
         hideControlBar()
+        
+        // Cancel the entire scope
         serviceScope.cancel()
     }
     
@@ -213,50 +253,96 @@ class BlurOverlayService : Service() {
     }
     
     private fun startMonitoring() {
+        CrashLogger.log("DEBUG", TAG, "startMonitoring() called")
+        
         // Monitor blur level changes and update overlay
         updateJob = serviceScope.launch {
-            focusStateManager.currentBlurLevel.collect { blurLevel ->
-                if (!isManualBlurMode) {
-                    blurOverlayView.updateBlurLevel(blurLevel)
+            try {
+                CrashLogger.log("DEBUG", TAG, "Starting blur level collection...")
+                focusStateManager.currentBlurLevel.collect { blurLevel ->
+                    try {
+                        CrashLogger.log("VERBOSE", TAG, "Blur level update: $blurLevel")
+                        if (!isManualBlurMode) {
+                            blurOverlayView.updateBlurLevel(blurLevel)
+                        }
+                        updateNotification(if (isManualBlurMode) manualBlurLevel else blurLevel)
+                        updateControlBarUI()
+                    } catch (e: Exception) {
+                        CrashLogger.log("ERROR", TAG, "Error in blur level update", e)
+                    }
                 }
-                updateNotification(if (isManualBlurMode) manualBlurLevel else blurLevel)
-                updateControlBarUI()
+            } catch (e: Exception) {
+                CrashLogger.log("ERROR", TAG, "Error in blur level collection", e)
             }
         }
         
-        // Monitor whitelisted app status
+        // Monitor whitelisted app status and update blur level
         whitelistCheckJob = serviceScope.launch {
-            while (true) {
-                whitelistManager.updateForegroundAppStatus()
-                
-                if (whitelistManager.isCurrentAppWhitelisted()) {
-                    focusStateManager.pauseBlurAccumulation()
-                } else {
-                    focusStateManager.resumeBlurAccumulation()
-                    focusStateManager.updateBlurLevel()
+            try {
+                CrashLogger.log("DEBUG", TAG, "Starting whitelist monitoring loop...")
+                var loopCount = 0
+                while (true) {
+                    try {
+                        loopCount++
+                        CrashLogger.log("VERBOSE", TAG, "Whitelist check loop iteration: $loopCount")
+                        
+                        whitelistManager.updateForegroundAppStatus()
+                        
+                        if (whitelistManager.isCurrentAppWhitelisted()) {
+                            focusStateManager.pauseBlurAccumulation()
+                        } else {
+                            focusStateManager.resumeBlurAccumulation()
+                        }
+                        
+                        // Always update blur level to ensure it increases every 10 seconds
+                        focusStateManager.updateBlurLevel()
+                        
+                        // Log every 60 iterations (1 minute)
+                        if (loopCount % 60 == 0) {
+                            CrashLogger.log("DEBUG", TAG, "Whitelist monitoring running - iteration $loopCount")
+                        }
+                    } catch (e: Exception) {
+                        CrashLogger.log("ERROR", TAG, "Error in whitelist check iteration $loopCount", e)
+                    }
+                    
+                    delay(UPDATE_INTERVAL)
                 }
-                
-                delay(UPDATE_INTERVAL)
+            } catch (e: Exception) {
+                CrashLogger.log("ERROR", TAG, "Critical error in whitelist monitoring loop", e)
             }
         }
         
         // Monitor screen state and blur recovery
         serviceScope.launch {
-            combine(
-                focusStateManager.isScreenOn,
-                whitelistManager.isWhitelistedAppActive
-            ) { isScreenOn, isWhitelistedActive ->
-                if (!isScreenOn) {
-                    // Start blur recovery when screen is off
-                    launch {
-                        while (!focusStateManager.isScreenOn.value) {
-                            focusStateManager.recoverBlur()
-                            delay(UPDATE_INTERVAL)
+            try {
+                CrashLogger.log("DEBUG", TAG, "Starting screen state monitoring...")
+                combine(
+                    focusStateManager.isScreenOn,
+                    whitelistManager.isWhitelistedAppActive
+                ) { isScreenOn, isWhitelistedActive ->
+                    CrashLogger.log("VERBOSE", TAG, "Screen state: $isScreenOn, Whitelisted active: $isWhitelistedActive")
+                    if (!isScreenOn) {
+                        // Start blur recovery when screen is off
+                        launch {
+                            try {
+                                CrashLogger.log("DEBUG", TAG, "Starting blur recovery...")
+                                while (!focusStateManager.isScreenOn.value) {
+                                    focusStateManager.recoverBlur()
+                                    delay(UPDATE_INTERVAL)
+                                }
+                                CrashLogger.log("DEBUG", TAG, "Blur recovery stopped - screen is on")
+                            } catch (e: Exception) {
+                                CrashLogger.log("ERROR", TAG, "Error in blur recovery", e)
+                            }
                         }
                     }
-                }
-            }.collect { }
+                }.collect { }
+            } catch (e: Exception) {
+                CrashLogger.log("ERROR", TAG, "Error in screen state monitoring", e)
+            }
         }
+        
+        CrashLogger.log("DEBUG", TAG, "All monitoring jobs started")
     }
     
     private fun updateNotification(blurLevel: Float) {
@@ -401,6 +487,11 @@ class BlurOverlayService : Service() {
     }
     
     private fun updateControlBarUI() {
+        // Check if blurControlBar is initialized
+        if (!::blurControlBar.isInitialized) {
+            return
+        }
+        
         val components = blurControlBar.tag as? Map<String, View> ?: return
         
         val toggleButton = components["toggleButton"] as? android.widget.Button

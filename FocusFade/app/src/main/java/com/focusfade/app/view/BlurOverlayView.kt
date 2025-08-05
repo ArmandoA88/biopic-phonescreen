@@ -27,17 +27,17 @@ class BlurOverlayView @JvmOverloads constructor(
     private var targetBlurLevel = 0f
     
     private val overlayPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.WHITE
+        color = Color.TRANSPARENT
         alpha = 0
     }
     
     private val blurPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.WHITE
+        color = Color.parseColor("#10000000") // Very subtle dark overlay for blur effect
         style = Paint.Style.FILL
     }
     
     private val frostedPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.parseColor("#F0F0F0")
+        color = Color.parseColor("#08000000") // Minimal dark tint
         style = Paint.Style.FILL
     }
     
@@ -174,11 +174,24 @@ class BlurOverlayView @JvmOverloads constructor(
     }
     
     private fun drawOverlay(canvas: Canvas, width: Float, height: Float) {
-        if (currentBlurLevel > 20f) {
-            // Add a subtle white overlay for higher blur levels
-            val overlayAlpha = ((currentBlurLevel - 20f) * 1.5f).toInt().coerceIn(0, 120)
-            overlayPaint.alpha = overlayAlpha
-            canvas.drawRect(0f, 0f, width, height, overlayPaint)
+        // Remove white overlay - no additional overlay needed for pure blur effect
+    }
+    
+    private fun drawBlurLayers(canvas: Canvas, width: Float, height: Float, blurIntensity: Float) {
+        // Draw multiple stronger layers to create depth without white haze - doubled intensity
+        val layerCount = 5
+        val baseAlpha = (blurIntensity * 40f).toInt().coerceIn(0, 100)
+        
+        for (i in 0 until layerCount) {
+            val layerAlpha = (baseAlpha * (1f - i * 0.2f)).toInt().coerceAtLeast(0)
+            if (layerAlpha <= 0) break
+            
+            blurPaint.alpha = layerAlpha
+            blurPaint.color = Color.parseColor("#20000000") // Stronger dark tint for better blur
+            
+            // Slightly offset each layer for depth
+            val offset = i * 3f
+            canvas.drawRect(offset, offset, width - offset, height - offset, blurPaint)
         }
     }
     
@@ -214,22 +227,16 @@ class BlurOverlayView @JvmOverloads constructor(
         
         if (blurIntensity <= 0f) return
         
-        // Draw a more visible blur effect with multiple layers
+        // Draw a stronger blur effect - double the intensity at 100%
         val baseAlpha = (blurIntensity * 80f).toInt().coerceIn(0, 200)
         
-        // Primary blur layer - covers entire screen
+        // Primary blur layer - stronger dark overlay to simulate blur
         blurPaint.alpha = baseAlpha
-        blurPaint.color = Color.parseColor("#E0E0E0")
+        blurPaint.color = Color.parseColor("#25000000") // Stronger dark overlay
         canvas.drawRect(0f, 0f, width, height, blurPaint)
         
-        // Secondary blur layer with slight transparency
-        val secondaryAlpha = (blurIntensity * 60f).toInt().coerceIn(0, 150)
-        blurPaint.alpha = secondaryAlpha
-        blurPaint.color = Color.parseColor("#F5F5F5")
-        canvas.drawRect(0f, 0f, width, height, blurPaint)
-        
-        // Add noise pattern for more realistic blur
-        drawNoisePattern(canvas, width, height, blurIntensity)
+        // Add multiple blur layers for depth without white coloring
+        drawBlurLayers(canvas, width, height, blurIntensity)
     }
     
     private fun drawFrostedGlassEffect(canvas: Canvas, width: Float, height: Float) {
@@ -256,29 +263,7 @@ class BlurOverlayView @JvmOverloads constructor(
     }
     
     private fun drawNoisePattern(canvas: Canvas, width: Float, height: Float, intensity: Float) {
-        if (intensity <= 0.5f) return
-        
-        val noiseAlpha = ((intensity - 0.5f) * 40f).toInt().coerceIn(0, 20)
-        val noisePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            alpha = noiseAlpha
-            style = Paint.Style.FILL
-        }
-        
-        // Draw random noise dots to simulate blur grain
-        val dotSize = 2f
-        val spacing = 8f
-        
-        for (x in 0 until (width / spacing).toInt()) {
-            for (y in 0 until (height / spacing).toInt()) {
-                if (Math.random() > 0.7) { // Only draw 30% of dots
-                    val dotX = x * spacing + (Math.random() * spacing).toFloat()
-                    val dotY = y * spacing + (Math.random() * spacing).toFloat()
-                    
-                    noisePaint.color = if (Math.random() > 0.5) Color.WHITE else Color.LTGRAY
-                    canvas.drawCircle(dotX, dotY, dotSize, noisePaint)
-                }
-            }
-        }
+        // Removed noise pattern to eliminate white haze - pure blur effect only
     }
     
     /**

@@ -15,6 +15,7 @@ import com.focusfade.app.manager.WhitelistManager
 import com.focusfade.app.receiver.DailyResetScheduler
 import com.focusfade.app.service.BlurOverlayService
 import com.focusfade.app.service.ScreenTimeTrackingService
+import com.focusfade.app.utils.CrashLogger
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
@@ -60,9 +61,15 @@ class MainActivity : AppCompatActivity() {
     }
     
     private fun initializeManagers() {
+        // Initialize crash logger first
+        CrashLogger.init(this)
+        CrashLogger.log("INFO", "MainActivity", "App started - initializing managers")
+        
         settingsManager = SettingsManager(this)
         focusStateManager = FocusStateManager.getInstance(this, settingsManager)
         whitelistManager = WhitelistManager(this, settingsManager)
+        
+        CrashLogger.log("INFO", "MainActivity", "All managers initialized successfully")
     }
     
     private fun setupUI() {
@@ -102,6 +109,11 @@ class MainActivity : AppCompatActivity() {
             // Whitelist button
             buttonWhitelist.setOnClickListener {
                 startActivity(Intent(this@MainActivity, WhitelistActivity::class.java))
+            }
+            
+            // Debug logs button
+            buttonDebugLogs.setOnClickListener {
+                startActivity(Intent(this@MainActivity, DebugLogActivity::class.java))
             }
             
             // Blur gain rate slider
