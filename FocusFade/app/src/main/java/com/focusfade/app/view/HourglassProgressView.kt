@@ -62,8 +62,7 @@ class HourglassProgressView @JvmOverloads constructor(
         val fillTop = cy + size / 2 - fillHeight
         canvas.drawRect(cx - size / 2 + 8, fillTop, cx + size / 2 - 8, cy + size / 2 - 8, paintFill)
 
-        // Draw percentage text
-        val textY = cy - (paintText.descent() + paintText.ascent()) / 2
-        canvas.drawText("${progress.toInt()}%", cx, textY, paintText)
+
+        // Removed percentage text drawing from inside hourglass
     }
 }

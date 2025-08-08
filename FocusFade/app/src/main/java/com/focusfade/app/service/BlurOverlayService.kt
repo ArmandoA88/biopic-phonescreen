@@ -362,7 +362,7 @@ class BlurOverlayService : Service() {
         blurControlBar = createBlurControlBar()
         
         controlBarParams = WindowManager.LayoutParams(
-            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.WRAP_CONTENT,
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
@@ -374,8 +374,9 @@ class BlurOverlayService : Service() {
                     WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
             PixelFormat.TRANSLUCENT
         ).apply {
-            gravity = Gravity.TOP or Gravity.CENTER_HORIZONTAL
-            y = 100 // Position from top
+            gravity = Gravity.TOP or Gravity.START
+            x = 100
+            y = 100
         }
     }
     
@@ -386,11 +387,27 @@ class BlurOverlayService : Service() {
             setPadding(16, 16, 16, 16)
         }
 
-        val hourglassView = com.focusfade.app.view.HourglassProgressView(this).apply {
-            layoutParams = FrameLayout.LayoutParams(70, 70, Gravity.CENTER) // Made even smaller
+        // Create a layout with Hourglass on top and TextView below
+        val verticalLayout = android.widget.LinearLayout(this).apply {
+            orientation = android.widget.LinearLayout.VERTICAL
+            gravity = Gravity.CENTER
         }
 
-        // Allow dragging the hourglass overlay
+        val hourglassView = com.focusfade.app.view.HourglassProgressView(this).apply {
+            layoutParams = android.widget.LinearLayout.LayoutParams(70, 70)
+        }
+
+        val percentText = android.widget.TextView(this).apply {
+            text = "0%"
+            setTextColor(Color.WHITE)
+            textSize = 14f
+            gravity = Gravity.CENTER
+        }
+
+        verticalLayout.addView(hourglassView)
+        verticalLayout.addView(percentText)
+
+        // Allow dragging anywhere on screen
         container.setOnTouchListener(object : View.OnTouchListener {
             private var initialX = 0
             private var initialY = 0
@@ -417,10 +434,11 @@ class BlurOverlayService : Service() {
             }
         })
 
-        container.addView(hourglassView)
+        container.addView(verticalLayout)
 
         container.tag = mapOf(
-            "hourglassView" to hourglassView
+            "hourglassView" to hourglassView,
+            "percentText" to percentText
         )
 
         return container
@@ -484,5 +502,9 @@ class BlurOverlayService : Service() {
 
         // Update Hourglass animation
         hourglassView?.setProgress(currentBlur)
+
+        // Update percentage text if present
+        val percentText = components["percentText"] as? android.widget.TextView
+        percentText?.text = "${currentBlur.toInt()}%"
     }
 }
