@@ -78,18 +78,21 @@ class FocusStateManager private constructor(
         if (!_isScreenOn.value || isBlurAccumulationPaused) return
         
         val currentTime = System.currentTimeMillis()
-        val timeOnScreen = if (blurStartTime > 0) {
-            currentTime - blurStartTime
-        } else 0L
+        val elapsedSinceOn = if (lastScreenOnTime > 0) currentTime - lastScreenOnTime else 0L
         
         val maxBlurLevel = settingsManager.getMaxBlurLevel()
+        val gainRateMinutes = settingsManager.getBlurGainRate() // minutes for 10% increase
         
-        // New logic: Start at 10%, increase by 10% every 10 seconds
-        val secondsOnScreen = timeOnScreen / 1000f
-        val intervalsCompleted = (secondsOnScreen / 10f).toInt() // Every 10 seconds
-        val newBlurLevel = min(maxBlurLevel, 10f + (intervalsCompleted * 10f))
-        
-        _currentBlurLevel.value = newBlurLevel
+        if (gainRateMinutes > 0) {
+            // Calculate total blur increase from when screen turned on
+            val blurIncrease = (elapsedSinceOn / (gainRateMinutes * 60 * 1000f)) * 10f
+            val base = max(settingsManager.getMinBlurLevel(), 10f)
+            val newBlurLevel = min(maxBlurLevel, base + blurIncrease)
+            
+            if (newBlurLevel > _currentBlurLevel.value) {
+                _currentBlurLevel.value = newBlurLevel
+            }
+        }
     }
     
     /**
