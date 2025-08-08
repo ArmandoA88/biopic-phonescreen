@@ -103,7 +103,14 @@ class MainActivity : AppCompatActivity() {
             
             // Settings button
             buttonSettings.setOnClickListener {
-                startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
+                try {
+                    CrashLogger.log("DEBUG", "MainActivity", "Settings button clicked")
+                    val intent = Intent(this@MainActivity, SettingsActivity::class.java)
+                    startActivity(intent)
+                } catch (e: Exception) {
+                    CrashLogger.log("ERROR", "MainActivity", "Error launching SettingsActivity", e)
+                    Toast.makeText(this@MainActivity, "Error opening settings: ${e.message}", Toast.LENGTH_LONG).show()
+                }
             }
             
             // Whitelist button
