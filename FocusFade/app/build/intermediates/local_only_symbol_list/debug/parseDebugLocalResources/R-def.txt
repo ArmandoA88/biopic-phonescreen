@@ -50,6 +50,9 @@ id buttonGrantPermission
 id buttonRefreshLogs
 id buttonResetBlur
 id buttonResetSettings
+id buttonSelectBlur
+id buttonSelectColorShift
+id buttonSelectPattern
 id buttonSettings
 id buttonToggleManualBlur
 id buttonWhitelist

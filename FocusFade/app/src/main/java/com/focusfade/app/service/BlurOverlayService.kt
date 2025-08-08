@@ -118,6 +118,10 @@ class BlurOverlayService : Service() {
                 setupBlurControlBar()
                 showControlBar()
             }
+            "SET_OVERLAY_MODE" -> {
+                val mode = intent.getIntExtra("mode", 0)
+                setOverlayMode(mode)
+            }
             ACTION_STOP_SERVICE -> {
                 stopSelf()
             }
@@ -208,9 +212,36 @@ class BlurOverlayService : Service() {
             .build()
     }
     
+    // Adds support for blur overlay, color shift/dim overlay, and overlay patterns
+    private var colorShiftOverlayView: View? = null
+    private var patternOverlayView: View? = null
+
     private fun setupBlurOverlay() {
         blurOverlayView = BlurOverlayView(this)
-        
+
+        // Color shift overlay setup
+        colorShiftOverlayView = object : View(this) {
+            private val paint = android.graphics.Paint()
+            private val matrix = android.graphics.ColorMatrix()
+            private val filter = android.graphics.ColorMatrixColorFilter(matrix)
+
+            override fun onDraw(canvas: android.graphics.Canvas) {
+                super.onDraw(canvas)
+                paint.color = Color.argb(100, 0, 0, 0) // dim
+                paint.colorFilter = filter
+                canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
+            }
+
+            fun setIntensity(percent: Float, grayscale: Boolean = true) {
+                val g = percent.coerceIn(0f, 1f)
+                if (grayscale) {
+                    matrix.setSaturation(1f - g)
+                }
+                paint.color = Color.argb((g * 150).toInt(), 0, 0, 0)
+                invalidate()
+            }
+        }
+
         overlayParams = WindowManager.LayoutParams(
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.MATCH_PARENT,
@@ -230,10 +261,21 @@ class BlurOverlayService : Service() {
         }
     }
     
+// Updated to support showing either blur or color shift overlay
+    private var useColorShift = false
+
     private fun showOverlay() {
         if (!isOverlayShown && overlayParams != null) {
             try {
-                windowManager.addView(blurOverlayView, overlayParams)
+                if (useColorShift && colorShiftOverlayView != null) {
+                    if (colorShiftOverlayView?.parent == null) {
+                        windowManager.addView(colorShiftOverlayView, overlayParams)
+                    }
+                } else {
+                    if (blurOverlayView.parent == null) {
+                        windowManager.addView(blurOverlayView, overlayParams)
+                    }
+                }
                 isOverlayShown = true
             } catch (e: Exception) {
                 // Handle overlay permission issues
@@ -241,15 +283,35 @@ class BlurOverlayService : Service() {
         }
     }
     
+    // Updated to support removing correct overlay type
+    // Overlay mode selector: 0 - Blur, 1 - Color Shift/Dim, 2 - Pattern
+    private var overlayMode: Int = 0
+
     private fun hideOverlay() {
         if (isOverlayShown) {
             try {
-                windowManager.removeView(blurOverlayView)
+                when (overlayMode) {
+                    1 -> if (colorShiftOverlayView?.parent != null) {
+                        windowManager.removeView(colorShiftOverlayView)
+                    }
+                    2 -> if (patternOverlayView?.parent != null) {
+                        windowManager.removeView(patternOverlayView)
+                    }
+                    else -> if (blurOverlayView.parent != null) {
+                        windowManager.removeView(blurOverlayView)
+                    }
+                }
                 isOverlayShown = false
             } catch (e: Exception) {
                 // View might already be removed
             }
         }
+    }
+
+    fun setOverlayMode(mode: Int) {
+        overlayMode = mode.coerceIn(0, 2)
+        hideOverlay()
+        showOverlay()
     }
     
     private fun startMonitoring() {

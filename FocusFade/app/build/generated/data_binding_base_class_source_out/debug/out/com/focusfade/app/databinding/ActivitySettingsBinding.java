@@ -29,6 +29,15 @@ public final class ActivitySettingsBinding implements ViewBinding {
   public final MaterialButton buttonResetSettings;
 
   @NonNull
+  public final MaterialButton buttonSelectBlur;
+
+  @NonNull
+  public final MaterialButton buttonSelectColorShift;
+
+  @NonNull
+  public final MaterialButton buttonSelectPattern;
+
+  @NonNull
   public final Slider sliderMinBlurLevel;
 
   @NonNull
@@ -45,12 +54,16 @@ public final class ActivitySettingsBinding implements ViewBinding {
 
   private ActivitySettingsBinding(@NonNull LinearLayout rootView,
       @NonNull MaterialButton buttonDailyResetTime, @NonNull MaterialButton buttonResetSettings,
-      @NonNull Slider sliderMinBlurLevel, @NonNull TextView textDailyResetTime,
-      @NonNull TextView textMinBlurLevel, @NonNull TextView textNextReset,
-      @NonNull MaterialToolbar toolbar) {
+      @NonNull MaterialButton buttonSelectBlur, @NonNull MaterialButton buttonSelectColorShift,
+      @NonNull MaterialButton buttonSelectPattern, @NonNull Slider sliderMinBlurLevel,
+      @NonNull TextView textDailyResetTime, @NonNull TextView textMinBlurLevel,
+      @NonNull TextView textNextReset, @NonNull MaterialToolbar toolbar) {
     this.rootView = rootView;
     this.buttonDailyResetTime = buttonDailyResetTime;
     this.buttonResetSettings = buttonResetSettings;
+    this.buttonSelectBlur = buttonSelectBlur;
+    this.buttonSelectColorShift = buttonSelectColorShift;
+    this.buttonSelectPattern = buttonSelectPattern;
     this.sliderMinBlurLevel = sliderMinBlurLevel;
     this.textDailyResetTime = textDailyResetTime;
     this.textMinBlurLevel = textMinBlurLevel;
@@ -97,6 +110,24 @@ public final class ActivitySettingsBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.buttonSelectBlur;
+      MaterialButton buttonSelectBlur = ViewBindings.findChildViewById(rootView, id);
+      if (buttonSelectBlur == null) {
+        break missingId;
+      }
+
+      id = R.id.buttonSelectColorShift;
+      MaterialButton buttonSelectColorShift = ViewBindings.findChildViewById(rootView, id);
+      if (buttonSelectColorShift == null) {
+        break missingId;
+      }
+
+      id = R.id.buttonSelectPattern;
+      MaterialButton buttonSelectPattern = ViewBindings.findChildViewById(rootView, id);
+      if (buttonSelectPattern == null) {
+        break missingId;
+      }
+
       id = R.id.sliderMinBlurLevel;
       Slider sliderMinBlurLevel = ViewBindings.findChildViewById(rootView, id);
       if (sliderMinBlurLevel == null) {
@@ -128,8 +159,8 @@ public final class ActivitySettingsBinding implements ViewBinding {
       }
 
       return new ActivitySettingsBinding((LinearLayout) rootView, buttonDailyResetTime,
-          buttonResetSettings, sliderMinBlurLevel, textDailyResetTime, textMinBlurLevel,
-          textNextReset, toolbar);
+          buttonResetSettings, buttonSelectBlur, buttonSelectColorShift, buttonSelectPattern,
+          sliderMinBlurLevel, textDailyResetTime, textMinBlurLevel, textNextReset, toolbar);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

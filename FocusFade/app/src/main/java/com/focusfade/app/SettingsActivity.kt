@@ -1,6 +1,7 @@
 package com.focusfade.app
 
 import android.app.TimePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -53,6 +54,41 @@ class SettingsActivity : AppCompatActivity() {
                         settingsManager.setMinBlurLevel(value)
                     }
                     updateMinBlurLevelText(value.toInt())
+                }
+            }
+
+// Overlay mode selector buttons (0=Blur,1=Color Shift,2=Pattern)
+            binding.buttonSelectBlur.setOnClickListener {
+                try {
+                    val serviceIntent = Intent(this@SettingsActivity, com.focusfade.app.service.BlurOverlayService::class.java)
+                    serviceIntent.action = "SET_OVERLAY_MODE"
+                    serviceIntent.putExtra("mode", 0)
+                    startService(serviceIntent)
+                    Toast.makeText(this@SettingsActivity, "Blur overlay selected", Toast.LENGTH_SHORT).show()
+                } catch (e: Exception) {
+                    Toast.makeText(this@SettingsActivity, "Error selecting blur mode", Toast.LENGTH_SHORT).show()
+                }
+            }
+            buttonSelectColorShift.setOnClickListener {
+                try {
+                    val serviceIntent = Intent(this@SettingsActivity, com.focusfade.app.service.BlurOverlayService::class.java)
+                    serviceIntent.action = "SET_OVERLAY_MODE"
+                    serviceIntent.putExtra("mode", 1)
+                    startService(serviceIntent)
+                    Toast.makeText(this@SettingsActivity, "Color shift overlay selected", Toast.LENGTH_SHORT).show()
+                } catch (e: Exception) {
+                    Toast.makeText(this@SettingsActivity, "Error selecting color shift mode", Toast.LENGTH_SHORT).show()
+                }
+            }
+            buttonSelectPattern.setOnClickListener {
+                try {
+                    val serviceIntent = Intent(this@SettingsActivity, com.focusfade.app.service.BlurOverlayService::class.java)
+                    serviceIntent.action = "SET_OVERLAY_MODE"
+                    serviceIntent.putExtra("mode", 2)
+                    startService(serviceIntent)
+                    Toast.makeText(this@SettingsActivity, "Pattern overlay selected", Toast.LENGTH_SHORT).show()
+                } catch (e: Exception) {
+                    Toast.makeText(this@SettingsActivity, "Error selecting pattern mode", Toast.LENGTH_SHORT).show()
                 }
             }
         }
