@@ -86,7 +86,7 @@ class FocusStateManager private constructor(
         if (gainRateMinutes > 0) {
             // Calculate total blur increase from when screen turned on
             val blurIncrease = (elapsedSinceOn / (gainRateMinutes * 60 * 1000f)) * 10f
-            val base = max(settingsManager.getMinBlurLevel(), 10f)
+            val base = max(settingsManager.getMinBlurLevel(), 0f) // start from 0%
             val newBlurLevel = min(maxBlurLevel, base + blurIncrease)
             
             if (newBlurLevel > _currentBlurLevel.value) {

@@ -380,65 +380,49 @@ class BlurOverlayService : Service() {
     }
     
     private fun createBlurControlBar(): View {
+        // Replace the old bar design with our HourglassProgressView
         val container = FrameLayout(this).apply {
-            setBackgroundColor(Color.parseColor("#CC000000"))
-            setPadding(32, 16, 32, 16)
+            setBackgroundColor(Color.TRANSPARENT)
+            setPadding(16, 16, 16, 16)
         }
-        
-        val layout = android.widget.LinearLayout(this).apply {
-            orientation = android.widget.LinearLayout.HORIZONTAL
-            gravity = Gravity.CENTER_VERTICAL
+
+        val hourglassView = com.focusfade.app.view.HourglassProgressView(this).apply {
+            layoutParams = FrameLayout.LayoutParams(70, 70, Gravity.CENTER) // Made even smaller
         }
-        
-        // Manual blur toggle button
-        val toggleButton = android.widget.Button(this).apply {
-            text = "Manual Blur: OFF"
-            setTextColor(Color.WHITE)
-            setBackgroundColor(Color.parseColor("#FF4444"))
-            setPadding(24, 12, 24, 12)
-            setOnClickListener {
-                toggleManualBlurMode()
-            }
-        }
-        
-        // Blur level slider
-        val slider = android.widget.SeekBar(this).apply {
-            max = 100
-            progress = 0
-            setPadding(32, 0, 32, 0)
-            setOnSeekBarChangeListener(object : android.widget.SeekBar.OnSeekBarChangeListener {
-                override fun onProgressChanged(seekBar: android.widget.SeekBar?, progress: Int, fromUser: Boolean) {
-                    if (fromUser && isManualBlurMode) {
-                        setManualBlurLevel(progress.toFloat())
+
+        // Allow dragging the hourglass overlay
+        container.setOnTouchListener(object : View.OnTouchListener {
+            private var initialX = 0
+            private var initialY = 0
+            private var initialTouchX = 0f
+            private var initialTouchY = 0f
+
+            override fun onTouch(v: View?, event: android.view.MotionEvent): Boolean {
+                when (event.action) {
+                    android.view.MotionEvent.ACTION_DOWN -> {
+                        initialX = controlBarParams?.x ?: 0
+                        initialY = controlBarParams?.y ?: 0
+                        initialTouchX = event.rawX
+                        initialTouchY = event.rawY
+                        return true
+                    }
+                    android.view.MotionEvent.ACTION_MOVE -> {
+                        controlBarParams?.x = initialX + (event.rawX - initialTouchX).toInt()
+                        controlBarParams?.y = initialY + (event.rawY - initialTouchY).toInt()
+                        windowManager.updateViewLayout(blurControlBar, controlBarParams)
+                        return true
                     }
                 }
-                override fun onStartTrackingTouch(seekBar: android.widget.SeekBar?) {}
-                override fun onStopTrackingTouch(seekBar: android.widget.SeekBar?) {}
-            })
-        }
-        
-        // Blur level text
-        val blurText = android.widget.TextView(this).apply {
-            text = "0%"
-            setTextColor(Color.WHITE)
-            textSize = 16f
-            minWidth = 100
-            gravity = Gravity.CENTER
-        }
-        
-        layout.addView(toggleButton)
-        layout.addView(slider, android.widget.LinearLayout.LayoutParams(0, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
-        layout.addView(blurText)
-        
-        container.addView(layout)
-        
-        // Store references for updates
+                return false
+            }
+        })
+
+        container.addView(hourglassView)
+
         container.tag = mapOf(
-            "toggleButton" to toggleButton,
-            "slider" to slider,
-            "blurText" to blurText
+            "hourglassView" to hourglassView
         )
-        
+
         return container
     }
     
@@ -493,24 +477,12 @@ class BlurOverlayService : Service() {
         }
         
         val components = blurControlBar.tag as? Map<String, View> ?: return
-        
-        val toggleButton = components["toggleButton"] as? android.widget.Button
-        val slider = components["slider"] as? android.widget.SeekBar
-        val blurText = components["blurText"] as? android.widget.TextView
-        
-        toggleButton?.apply {
-            text = if (isManualBlurMode) "Manual Blur: ON" else "Manual Blur: OFF"
-            setBackgroundColor(if (isManualBlurMode) Color.parseColor("#44FF44") else Color.parseColor("#FF4444"))
-        }
-        
-        slider?.apply {
-            isEnabled = isManualBlurMode
-            if (isManualBlurMode) {
-                progress = manualBlurLevel.toInt()
-            }
-        }
-        
+
+        val hourglassView = components["hourglassView"] as? com.focusfade.app.view.HourglassProgressView
+
         val currentBlur = if (isManualBlurMode) manualBlurLevel else focusStateManager.currentBlurLevel.value
-        blurText?.text = "${currentBlur.toInt()}%"
+
+        // Update Hourglass animation
+        hourglassView?.setProgress(currentBlur)
     }
 }
