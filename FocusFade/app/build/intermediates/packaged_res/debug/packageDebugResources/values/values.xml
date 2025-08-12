@@ -52,7 +52,7 @@
     <string name="current_blur_format">Current Blur: %d%%</string>
     <string name="current_status">Current Status</string>
     <string name="daily_reset">Daily Reset</string>
-    <string name="daily_reset_description">Time when blur resets to 0% each day</string>
+    <string name="daily_reset_description">Time when blur resets to 0%% each day</string>
     <string name="daily_reset_time">Daily Reset Time</string>
     <string name="enable_focusfade">Enable FocusFade</string>
     <string name="error_generic">An error occurred</string>

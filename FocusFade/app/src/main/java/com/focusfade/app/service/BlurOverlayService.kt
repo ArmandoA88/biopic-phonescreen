@@ -72,6 +72,17 @@ class BlurOverlayService : Service() {
     override fun onCreate() {
         super.onCreate()
         CrashLogger.log("DEBUG", TAG, "Service onCreate() started")
+
+        // Request notification permission on Android 13+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS) != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                val permissionIntent = Intent(this, MainActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                }
+                permissionIntent.putExtra("REQUEST_NOTIFICATION_PERMISSION", true)
+                startActivity(permissionIntent)
+            }
+        }
         
         try {
             windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
@@ -199,10 +210,15 @@ class BlurOverlayService : Service() {
             this, 2, stopIntent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
-        
+
+        // For notifications, RemoteViews can't contain custom views, so we replace with simple icon and text
+        val remoteViews = android.widget.RemoteViews(packageName, android.R.layout.simple_list_item_1).apply {
+            setTextViewText(android.R.id.text1, "Blur: ${(if (isManualBlurMode) manualBlurLevel else focusStateManager.currentBlurLevel.value).toInt()}%")
+        }
+
         return NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle("FocusFade Active")
-            .setContentText("Monitoring screen time")
+            .setContentText("Blur level: ${(if (isManualBlurMode) manualBlurLevel else focusStateManager.currentBlurLevel.value).toInt()}%")
             .setSmallIcon(R.drawable.ic_notification)
             .setContentIntent(mainPendingIntent)
             .addAction(R.drawable.ic_refresh, "Reset", resetPendingIntent)
@@ -408,10 +424,29 @@ class BlurOverlayService : Service() {
     }
     
     private fun updateNotification(blurLevel: Float) {
+        // Generate dynamic icon bitmap with text
+        val size = 64
+        val bitmap = android.graphics.Bitmap.createBitmap(size, size, android.graphics.Bitmap.Config.ARGB_8888)
+        val canvas = android.graphics.Canvas(bitmap)
+        val paint = android.graphics.Paint().apply {
+            color = Color.WHITE
+            textSize = 28f
+            isAntiAlias = true
+            textAlign = android.graphics.Paint.Align.CENTER
+        }
+        // Draw simple circle background
+        val bgPaint = android.graphics.Paint().apply {
+            color = Color.BLACK
+            isAntiAlias = true
+        }
+        canvas.drawCircle(size / 2f, size / 2f, size / 2.2f, bgPaint)
+        // Draw percentage text
+        canvas.drawText("${blurLevel.toInt()}%", size / 2f, size / 1.6f, paint)
+
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle("FocusFade Active")
             .setContentText("Blur level: ${blurLevel.toInt()}%")
-            .setSmallIcon(R.drawable.ic_notification)
+            .setSmallIcon(androidx.core.graphics.drawable.IconCompat.createWithBitmap(bitmap))
             .setOngoing(true)
             .setSilent(true)
             .build()

@@ -60,7 +60,9 @@ id cardPermissionRequired
 id headerAllApps
 id headerSuggestedApps
 id headerWhitelistedApps
+id hourglassView
 id imageAppIcon
+id percentText
 id progressBlurLevel
 id recyclerAllApps
 id recyclerSuggestedApps
@@ -93,6 +95,7 @@ layout activity_main
 layout activity_settings
 layout activity_whitelist
 layout item_app
+layout notification_hourglass
 mipmap ic_launcher
 mipmap ic_launcher_round
 string add_apps_description

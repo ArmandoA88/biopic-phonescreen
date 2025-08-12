@@ -3352,6 +3352,7 @@ id home
 id homeAsUp
 id honorRequest
 id horizontal_only
+id hourglassView
 id icon
 id icon_group
 id ifRoom
@@ -3488,6 +3489,7 @@ id path
 id pathRelative
 id peekHeight
 id percent
+id percentText
 id pin
 id position
 id postLayout
@@ -3852,6 +3854,7 @@ layout mtrl_search_bar
 layout mtrl_search_view
 layout notification_action
 layout notification_action_tombstone
+layout notification_hourglass
 layout notification_template_custom_big
 layout notification_template_icon_group
 layout notification_template_part_chronometer

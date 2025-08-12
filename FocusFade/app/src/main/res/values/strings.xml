@@ -48,7 +48,7 @@
     <string name="min_blur_level">Minimum Blur Level</string>
     <string name="max_blur_level">Maximum Blur Level</string>
     <string name="daily_reset_time">Daily Reset Time</string>
-    <string name="daily_reset_description">Time when blur resets to 0% each day</string>
+    <string name="daily_reset_description">Time when blur resets to 0%% each day</string>
     <string name="advanced_settings">Advanced Settings</string>
     <string name="reset_all_settings">Reset All Settings</string>
     <string name="reset_settings_confirmation">Are you sure you want to reset all settings to defaults?</string>
