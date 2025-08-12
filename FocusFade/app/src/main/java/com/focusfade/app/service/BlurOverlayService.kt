@@ -228,9 +228,10 @@ class BlurOverlayService : Service() {
             .build()
     }
     
-    // Adds support for blur overlay, color shift/dim overlay, and overlay patterns
+    // Adds support for blur overlay, color shift/dim overlay, and overlay patterns / timers
     private var colorShiftOverlayView: View? = null
     private var patternOverlayView: View? = null
+    private var timerWarningOverlayView: View? = null
 
     private fun setupBlurOverlay() {
         blurOverlayView = BlurOverlayView(this)
@@ -300,7 +301,7 @@ class BlurOverlayService : Service() {
     }
     
     // Updated to support removing correct overlay type
-    // Overlay mode selector: 0 - Blur, 1 - Color Shift/Dim, 2 - Pattern
+    // Overlay mode selector: 0 - Blur, 1 - Color Shift/Dim, 2 - Pattern, 3 - Timer Warning
     private var overlayMode: Int = 0
 
     private fun hideOverlay() {
@@ -325,9 +326,27 @@ class BlurOverlayService : Service() {
     }
 
     fun setOverlayMode(mode: Int) {
-        overlayMode = mode.coerceIn(0, 2)
+        overlayMode = mode.coerceIn(0, 3)
         hideOverlay()
         showOverlay()
+    }
+
+    fun triggerTimerWarning(seconds: Int) {
+        overlayMode = 3
+        if (timerWarningOverlayView != null) {
+            val timerView = timerWarningOverlayView
+            if (timerView?.parent == null) {
+                windowManager.addView(timerView, overlayParams)
+            }
+            // Try to call setCountdown directly if matches our anonymous View
+            try {
+                val method = timerView?.javaClass?.getMethod("setCountdown", Int::class.javaPrimitiveType)
+                method?.invoke(timerView, seconds)
+            } catch (e: Exception) {
+                // fallback to invalidate if no method
+                timerView?.invalidate()
+            }
+        }
     }
     
     private fun startMonitoring() {
@@ -453,7 +472,7 @@ class BlurOverlayService : Service() {
 
         // Draw percentage text large & centered
         val percentText = "${blurLevel.toInt()}"
-        paint.textSize = 26f
+        paint.textSize = 42f
         paint.color = Color.RED
         val textBounds = android.graphics.Rect()
         paint.getTextBounds(percentText, 0, percentText.length, textBounds)
