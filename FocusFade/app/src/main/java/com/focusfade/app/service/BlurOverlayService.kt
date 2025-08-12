@@ -429,19 +429,36 @@ class BlurOverlayService : Service() {
         val bitmap = android.graphics.Bitmap.createBitmap(size, size, android.graphics.Bitmap.Config.ARGB_8888)
         val canvas = android.graphics.Canvas(bitmap)
         val paint = android.graphics.Paint().apply {
-            color = Color.WHITE
+            color = Color.RED
             textSize = 28f
             isAntiAlias = true
             textAlign = android.graphics.Paint.Align.CENTER
         }
-        // Draw simple circle background
+        // Draw circle background
         val bgPaint = android.graphics.Paint().apply {
             color = Color.BLACK
             isAntiAlias = true
+            style = android.graphics.Paint.Style.FILL
         }
-        canvas.drawCircle(size / 2f, size / 2f, size / 2.2f, bgPaint)
-        // Draw percentage text
-        canvas.drawText("${blurLevel.toInt()}%", size / 2f, size / 1.6f, paint)
+        canvas.drawCircle(size / 2f, size / 2f, size / 2.1f, bgPaint)
+
+        // Draw outer white stroke for visibility
+        val strokePaint = android.graphics.Paint().apply {
+            color = Color.WHITE
+            style = android.graphics.Paint.Style.STROKE
+            strokeWidth = 3f
+            isAntiAlias = true
+        }
+        canvas.drawCircle(size / 2f, size / 2f, size / 2.1f - 1.5f, strokePaint)
+
+        // Draw percentage text large & centered
+        val percentText = "${blurLevel.toInt()}"
+        paint.textSize = 26f
+        paint.color = Color.RED
+        val textBounds = android.graphics.Rect()
+        paint.getTextBounds(percentText, 0, percentText.length, textBounds)
+        val textY = size / 2f + textBounds.height() / 2f - 2
+        canvas.drawText(percentText, size / 2f, textY, paint)
 
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle("FocusFade Active")
@@ -456,25 +473,7 @@ class BlurOverlayService : Service() {
     }
     
     private fun setupBlurControlBar() {
-        blurControlBar = createBlurControlBar()
-        
-        controlBarParams = WindowManager.LayoutParams(
-            WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.WRAP_CONTENT,
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-            } else {
-                @Suppress("DEPRECATION")
-                WindowManager.LayoutParams.TYPE_PHONE
-            },
-            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
-                    WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
-            PixelFormat.TRANSLUCENT
-        ).apply {
-            gravity = Gravity.TOP or Gravity.START
-            x = 100
-            y = 100
-        }
+        // Hourglass bar removed - no longer needed
     }
     
     private fun createBlurControlBar(): View {
