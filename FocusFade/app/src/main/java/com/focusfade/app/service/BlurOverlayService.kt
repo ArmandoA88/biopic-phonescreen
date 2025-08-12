@@ -522,7 +522,7 @@ class BlurOverlayService : Service() {
         verticalLayout.addView(hourglassView)
         verticalLayout.addView(percentText)
 
-        // Allow dragging anywhere on screen
+        // Allow dragging anywhere on screen and adjust manual blur level by dragging vertically
         container.setOnTouchListener(object : View.OnTouchListener {
             private var initialX = 0
             private var initialY = 0
@@ -542,6 +542,12 @@ class BlurOverlayService : Service() {
                         controlBarParams?.x = initialX + (event.rawX - initialTouchX).toInt()
                         controlBarParams?.y = initialY + (event.rawY - initialTouchY).toInt()
                         windowManager.updateViewLayout(blurControlBar, controlBarParams)
+
+                        // Adjust blur based on vertical drag position
+                        val screenHeight = resources.displayMetrics.heightPixels
+                        val percent = 100f - ((controlBarParams?.y?.toFloat()?.coerceIn(0f, screenHeight.toFloat()) ?: 0f) / screenHeight * 100f)
+                        isManualBlurMode = true
+                        setManualBlurLevel(percent)
                         return true
                     }
                 }

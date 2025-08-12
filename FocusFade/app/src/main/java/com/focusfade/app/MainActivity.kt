@@ -98,8 +98,38 @@ class MainActivity : AppCompatActivity() {
                     action = BlurOverlayService.ACTION_TOGGLE_MANUAL_BLUR
                 }
                 startService(intent)
-                Toast.makeText(this@MainActivity, "Manual blur toggled", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, "Manual blur toggled - drag Current Status bar to adjust", Toast.LENGTH_SHORT).show()
             }
+
+            // Dragging Current Status bar to adjust blur in manual mode
+            progressBlurLevel.setOnTouchListener(object : android.view.View.OnTouchListener {
+                private var initialY = 0f
+                private var startPercent = 0f
+
+                override fun onTouch(v: android.view.View?, event: android.view.MotionEvent?): Boolean {
+                    if (event == null) return false
+                    when (event.action) {
+                        android.view.MotionEvent.ACTION_DOWN -> {
+                            initialY = event.rawY
+                            startPercent = progressBlurLevel.progress.toFloat()
+                            return true
+                        }
+                        android.view.MotionEvent.ACTION_MOVE -> {
+                            val dy = initialY - event.rawY
+                            val screenHeight = resources.displayMetrics.heightPixels
+                            val deltaPercent = (dy / screenHeight) * 100f
+                            val newPercent = (startPercent + deltaPercent).coerceIn(0f, 100f)
+                            val serviceIntent = Intent(this@MainActivity, BlurOverlayService::class.java).apply {
+                                action = BlurOverlayService.ACTION_SET_MANUAL_BLUR
+                                putExtra(BlurOverlayService.EXTRA_BLUR_LEVEL, newPercent)
+                            }
+                            startService(serviceIntent)
+                            return true
+                        }
+                    }
+                    return false
+                }
+            })
             
             // Settings button
             buttonSettings.setOnClickListener {

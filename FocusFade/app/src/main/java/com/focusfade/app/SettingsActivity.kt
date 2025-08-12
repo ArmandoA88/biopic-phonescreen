@@ -162,21 +162,30 @@ class SettingsActivity : AppCompatActivity() {
                 CrashLogger.log("DEBUG", TAG, "Starting settings observation")
                 settingsManager.getAllSettingsFlow().collect { settings ->
                     try {
-                        binding.apply {
-                            // Update daily reset time display
-                            val timeString = String.format("%02d:%02d", settings.dailyResetHour, settings.dailyResetMinute)
-                            textDailyResetTime.text = "Daily reset at $timeString"
-                            
-                            // Update min blur level
-                            sliderMinBlurLevel.value = settings.minBlurLevel
-                            updateMinBlurLevelText(settings.minBlurLevel.toInt())
-                            
-                            // Update next reset time
-                            try {
-                                textNextReset.text = "Next reset: ${DailyResetScheduler.getNextResetTimeFormatted(settingsManager)}"
-                            } catch (e: Exception) {
-                                CrashLogger.log("ERROR", TAG, "Error formatting next reset time", e)
-                                textNextReset.text = "Next reset: Error calculating time"
+                        if (!this@SettingsActivity.isFinishing && !this@SettingsActivity.isDestroyed) {
+                            runOnUiThread {
+                                try {
+                                    binding.apply {
+                                        // Update daily reset time display
+                                        val timeString = String.format("%02d:%02d", settings.dailyResetHour, settings.dailyResetMinute)
+                                        textDailyResetTime.text = "Daily reset at $timeString"
+                                        
+                                        // Update min blur level
+                                        sliderMinBlurLevel.value = settings.minBlurLevel
+                                        updateMinBlurLevelText(settings.minBlurLevel.toInt())
+                                        
+                                        // Update next reset time
+                                        try {
+                                            textNextReset.text = "Next reset: ${DailyResetScheduler.getNextResetTimeFormatted(settingsManager)}"
+                                        } catch (e: Exception) {
+                                            CrashLogger.log("ERROR", TAG, "Error formatting next reset time", e)
+                                            textNextReset.text = "Next reset: Error calculating time"
+                                        }
+                                    }
+                                } catch (bindErr: Exception) {
+                                    CrashLogger.log("ERROR", TAG, "Error applying settings to UI", bindErr)
+                                    Log.e(TAG, "Error applying settings to UI", bindErr)
+                                }
                             }
                         }
                         CrashLogger.log("DEBUG", TAG, "Settings UI updated successfully")
@@ -188,7 +197,9 @@ class SettingsActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 CrashLogger.log("ERROR", TAG, "Error in observeSettings", e)
                 Log.e(TAG, "Error in observeSettings", e)
-                Toast.makeText(this@SettingsActivity, "Error loading settings", Toast.LENGTH_SHORT).show()
+                if (!this@SettingsActivity.isFinishing && !this@SettingsActivity.isDestroyed) {
+                    Toast.makeText(this@SettingsActivity, "Error loading settings", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
