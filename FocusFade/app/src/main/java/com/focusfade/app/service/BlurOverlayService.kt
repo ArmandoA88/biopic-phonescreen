@@ -383,12 +383,24 @@ class BlurOverlayService : Service() {
                         loopCount++
                         CrashLogger.log("VERBOSE", TAG, "Whitelist check loop iteration: $loopCount")
                         
-                        whitelistManager.updateForegroundAppStatus()
+                        val currentApp = whitelistManager.getCurrentForegroundApp()
+                        val whitelistedApps = settingsManager.getWhitelistedApps()
+                        val isWhitelisted = currentApp != null && whitelistedApps.contains(currentApp)
                         
-                        if (whitelistManager.isCurrentAppWhitelisted()) {
+                        CrashLogger.log("DEBUG", TAG, "Current app: $currentApp, Is whitelisted: $isWhitelisted")
+                        
+                        if (isWhitelisted) {
                             focusStateManager.pauseBlurAccumulation()
+                            // Hide overlay when whitelisted app is active
+                            if (isOverlayShown) {
+                                hideOverlay()
+                            }
                         } else {
                             focusStateManager.resumeBlurAccumulation()
+                            // Show overlay when non-whitelisted app is active
+                            if (!isOverlayShown) {
+                                showOverlay()
+                            }
                         }
                         
                         // Always update blur level to ensure it increases every 10 seconds
