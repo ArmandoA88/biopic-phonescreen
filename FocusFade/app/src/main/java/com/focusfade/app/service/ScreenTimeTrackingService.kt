@@ -113,6 +113,14 @@ class ScreenTimeTrackingService : Service() {
     
     private fun handleScreenOn() {
         serviceScope.launch {
+            val whitelistManager = com.focusfade.app.manager.WhitelistManager(applicationContext, settingsManager)
+            val currentApp = whitelistManager.getCurrentForegroundApp()
+            val isWhitelisted = currentApp != null && settingsManager.getWhitelistedApps().contains(currentApp)
+            if (isWhitelisted) {
+                focusStateManager.pauseBlurAccumulation()
+            } else {
+                focusStateManager.resumeBlurAccumulation()
+            }
             focusStateManager.onScreenOn()
         }
     }
@@ -125,7 +133,14 @@ class ScreenTimeTrackingService : Service() {
     
     private fun handleUserPresent() {
         serviceScope.launch {
-            // User has unlocked the device, ensure screen on state is set
+            val whitelistManager = com.focusfade.app.manager.WhitelistManager(applicationContext, settingsManager)
+            val currentApp = whitelistManager.getCurrentForegroundApp()
+            val isWhitelisted = currentApp != null && settingsManager.getWhitelistedApps().contains(currentApp)
+            if (isWhitelisted) {
+                focusStateManager.pauseBlurAccumulation()
+            } else {
+                focusStateManager.resumeBlurAccumulation()
+            }
             focusStateManager.onScreenOn()
         }
     }
