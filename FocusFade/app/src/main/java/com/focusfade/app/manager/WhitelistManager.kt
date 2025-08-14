@@ -83,10 +83,13 @@ class WhitelistManager(
         val apps = mutableListOf<AppInfo>()
         
         try {
-            val installedApps = packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
+            // Get all installed packages
+            val installedPackages = packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
             
-            for (appInfo in installedApps) {
-                // Include all apps except our own app (including system apps for more options)
+            for (packageInfo in installedPackages) {
+                val appInfo = packageInfo.applicationInfo
+                
+                // Include all apps except our own app
                 if (appInfo.packageName != context.packageName) {
                     
                     val appName = try {
@@ -101,15 +104,41 @@ class WhitelistManager(
                         null
                     }
                     
-                    // Only add apps that have a launcher intent (user-facing apps)
+                    // Check if app has a launcher intent OR is a user app
                     val launchIntent = packageManager.getLaunchIntentForPackage(appInfo.packageName)
-                    if (launchIntent != null) {
+                    val isUserApp = (appInfo.flags and ApplicationInfo.FLAG_SYSTEM) == 0
+                    
+                    if (launchIntent != null || isUserApp) {
                         apps.add(AppInfo(appInfo.packageName, appName, icon))
                     }
                 }
             }
         } catch (e: Exception) {
-            // Handle permission issues or other errors
+            // Fallback method - get all apps without filtering
+            try {
+                val installedApps = packageManager.getInstalledApplications(0)
+                
+                for (appInfo in installedApps) {
+                    if (appInfo.packageName != context.packageName) {
+                        
+                        val appName = try {
+                            packageManager.getApplicationLabel(appInfo).toString()
+                        } catch (e: Exception) {
+                            appInfo.packageName
+                        }
+                        
+                        val icon = try {
+                            packageManager.getApplicationIcon(appInfo)
+                        } catch (e: Exception) {
+                            null
+                        }
+                        
+                        apps.add(AppInfo(appInfo.packageName, appName, icon))
+                    }
+                }
+            } catch (e2: Exception) {
+                // Handle permission issues or other errors
+            }
         }
         
         return apps.sortedBy { it.appName }
