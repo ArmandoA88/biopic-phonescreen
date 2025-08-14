@@ -183,15 +183,63 @@ class WhitelistActivity : AppCompatActivity() {
                     }
                 }
 
-                // Show basic UI without loading apps if there are issues
+                // Load whitelisted packages
+                val whitelistedPackages = try {
+                    settingsManager.getWhitelistedApps()
+                } catch (e: Exception) {
+                    emptySet<String>()
+                }
+
+                // Load whitelisted apps
+                val whitelistedApps = try {
+                    whitelistManager.getWhitelistedAppsInfo()
+                } catch (e: Exception) {
+                    emptyList()
+                }
+                
                 runOnUiThread {
                     try {
-                        whitelistedAppsAdapter.submitList(emptyList())
-                        suggestedAppsAdapter.submitList(emptyList())
-                        allAppsAdapter.submitList(emptyList())
-                        
-                        binding.textNoWhitelistedApps.visibility = android.view.View.VISIBLE
-                        binding.recyclerWhitelistedApps.visibility = android.view.View.GONE
+                        whitelistedAppsAdapter.submitList(whitelistedApps)
+                        if (whitelistedApps.isEmpty()) {
+                            binding.textNoWhitelistedApps.visibility = android.view.View.VISIBLE
+                            binding.recyclerWhitelistedApps.visibility = android.view.View.GONE
+                        } else {
+                            binding.textNoWhitelistedApps.visibility = android.view.View.GONE
+                            binding.recyclerWhitelistedApps.visibility = android.view.View.VISIBLE
+                        }
+                    } catch (e: Exception) {
+                        // Ignore adapter errors
+                    }
+                }
+
+                // Load suggested apps
+                val suggestedApps = try {
+                    whitelistManager.getSuggestedApps()
+                } catch (e: Exception) {
+                    emptyList()
+                }
+                val filteredSuggested = suggestedApps.filter { !whitelistedPackages.contains(it.packageName) }
+                
+                runOnUiThread {
+                    try {
+                        suggestedAppsAdapter.submitList(filteredSuggested)
+                        suggestedAppsAdapter.updateWhitelistedApps(whitelistedPackages)
+                    } catch (e: Exception) {
+                        // Ignore adapter errors
+                    }
+                }
+
+                // Load all apps
+                val allApps = try {
+                    whitelistManager.getAllInstalledApps()
+                } catch (e: Exception) {
+                    emptyList()
+                }
+                
+                runOnUiThread {
+                    try {
+                        allAppsAdapter.submitList(allApps)
+                        allAppsAdapter.updateWhitelistedApps(whitelistedPackages)
                     } catch (e: Exception) {
                         // Ignore adapter errors
                     }
@@ -201,7 +249,7 @@ class WhitelistActivity : AppCompatActivity() {
                 runOnUiThread {
                     Toast.makeText(
                         this@WhitelistActivity,
-                        "Whitelist feature temporarily unavailable",
+                        "Error loading apps: ${e.message}",
                         Toast.LENGTH_LONG
                     ).show()
                 }
@@ -215,6 +263,7 @@ class WhitelistActivity : AppCompatActivity() {
                 settingsManager.addWhitelistedApp(packageName)
                 runOnUiThread {
                     Toast.makeText(this@WhitelistActivity, "App added to whitelist", Toast.LENGTH_SHORT).show()
+                    loadApps() // Refresh the lists
                 }
             } catch (e: Exception) {
                 runOnUiThread {
@@ -230,6 +279,7 @@ class WhitelistActivity : AppCompatActivity() {
                 settingsManager.removeWhitelistedApp(packageName)
                 runOnUiThread {
                     Toast.makeText(this@WhitelistActivity, "App removed from whitelist", Toast.LENGTH_SHORT).show()
+                    loadApps() // Refresh the lists
                 }
             } catch (e: Exception) {
                 runOnUiThread {

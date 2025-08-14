@@ -86,18 +86,26 @@ class WhitelistManager(
             val installedApps = packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
             
             for (appInfo in installedApps) {
-                // Skip system apps and our own app
-                if (appInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0 && 
-                    appInfo.packageName != context.packageName) {
+                // Include all apps except our own app (including system apps for more options)
+                if (appInfo.packageName != context.packageName) {
                     
-                    val appName = packageManager.getApplicationLabel(appInfo).toString()
+                    val appName = try {
+                        packageManager.getApplicationLabel(appInfo).toString()
+                    } catch (e: Exception) {
+                        appInfo.packageName
+                    }
+                    
                     val icon = try {
                         packageManager.getApplicationIcon(appInfo)
                     } catch (e: Exception) {
                         null
                     }
                     
-                    apps.add(AppInfo(appInfo.packageName, appName, icon))
+                    // Only add apps that have a launcher intent (user-facing apps)
+                    val launchIntent = packageManager.getLaunchIntentForPackage(appInfo.packageName)
+                    if (launchIntent != null) {
+                        apps.add(AppInfo(appInfo.packageName, appName, icon))
+                    }
                 }
             }
         } catch (e: Exception) {
