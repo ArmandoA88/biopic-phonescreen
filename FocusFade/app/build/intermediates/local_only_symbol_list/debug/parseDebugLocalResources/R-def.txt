@@ -39,6 +39,7 @@ drawable ic_refresh
 drawable ic_stop
 drawable progress_bar_with_thumb
 drawable progress_thumb
+id bg_gradient
 id buttonAction
 id buttonBack
 id buttonClearLogs

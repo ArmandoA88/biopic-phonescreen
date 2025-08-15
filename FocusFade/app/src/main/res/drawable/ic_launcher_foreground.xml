@@ -5,85 +5,72 @@
     android:viewportWidth="108"
     android:viewportHeight="108">
   
-  <!-- Modern eye design centered -->
+  <!-- Full phone icon with redesigned, shaded Android head -->
   <group android:translateX="54" android:translateY="54">
     
-    <!-- Outer eye shape - modern rounded rectangle with eye proportions -->
+    <!-- Background with smooth radial shading -->
+    <path
+        android:fillColor="#CACCDE"
+        android:pathData="M0,-54 a54,54 0 1,1 0,108 a54,54 0 1,1 0,-108"/>
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M-28,0 C-28,-12 -22,-18 -12,-18 L12,-18 C22,-18 28,-12 28,0 C28,12 22,18 12,18 L-12,18 C-22,18 -28,12 -28,0 Z"/>
+        android:fillAlpha="0.35"
+        android:pathData="M0,-50 a50,50 0 1,1 0,100 a50,50 0 1,1 0,-100"/>
     
-    <!-- Inner gradient area -->
+    <!-- Phone body -->
     <path
-        android:fillColor="#E3F2FD"
-        android:pathData="M-24,0 C-24,-9 -19,-14 -10,-14 L10,-14 C19,-14 24,-9 24,0 C24,9 19,14 10,14 L-10,14 C-19,14 -24,9 -24,0 Z"/>
+        android:fillColor="#FAFAFA"
+        android:pathData="M-26,-52 C-26,-56 -22,-60 -17,-60 H17 C22,-60 26,-56 26,-52 V52 C26,56 22,60 17,60 H-17 C-22,60 -26,56 -26,52 Z"
+        android:strokeWidth="2"
+        android:strokeColor="#7E7E7E"/>
     
-    <!-- Modern iris - large circle with gradient effect -->
+    <!-- Screen -->
     <path
-        android:fillColor="#2196F3"
-        android:pathData="M0,0 m-14,0 a14,14 0 1,1 28,0 a14,14 0 1,1 -28,0"/>
+        android:fillColor="#F0F0F0"
+        android:pathData="M-22,-48 H22 V48 H-22 Z"/>
     
-    <!-- Inner iris detail -->
+    <!-- New Android head design with multiple shades of teal -->
     <path
-        android:fillColor="#1976D2"
-        android:pathData="M0,0 m-10,0 a10,10 0 1,1 20,0 a10,10 0 1,1 -20,0"/>
-    
-    <!-- Modern pupil -->
+        android:fillColor="#00BCD4"
+        android:pathData="M-18,0 a18,18 0 1,1 36,0 v14 h-36 Z"/>
     <path
-        android:fillColor="#0D47A1"
-        android:pathData="M0,0 m-5,0 a5,5 0 1,1 10,0 a5,5 0 1,1 -10,0"/>
+        android:fillColor="#26C6DA"
+        android:fillAlpha="0.7"
+        android:pathData="M-18,0 a18,18 0 0,1 36,0 v7 h-36 Z"/>
+    <path
+        android:fillColor="#4DD0E1"
+        android:fillAlpha="0.5"
+        android:pathData="M-18,0 a18,18 0 0,1 36,0 v4 h-36 Z"/>
     
-    <!-- Highlight - modern style -->
+    <!-- Fade overlay on right to enhance defumination -->
+    <path
+        android:fillColor="#F0F0F0"
+        android:fillAlpha="0.4"
+        android:pathData="M0,-18 H18 V18 H0 Z"/>
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M-2,-3 m-2,0 a2,2 0 1,1 4,0 a2,2 0 1,1 -4,0"/>
+        android:fillAlpha="0.25"
+        android:pathData="M8,-18 H18 V18 H8 Z"/>
     
-    <!-- Focus fade effect - modern horizontal bars with blur effect -->
-    <group android:translateY="0">
-      <!-- Top fade bars -->
-      <path
-          android:fillColor="#FFFFFF"
-          android:fillAlpha="0.9"
-          android:pathData="M-20,-8 L20,-8 L20,-6 L-20,-6 Z"/>
-      <path
-          android:fillColor="#FFFFFF"
-          android:fillAlpha="0.7"
-          android:pathData="M-18,-4 L18,-4 L18,-2 L-18,-2 Z"/>
-      
-      <!-- Bottom fade bars -->
-      <path
-          android:fillColor="#FFFFFF"
-          android:fillAlpha="0.7"
-          android:pathData="M-18,2 L18,2 L18,4 L-18,4 Z"/>
-      <path
-          android:fillColor="#FFFFFF"
-          android:fillAlpha="0.9"
-          android:pathData="M-20,6 L20,6 L20,8 L-20,8 Z"/>
-    </group>
+    <!-- Eyes in lighter tone -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M-9,-4 a1.8,1.8 0 1,1 0,0.001 z M9,-4 a1.8,1.8 0 1,1 0,0.001 z"/>
     
-    <!-- Modern accent elements - subtle corner details -->
-    <group>
-      <!-- Top left accent -->
-      <path
-          android:fillColor="#64B5F6"
-          android:fillAlpha="0.6"
-          android:pathData="M-22,-12 L-18,-12 L-18,-8 L-22,-8 Z"/>
-      <!-- Top right accent -->
-      <path
-          android:fillColor="#64B5F6"
-          android:fillAlpha="0.6"
-          android:pathData="M18,-12 L22,-12 L22,-8 L18,-8 Z"/>
-      <!-- Bottom left accent -->
-      <path
-          android:fillColor="#64B5F6"
-          android:fillAlpha="0.6"
-          android:pathData="M-22,8 L-18,8 L-18,12 L-22,12 Z"/>
-      <!-- Bottom right accent -->
-      <path
-          android:fillColor="#64B5F6"
-          android:fillAlpha="0.6"
-          android:pathData="M18,8 L22,8 L22,12 L18,12 Z"/>
-    </group>
+    <!-- Antennas matching teal theme -->
+    <path
+        android:fillColor="#00BCD4"
+        android:pathData="M-12,-18 l-6,-9 M12,-18 l6,-9"/>
     
+    <!-- Earpiece -->
+    <path
+        android:fillColor="#C7C7CC"
+        android:pathData="M-4,-58 H4 V-56 H-4 Z"/>
+    
+    <!-- Home indicator -->
+    <path
+        android:fillColor="#C7C7CC"
+        android:fillAlpha="0.6"
+        android:pathData="M-6,58 C-6,57 -5,56 -4,56 H4 C5,56 6,57 6,58 C6,59 5,60 4,60 H-4 C-5,60 -6,59 -6,58 Z"/>
   </group>
 </vector>

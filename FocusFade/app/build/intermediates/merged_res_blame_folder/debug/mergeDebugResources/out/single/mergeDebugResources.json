@@ -4,6 +4,10 @@
         "source": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-main-44:\\layout\\activity_main.xml"
     },
     {
+        "merged": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-debug-42:\\drawable_progress_bar_with_thumb.xml.flat",
+        "source": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-main-44:\\drawable\\progress_bar_with_thumb.xml"
+    },
+    {
         "merged": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-debug-42:\\mipmap-hdpi_ic_launcher_round.xml.flat",
         "source": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-main-44:\\mipmap-hdpi\\ic_launcher_round.xml"
     },
@@ -22,6 +26,10 @@
     {
         "merged": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-debug-42:\\drawable_ic_stop.xml.flat",
         "source": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-main-44:\\drawable\\ic_stop.xml"
+    },
+    {
+        "merged": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-debug-42:\\drawable_progress_thumb.xml.flat",
+        "source": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-main-44:\\drawable\\progress_thumb.xml"
     },
     {
         "merged": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-debug-42:\\drawable_ic_expand_more.xml.flat",
@@ -52,6 +60,10 @@
         "source": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-main-44:\\layout\\activity_debug_log.xml"
     },
     {
+        "merged": "com.focusfade.app-debug-42:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.focusfade.app-main-44:/drawable/ic_launcher_foreground.xml"
+    },
+    {
         "merged": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-debug-42:\\layout_notification_hourglass.xml.flat",
         "source": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-main-44:\\layout\\notification_hourglass.xml"
     },
@@ -68,15 +80,7 @@
         "source": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-main-44:\\mipmap-anydpi-v26\\ic_launcher.xml"
     },
     {
-        "merged": "com.focusfade.app-debug-42:/drawable_progress_bar_with_thumb.xml.flat",
-        "source": "com.focusfade.app-main-44:/drawable/progress_bar_with_thumb.xml"
-    },
-    {
         "merged": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-debug-42:\\drawable_ic_launcher_foreground.xml.flat",
         "source": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-main-44:\\drawable\\ic_launcher_foreground.xml"
-    },
-    {
-        "merged": "com.focusfade.app-debug-42:/drawable_progress_thumb.xml.flat",
-        "source": "com.focusfade.app-main-44:/drawable/progress_thumb.xml"
     }
 ]
