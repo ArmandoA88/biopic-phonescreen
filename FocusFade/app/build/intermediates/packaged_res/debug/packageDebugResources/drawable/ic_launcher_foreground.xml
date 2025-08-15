@@ -4,12 +4,86 @@
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-  <group android:scaleX="2.61"
-      android:scaleY="2.61"
-      android:translateX="22.68"
-      android:translateY="22.68">
+  
+  <!-- Modern eye design centered -->
+  <group android:translateX="54" android:translateY="54">
+    
+    <!-- Outer eye shape - modern rounded rectangle with eye proportions -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2zM13,17h-2v-6h2v6zM13,9h-2L11,7h2v2z"/>
+        android:pathData="M-28,0 C-28,-12 -22,-18 -12,-18 L12,-18 C22,-18 28,-12 28,0 C28,12 22,18 12,18 L-12,18 C-22,18 -28,12 -28,0 Z"/>
+    
+    <!-- Inner gradient area -->
+    <path
+        android:fillColor="#E3F2FD"
+        android:pathData="M-24,0 C-24,-9 -19,-14 -10,-14 L10,-14 C19,-14 24,-9 24,0 C24,9 19,14 10,14 L-10,14 C-19,14 -24,9 -24,0 Z"/>
+    
+    <!-- Modern iris - large circle with gradient effect -->
+    <path
+        android:fillColor="#2196F3"
+        android:pathData="M0,0 m-14,0 a14,14 0 1,1 28,0 a14,14 0 1,1 -28,0"/>
+    
+    <!-- Inner iris detail -->
+    <path
+        android:fillColor="#1976D2"
+        android:pathData="M0,0 m-10,0 a10,10 0 1,1 20,0 a10,10 0 1,1 -20,0"/>
+    
+    <!-- Modern pupil -->
+    <path
+        android:fillColor="#0D47A1"
+        android:pathData="M0,0 m-5,0 a5,5 0 1,1 10,0 a5,5 0 1,1 -10,0"/>
+    
+    <!-- Highlight - modern style -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M-2,-3 m-2,0 a2,2 0 1,1 4,0 a2,2 0 1,1 -4,0"/>
+    
+    <!-- Focus fade effect - modern horizontal bars with blur effect -->
+    <group android:translateY="0">
+      <!-- Top fade bars -->
+      <path
+          android:fillColor="#FFFFFF"
+          android:fillAlpha="0.9"
+          android:pathData="M-20,-8 L20,-8 L20,-6 L-20,-6 Z"/>
+      <path
+          android:fillColor="#FFFFFF"
+          android:fillAlpha="0.7"
+          android:pathData="M-18,-4 L18,-4 L18,-2 L-18,-2 Z"/>
+      
+      <!-- Bottom fade bars -->
+      <path
+          android:fillColor="#FFFFFF"
+          android:fillAlpha="0.7"
+          android:pathData="M-18,2 L18,2 L18,4 L-18,4 Z"/>
+      <path
+          android:fillColor="#FFFFFF"
+          android:fillAlpha="0.9"
+          android:pathData="M-20,6 L20,6 L20,8 L-20,8 Z"/>
+    </group>
+    
+    <!-- Modern accent elements - subtle corner details -->
+    <group>
+      <!-- Top left accent -->
+      <path
+          android:fillColor="#64B5F6"
+          android:fillAlpha="0.6"
+          android:pathData="M-22,-12 L-18,-12 L-18,-8 L-22,-8 Z"/>
+      <!-- Top right accent -->
+      <path
+          android:fillColor="#64B5F6"
+          android:fillAlpha="0.6"
+          android:pathData="M18,-12 L22,-12 L22,-8 L18,-8 Z"/>
+      <!-- Bottom left accent -->
+      <path
+          android:fillColor="#64B5F6"
+          android:fillAlpha="0.6"
+          android:pathData="M-22,8 L-18,8 L-18,12 L-22,12 Z"/>
+      <!-- Bottom right accent -->
+      <path
+          android:fillColor="#64B5F6"
+          android:fillAlpha="0.6"
+          android:pathData="M18,8 L22,8 L22,12 L18,12 Z"/>
+    </group>
+    
   </group>
 </vector>

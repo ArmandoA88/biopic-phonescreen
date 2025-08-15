@@ -126,8 +126,7 @@ class BlurOverlayService : Service() {
             ACTION_START_SERVICE -> {
                 startForeground(NOTIFICATION_ID, createNotification())
                 showOverlay()
-                setupBlurControlBar()
-                showControlBar()
+                // No control bar needed - manual control is in the app
             }
             "SET_OVERLAY_MODE" -> {
                 val mode = intent.getIntExtra("mode", 0)
@@ -210,11 +209,6 @@ class BlurOverlayService : Service() {
             this, 2, stopIntent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
-
-        // For notifications, RemoteViews can't contain custom views, so we replace with simple icon and text
-        val remoteViews = android.widget.RemoteViews(packageName, android.R.layout.simple_list_item_1).apply {
-            setTextViewText(android.R.id.text1, "Blur: ${(if (isManualBlurMode) manualBlurLevel else focusStateManager.currentBlurLevel.value).toInt()}%")
-        }
 
         return NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle("FocusFade Active")
@@ -504,7 +498,25 @@ class BlurOverlayService : Service() {
     }
     
     private fun setupBlurControlBar() {
-        // Hourglass bar removed - no longer needed
+        blurControlBar = createBlurControlBar()
+        
+        controlBarParams = WindowManager.LayoutParams(
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+            } else {
+                @Suppress("DEPRECATION")
+                WindowManager.LayoutParams.TYPE_PHONE
+            },
+            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
+                    WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
+            PixelFormat.TRANSLUCENT
+        ).apply {
+            gravity = Gravity.TOP or Gravity.END
+            x = 50 // Initial position from right edge
+            y = 200 // Initial position from top
+        }
     }
     
     private fun createBlurControlBar(): View {
@@ -627,6 +639,7 @@ class BlurOverlayService : Service() {
             return
         }
         
+        @Suppress("UNCHECKED_CAST")
         val components = blurControlBar.tag as? Map<String, View> ?: return
 
         val hourglassView = components["hourglassView"] as? com.focusfade.app.view.HourglassProgressView

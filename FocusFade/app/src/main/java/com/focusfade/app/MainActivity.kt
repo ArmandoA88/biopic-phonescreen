@@ -89,6 +89,7 @@ class MainActivity : AppCompatActivity() {
             // Reset blur button
             buttonResetBlur.setOnClickListener {
                 focusStateManager.resetBlur()
+                setManualModeVisuals(false) // Reset visual indicators
                 Toast.makeText(this@MainActivity, "Blur reset", Toast.LENGTH_SHORT).show()
             }
             
@@ -98,32 +99,88 @@ class MainActivity : AppCompatActivity() {
                     action = BlurOverlayService.ACTION_TOGGLE_MANUAL_BLUR
                 }
                 startService(intent)
-                Toast.makeText(this@MainActivity, "Manual blur toggled - drag Current Status bar to adjust", Toast.LENGTH_SHORT).show()
+                
+                // Check current button text to determine if we're entering or exiting manual mode
+                if (buttonToggleManualBlur.text == "Exit Manual") {
+                    // Exiting manual mode
+                    setManualModeVisuals(false)
+                    Toast.makeText(this@MainActivity, "Manual mode disabled", Toast.LENGTH_SHORT).show()
+                } else {
+                    // Entering manual mode
+                    setManualModeVisuals(true)
+                    Toast.makeText(this@MainActivity, "Manual mode enabled - drag orange bar to adjust", Toast.LENGTH_SHORT).show()
+                }
             }
 
-            // Dragging Current Status bar to adjust blur in manual mode
+            // Dragging Current Status bar to adjust blur in manual mode with 1% increments
             progressBlurLevel.setOnTouchListener(object : android.view.View.OnTouchListener {
-                private var initialY = 0f
+                private var initialX = 0f
                 private var startPercent = 0f
+                private var isDragging = false
+                private var hasShownToast = false
 
                 override fun onTouch(v: android.view.View?, event: android.view.MotionEvent?): Boolean {
                     if (event == null) return false
+                    
                     when (event.action) {
                         android.view.MotionEvent.ACTION_DOWN -> {
-                            initialY = event.rawY
+                            initialX = event.rawX
                             startPercent = progressBlurLevel.progress.toFloat()
+                            isDragging = true
+                            hasShownToast = false
+                            
+                            // Activate manual mode when user starts dragging
+                            if (buttonToggleManualBlur.text != "Exit Manual") {
+                                val intent = Intent(this@MainActivity, BlurOverlayService::class.java).apply {
+                                    action = BlurOverlayService.ACTION_TOGGLE_MANUAL_BLUR
+                                }
+                                startService(intent)
+                                setManualModeVisuals(true)
+                                
+                                // Show guidance toast only once per drag session
+                                if (!hasShownToast) {
+                                    Toast.makeText(this@MainActivity, "Drag left/right to adjust blur level", Toast.LENGTH_SHORT).show()
+                                    hasShownToast = true
+                                }
+                            }
+                            
+                            // Consume the touch event
+                            v?.parent?.requestDisallowInterceptTouchEvent(true)
                             return true
                         }
+                        
                         android.view.MotionEvent.ACTION_MOVE -> {
-                            val dy = initialY - event.rawY
-                            val screenHeight = resources.displayMetrics.heightPixels
-                            val deltaPercent = (dy / screenHeight) * 100f
+                            if (!isDragging) return false
+                            
+                            val dx = event.rawX - initialX
+                            // Horizontal control - 30 pixels = 1% change
+                            val deltaPercent = dx / 30f
                             val newPercent = (startPercent + deltaPercent).coerceIn(0f, 100f)
+                            // Round to nearest 1% for precise control
+                            val roundedPercent = kotlin.math.round(newPercent).toInt()
+                            
+                            // Update progress bar immediately for visual feedback
+                            progressBlurLevel.progress = roundedPercent
+                            
+                            // Update text with manual mode indicator
+                            if (buttonToggleManualBlur.text == "Exit Manual") {
+                                textCurrentBlurLevel.text = "Current Blur: ${roundedPercent}% (Manual - Drag left/right ↔)"
+                            } else {
+                                textCurrentBlurLevel.text = "Current Blur: ${roundedPercent}% (Manual)"
+                            }
+                            
+                            // Send to service
                             val serviceIntent = Intent(this@MainActivity, BlurOverlayService::class.java).apply {
                                 action = BlurOverlayService.ACTION_SET_MANUAL_BLUR
-                                putExtra(BlurOverlayService.EXTRA_BLUR_LEVEL, newPercent)
+                                putExtra(BlurOverlayService.EXTRA_BLUR_LEVEL, roundedPercent.toFloat())
                             }
                             startService(serviceIntent)
+                            return true
+                        }
+                        
+                        android.view.MotionEvent.ACTION_UP, android.view.MotionEvent.ACTION_CANCEL -> {
+                            isDragging = false
+                            v?.parent?.requestDisallowInterceptTouchEvent(false)
                             return true
                         }
                     }
@@ -197,8 +254,11 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             // Observe current blur level
             focusStateManager.currentBlurLevel.collect { blurLevel ->
-                binding.textCurrentBlurLevel.text = "Current Blur: ${blurLevel.toInt()}%"
-                binding.progressBlurLevel.progress = blurLevel.toInt()
+                // Only update if not in manual mode (to avoid conflicts with manual dragging)
+                if (binding.buttonToggleManualBlur.text != "Exit Manual") {
+                    binding.textCurrentBlurLevel.text = "Current Blur: ${blurLevel.toInt()}%"
+                    binding.progressBlurLevel.progress = blurLevel.toInt()
+                }
             }
         }
         
@@ -244,6 +304,47 @@ class MainActivity : AppCompatActivity() {
             "FocusFade is active"
         } else {
             "FocusFade is disabled"
+        }
+    }
+    
+    private fun setManualModeVisuals(isManualMode: Boolean) {
+        if (isManualMode) {
+            // Change progress bar color to indicate manual mode
+            binding.progressBlurLevel.progressTintList = android.content.res.ColorStateList.valueOf(
+                androidx.core.content.ContextCompat.getColor(this, android.R.color.holo_orange_dark)
+            )
+            // Use custom progress drawable with rounded corners
+            binding.progressBlurLevel.progressDrawable = androidx.core.content.ContextCompat.getDrawable(this, R.drawable.progress_bar_with_thumb)
+            
+            // Make progress bar taller for easier dragging
+            val layoutParams = binding.progressBlurLevel.layoutParams
+            layoutParams.height = (24 * resources.displayMetrics.density).toInt() // 24dp
+            binding.progressBlurLevel.layoutParams = layoutParams
+            
+            // Update text to show manual mode with drag instructions
+            val currentBlur = binding.progressBlurLevel.progress
+            binding.textCurrentBlurLevel.text = "Current Blur: ${currentBlur}% (Manual - Drag orange bar ↔)"
+            // Change button text to indicate active manual mode
+            binding.buttonToggleManualBlur.text = "Exit Manual"
+            binding.buttonToggleManualBlur.setBackgroundColor(
+                androidx.core.content.ContextCompat.getColor(this, android.R.color.holo_orange_light)
+            )
+        } else {
+            // Reset to normal colors and size
+            binding.progressBlurLevel.progressTintList = null
+            binding.progressBlurLevel.progressDrawable = null
+            
+            // Reset height to default
+            val layoutParams = binding.progressBlurLevel.layoutParams
+            layoutParams.height = android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+            binding.progressBlurLevel.layoutParams = layoutParams
+            
+            val currentBlur = binding.progressBlurLevel.progress
+            binding.textCurrentBlurLevel.text = "Current Blur: ${currentBlur}%"
+            binding.buttonToggleManualBlur.text = "Manual Blur"
+            binding.buttonToggleManualBlur.setBackgroundColor(
+                androidx.core.content.ContextCompat.getColor(this, android.R.color.transparent)
+            )
         }
     }
     

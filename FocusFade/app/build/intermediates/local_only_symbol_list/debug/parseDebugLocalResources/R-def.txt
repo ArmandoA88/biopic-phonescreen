@@ -37,6 +37,8 @@ drawable ic_launcher_foreground
 drawable ic_notification
 drawable ic_refresh
 drawable ic_stop
+drawable progress_bar_with_thumb
+drawable progress_thumb
 id buttonAction
 id buttonBack
 id buttonClearLogs
