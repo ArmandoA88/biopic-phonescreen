@@ -1,8 +1,11 @@
 package com.focusfade.app
 
 import android.content.Intent
+import android.content.pm.ApplicationInfo
 import android.os.Bundle
 import android.provider.Settings
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -22,6 +25,14 @@ class WhitelistActivity : AppCompatActivity() {
     private lateinit var whitelistedAppsAdapter: AppListAdapter
     private lateinit var suggestedAppsAdapter: AppListAdapter
     private lateinit var allAppsAdapter: AppListAdapter
+    
+    private var allAppsList = listOf<WhitelistManager.AppInfo>()
+    private var filteredAppsList = listOf<WhitelistManager.AppInfo>()
+    private var currentFilter = AppFilter.ALL
+    
+    enum class AppFilter {
+        ALL, USER, SYSTEM
+    }
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -144,6 +155,31 @@ class WhitelistActivity : AppCompatActivity() {
                 headerAllApps.setOnClickListener {
                     toggleSection(sectionAllApps)
                 }
+                
+                // Setup search functionality
+                editTextSearch.addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+                    override fun afterTextChanged(s: Editable?) {
+                        filterApps(s.toString())
+                    }
+                })
+                
+                // Setup filter toggle buttons
+                toggleGroupAppFilter.addOnButtonCheckedListener { _, checkedId, isChecked ->
+                    if (isChecked) {
+                        currentFilter = when (checkedId) {
+                            R.id.buttonShowAll -> AppFilter.ALL
+                            R.id.buttonShowUser -> AppFilter.USER
+                            R.id.buttonShowSystem -> AppFilter.SYSTEM
+                            else -> AppFilter.ALL
+                        }
+                        filterApps(editTextSearch.text.toString())
+                    }
+                }
+                
+                // Set default selection
+                buttonShowAll.isChecked = true
             }
         } catch (e: Exception) {
             // Ignore UI setup errors
@@ -230,15 +266,17 @@ class WhitelistActivity : AppCompatActivity() {
                 }
 
                 // Load all apps
-                val allApps = try {
+                allAppsList = try {
                     whitelistManager.getAllInstalledApps()
                 } catch (e: Exception) {
                     emptyList()
                 }
                 
+                // Apply initial filter
+                filterApps("")
+                
                 runOnUiThread {
                     try {
-                        allAppsAdapter.submitList(allApps)
                         allAppsAdapter.updateWhitelistedApps(whitelistedPackages)
                     } catch (e: Exception) {
                         // Ignore adapter errors
@@ -307,6 +345,55 @@ class WhitelistActivity : AppCompatActivity() {
             }
         } catch (e: Exception) {
             // Ignore resume errors
+        }
+    }
+    
+    private fun filterApps(searchQuery: String) {
+        try {
+            val packageManager = packageManager
+            
+            filteredAppsList = allAppsList.filter { appInfo ->
+                // Apply search filter
+                val matchesSearch = if (searchQuery.isBlank()) {
+                    true
+                } else {
+                    appInfo.appName.contains(searchQuery, ignoreCase = true) ||
+                    appInfo.packageName.contains(searchQuery, ignoreCase = true)
+                }
+                
+                // Apply app type filter
+                val matchesFilter = when (currentFilter) {
+                    AppFilter.ALL -> true
+                    AppFilter.USER -> {
+                        try {
+                            val applicationInfo = packageManager.getApplicationInfo(appInfo.packageName, 0)
+                            (applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) == 0
+                        } catch (e: Exception) {
+                            false
+                        }
+                    }
+                    AppFilter.SYSTEM -> {
+                        try {
+                            val applicationInfo = packageManager.getApplicationInfo(appInfo.packageName, 0)
+                            (applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) != 0
+                        } catch (e: Exception) {
+                            false
+                        }
+                    }
+                }
+                
+                matchesSearch && matchesFilter
+            }
+            
+            runOnUiThread {
+                try {
+                    allAppsAdapter.submitList(filteredAppsList)
+                } catch (e: Exception) {
+                    // Ignore adapter errors
+                }
+            }
+        } catch (e: Exception) {
+            // Ignore filter errors
         }
     }
     

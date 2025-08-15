@@ -54,9 +54,13 @@ id buttonSelectBlur
 id buttonSelectColorShift
 id buttonSelectPattern
 id buttonSettings
+id buttonShowAll
+id buttonShowSystem
+id buttonShowUser
 id buttonToggleManualBlur
 id buttonWhitelist
 id cardPermissionRequired
+id editTextSearch
 id headerAllApps
 id headerSuggestedApps
 id headerWhitelistedApps
@@ -89,6 +93,7 @@ id textNoWhitelistedApps
 id textPackageName
 id textServiceStatus
 id textStatus
+id toggleGroupAppFilter
 id toolbar
 layout activity_debug_log
 layout activity_main

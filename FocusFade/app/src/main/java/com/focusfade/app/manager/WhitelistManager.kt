@@ -81,74 +81,83 @@ class WhitelistManager(
      */
     fun getAllInstalledApps(): List<AppInfo> {
         val apps = mutableListOf<AppInfo>()
+        val addedPackages = mutableSetOf<String>()
         
         try {
-            // Method 1: Get apps from launcher
-            val mainIntent = android.content.Intent(android.content.Intent.ACTION_MAIN, null)
-            mainIntent.addCategory(android.content.Intent.CATEGORY_LAUNCHER)
-            val launcherApps = packageManager.queryIntentActivities(mainIntent, 0)
+            // Method 1: Get all installed packages first (most comprehensive)
+            val installedPackages = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+                // Android 11+ requires QUERY_ALL_PACKAGES permission or specific package queries
+                try {
+                    packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
+                } catch (e: Exception) {
+                    // Fallback for permission issues
+                    packageManager.getInstalledPackages(0)
+                }
+            } else {
+                packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
+            }
             
-            for (resolveInfo in launcherApps) {
-                val packageName = resolveInfo.activityInfo.packageName
+            for (packageInfo in installedPackages) {
+                val appInfo = packageInfo.applicationInfo
                 
-                if (packageName != context.packageName) {
+                if (appInfo.packageName != context.packageName && !addedPackages.contains(appInfo.packageName)) {
                     val appName = try {
-                        resolveInfo.loadLabel(packageManager).toString()
+                        packageManager.getApplicationLabel(appInfo).toString()
                     } catch (e: Exception) {
-                        packageName
+                        appInfo.packageName
                     }
                     
                     val icon = try {
-                        resolveInfo.loadIcon(packageManager)
+                        packageManager.getApplicationIcon(appInfo)
                     } catch (e: Exception) {
                         null
                     }
                     
-                    // Avoid duplicates
-                    if (!apps.any { it.packageName == packageName }) {
-                        apps.add(AppInfo(packageName, appName, icon))
+                    // Include all apps that are enabled and not hidden
+                    if (appInfo.enabled) {
+                        apps.add(AppInfo(appInfo.packageName, appName, icon))
+                        addedPackages.add(appInfo.packageName)
                     }
                 }
             }
             
-            // Method 2: Get all installed packages as backup
-            if (apps.size < 20) {
-                val installedPackages = packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
+            // Method 2: Get apps from launcher as additional check
+            try {
+                val mainIntent = android.content.Intent(android.content.Intent.ACTION_MAIN, null)
+                mainIntent.addCategory(android.content.Intent.CATEGORY_LAUNCHER)
+                val launcherApps = packageManager.queryIntentActivities(mainIntent, 0)
                 
-                for (packageInfo in installedPackages) {
-                    val appInfo = packageInfo.applicationInfo
+                for (resolveInfo in launcherApps) {
+                    val packageName = resolveInfo.activityInfo.packageName
                     
-                    if (appInfo.packageName != context.packageName) {
+                    if (packageName != context.packageName && !addedPackages.contains(packageName)) {
                         val appName = try {
-                            packageManager.getApplicationLabel(appInfo).toString()
+                            resolveInfo.loadLabel(packageManager).toString()
                         } catch (e: Exception) {
-                            appInfo.packageName
+                            packageName
                         }
                         
                         val icon = try {
-                            packageManager.getApplicationIcon(appInfo)
+                            resolveInfo.loadIcon(packageManager)
                         } catch (e: Exception) {
                             null
                         }
                         
-                        // Check if it has a launcher intent or is enabled
-                        val launchIntent = packageManager.getLaunchIntentForPackage(appInfo.packageName)
-                        val isEnabled = appInfo.enabled
-                        
-                        if ((launchIntent != null || isEnabled) && !apps.any { it.packageName == appInfo.packageName }) {
-                            apps.add(AppInfo(appInfo.packageName, appName, icon))
-                        }
+                        apps.add(AppInfo(packageName, appName, icon))
+                        addedPackages.add(packageName)
                     }
                 }
+            } catch (e: Exception) {
+                // Continue if launcher query fails
             }
             
         } catch (e: Exception) {
-            // Fallback method - get all applications
+            // Fallback method - get all applications without any filtering
             try {
-                val installedApps = packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
+                val installedApps = packageManager.getInstalledApplications(0)
                 
                 for (appInfo in installedApps) {
-                    if (appInfo.packageName != context.packageName) {
+                    if (appInfo.packageName != context.packageName && !addedPackages.contains(appInfo.packageName)) {
                         val appName = try {
                             packageManager.getApplicationLabel(appInfo).toString()
                         } catch (e: Exception) {
@@ -161,9 +170,8 @@ class WhitelistManager(
                             null
                         }
                         
-                        if (!apps.any { it.packageName == appInfo.packageName }) {
-                            apps.add(AppInfo(appInfo.packageName, appName, icon))
-                        }
+                        apps.add(AppInfo(appInfo.packageName, appName, icon))
+                        addedPackages.add(appInfo.packageName)
                     }
                 }
             } catch (e2: Exception) {

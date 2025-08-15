@@ -14,7 +14,9 @@ import androidx.viewbinding.ViewBindings;
 import com.focusfade.app.R;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.textfield.TextInputEditText;
 import java.lang.NullPointerException;
 import java.lang.Override;
 import java.lang.String;
@@ -27,7 +29,19 @@ public final class ActivityWhitelistBinding implements ViewBinding {
   public final MaterialButton buttonGrantPermission;
 
   @NonNull
+  public final MaterialButton buttonShowAll;
+
+  @NonNull
+  public final MaterialButton buttonShowSystem;
+
+  @NonNull
+  public final MaterialButton buttonShowUser;
+
+  @NonNull
   public final MaterialCardView cardPermissionRequired;
+
+  @NonNull
+  public final TextInputEditText editTextSearch;
 
   @NonNull
   public final TextView headerAllApps;
@@ -60,19 +74,28 @@ public final class ActivityWhitelistBinding implements ViewBinding {
   public final TextView textNoWhitelistedApps;
 
   @NonNull
+  public final MaterialButtonToggleGroup toggleGroupAppFilter;
+
+  @NonNull
   public final MaterialToolbar toolbar;
 
   private ActivityWhitelistBinding(@NonNull LinearLayout rootView,
-      @NonNull MaterialButton buttonGrantPermission,
-      @NonNull MaterialCardView cardPermissionRequired, @NonNull TextView headerAllApps,
-      @NonNull TextView headerSuggestedApps, @NonNull TextView headerWhitelistedApps,
-      @NonNull RecyclerView recyclerAllApps, @NonNull RecyclerView recyclerSuggestedApps,
-      @NonNull RecyclerView recyclerWhitelistedApps, @NonNull LinearLayout sectionAllApps,
-      @NonNull LinearLayout sectionSuggestedApps, @NonNull LinearLayout sectionWhitelistedApps,
-      @NonNull TextView textNoWhitelistedApps, @NonNull MaterialToolbar toolbar) {
+      @NonNull MaterialButton buttonGrantPermission, @NonNull MaterialButton buttonShowAll,
+      @NonNull MaterialButton buttonShowSystem, @NonNull MaterialButton buttonShowUser,
+      @NonNull MaterialCardView cardPermissionRequired, @NonNull TextInputEditText editTextSearch,
+      @NonNull TextView headerAllApps, @NonNull TextView headerSuggestedApps,
+      @NonNull TextView headerWhitelistedApps, @NonNull RecyclerView recyclerAllApps,
+      @NonNull RecyclerView recyclerSuggestedApps, @NonNull RecyclerView recyclerWhitelistedApps,
+      @NonNull LinearLayout sectionAllApps, @NonNull LinearLayout sectionSuggestedApps,
+      @NonNull LinearLayout sectionWhitelistedApps, @NonNull TextView textNoWhitelistedApps,
+      @NonNull MaterialButtonToggleGroup toggleGroupAppFilter, @NonNull MaterialToolbar toolbar) {
     this.rootView = rootView;
     this.buttonGrantPermission = buttonGrantPermission;
+    this.buttonShowAll = buttonShowAll;
+    this.buttonShowSystem = buttonShowSystem;
+    this.buttonShowUser = buttonShowUser;
     this.cardPermissionRequired = cardPermissionRequired;
+    this.editTextSearch = editTextSearch;
     this.headerAllApps = headerAllApps;
     this.headerSuggestedApps = headerSuggestedApps;
     this.headerWhitelistedApps = headerWhitelistedApps;
@@ -83,6 +106,7 @@ public final class ActivityWhitelistBinding implements ViewBinding {
     this.sectionSuggestedApps = sectionSuggestedApps;
     this.sectionWhitelistedApps = sectionWhitelistedApps;
     this.textNoWhitelistedApps = textNoWhitelistedApps;
+    this.toggleGroupAppFilter = toggleGroupAppFilter;
     this.toolbar = toolbar;
   }
 
@@ -119,9 +143,33 @@ public final class ActivityWhitelistBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.buttonShowAll;
+      MaterialButton buttonShowAll = ViewBindings.findChildViewById(rootView, id);
+      if (buttonShowAll == null) {
+        break missingId;
+      }
+
+      id = R.id.buttonShowSystem;
+      MaterialButton buttonShowSystem = ViewBindings.findChildViewById(rootView, id);
+      if (buttonShowSystem == null) {
+        break missingId;
+      }
+
+      id = R.id.buttonShowUser;
+      MaterialButton buttonShowUser = ViewBindings.findChildViewById(rootView, id);
+      if (buttonShowUser == null) {
+        break missingId;
+      }
+
       id = R.id.cardPermissionRequired;
       MaterialCardView cardPermissionRequired = ViewBindings.findChildViewById(rootView, id);
       if (cardPermissionRequired == null) {
+        break missingId;
+      }
+
+      id = R.id.editTextSearch;
+      TextInputEditText editTextSearch = ViewBindings.findChildViewById(rootView, id);
+      if (editTextSearch == null) {
         break missingId;
       }
 
@@ -185,6 +233,12 @@ public final class ActivityWhitelistBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.toggleGroupAppFilter;
+      MaterialButtonToggleGroup toggleGroupAppFilter = ViewBindings.findChildViewById(rootView, id);
+      if (toggleGroupAppFilter == null) {
+        break missingId;
+      }
+
       id = R.id.toolbar;
       MaterialToolbar toolbar = ViewBindings.findChildViewById(rootView, id);
       if (toolbar == null) {
@@ -192,9 +246,10 @@ public final class ActivityWhitelistBinding implements ViewBinding {
       }
 
       return new ActivityWhitelistBinding((LinearLayout) rootView, buttonGrantPermission,
-          cardPermissionRequired, headerAllApps, headerSuggestedApps, headerWhitelistedApps,
-          recyclerAllApps, recyclerSuggestedApps, recyclerWhitelistedApps, sectionAllApps,
-          sectionSuggestedApps, sectionWhitelistedApps, textNoWhitelistedApps, toolbar);
+          buttonShowAll, buttonShowSystem, buttonShowUser, cardPermissionRequired, editTextSearch,
+          headerAllApps, headerSuggestedApps, headerWhitelistedApps, recyclerAllApps,
+          recyclerSuggestedApps, recyclerWhitelistedApps, sectionAllApps, sectionSuggestedApps,
+          sectionWhitelistedApps, textNoWhitelistedApps, toggleGroupAppFilter, toolbar);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));
