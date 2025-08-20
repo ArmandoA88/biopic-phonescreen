@@ -39,20 +39,39 @@ class WhitelistManager(
      * Gets the currently active foreground app
      */
     fun getCurrentForegroundApp(): String? {
+        // Method 1: UsageStatsManager
         val currentTime = System.currentTimeMillis()
         val stats = usageStatsManager.queryUsageStats(
             UsageStatsManager.INTERVAL_DAILY,
-            currentTime - 1000 * 60, // Last minute
+            currentTime - 1000 * 60,
             currentTime
         )
         
-        if (stats.isNullOrEmpty()) {
-            return null
+        if (!stats.isNullOrEmpty()) {
+            val mostRecentApp = stats.maxByOrNull { it.lastTimeUsed }
+            if (mostRecentApp != null) return mostRecentApp.packageName
         }
-        
-        // Find the most recently used app
-        val mostRecentApp = stats.maxByOrNull { it.lastTimeUsed }
-        return mostRecentApp?.packageName
+
+        // Method 2: ActivityManager running tasks (legacy but still works on some devices)
+        try {
+            val am = context.getSystemService(Context.ACTIVITY_SERVICE) as android.app.ActivityManager
+            val taskInfo = am.getRunningTasks(1)
+            if (!taskInfo.isNullOrEmpty()) {
+                return taskInfo[0].topActivity?.packageName
+            }
+        } catch (e: Exception) {}
+
+        // Method 3: Running app processes
+        try {
+            val am = context.getSystemService(Context.ACTIVITY_SERVICE) as android.app.ActivityManager
+            val processes = am.runningAppProcesses
+            if (!processes.isNullOrEmpty()) {
+                val foregroundProc = processes.firstOrNull { it.importance == android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND }
+                if (foregroundProc != null) return foregroundProc.processName
+            }
+        } catch (e: Exception) {}
+
+        return null
     }
     
     /**

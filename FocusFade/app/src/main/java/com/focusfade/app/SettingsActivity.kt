@@ -1,8 +1,11 @@
 package com.focusfade.app
 
 import android.app.TimePickerDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
+import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -11,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import com.focusfade.app.databinding.ActivitySettingsBinding
 import com.focusfade.app.manager.SettingsManager
 import com.focusfade.app.receiver.DailyResetScheduler
+import com.focusfade.app.service.AppLaunchAccessibilityService
 import com.focusfade.app.utils.CrashLogger
 import kotlinx.coroutines.launch
 
@@ -96,6 +100,31 @@ class SettingsActivity : AppCompatActivity() {
                     showResetConfirmationDialog()
                 }
                 
+                // Delayed launch switch
+                includeLaunchDelay.switchDelayedLaunch.setOnCheckedChangeListener { _, isChecked ->
+                    if (isChecked) {
+                        // Check if accessibility service is enabled
+                        if (!isAccessibilityServiceEnabled()) {
+                            // Show dialog to enable accessibility service
+                            showAccessibilityPermissionDialog()
+                            // Revert switch state
+                            includeLaunchDelay.switchDelayedLaunch.isChecked = false
+                        } else {
+                            settingsManager.setDelayedLaunchEnabled(true)
+                        }
+                    } else {
+                        settingsManager.setDelayedLaunchEnabled(false)
+                    }
+                }
+
+                // Launch delay seekbar
+                includeLaunchDelay.delaySeekBar.addOnChangeListener { _, value, fromUser ->
+                    if (fromUser) {
+                        settingsManager.setLaunchDelaySeconds(value.toInt())
+                        updateDelayText(value.toInt())
+                    }
+                }
+
                 // Min blur level slider
                 sliderMinBlurLevel.addOnChangeListener { _, value, fromUser ->
                     if (fromUser) {
@@ -170,6 +199,11 @@ class SettingsActivity : AppCompatActivity() {
                                         val timeString = String.format("%02d:%02d", settings.dailyResetHour, settings.dailyResetMinute)
                                         textDailyResetTime.text = "Daily reset at $timeString"
                                         
+                                        // Update delayed launch settings
+                                        includeLaunchDelay.switchDelayedLaunch.isChecked = settingsManager.isDelayedLaunchEnabled()
+                                        includeLaunchDelay.delaySeekBar.value = settingsManager.getLaunchDelaySeconds().toFloat()
+                                        updateDelayText(settingsManager.getLaunchDelaySeconds())
+
                                         // Update min blur level
                                         sliderMinBlurLevel.value = settings.minBlurLevel
                                         updateMinBlurLevelText(settings.minBlurLevel.toInt())
@@ -207,6 +241,10 @@ class SettingsActivity : AppCompatActivity() {
     private fun updateMinBlurLevelText(level: Int) {
         binding.textMinBlurLevel.text = "Minimum blur level: $level%"
     }
+
+    private fun updateDelayText(seconds: Int) {
+        binding.includeLaunchDelay.textLaunchDelay.text = "App launch delay: $seconds sec"
+    }
     
     private fun showTimePickerDialog() {
         val currentHour = settingsManager.getDailyResetHour()
@@ -242,6 +280,37 @@ class SettingsActivity : AppCompatActivity() {
             .show()
     }
     
+    private fun isAccessibilityServiceEnabled(): Boolean {
+        val accessibilityEnabled = try {
+            Settings.Secure.getInt(contentResolver, Settings.Secure.ACCESSIBILITY_ENABLED)
+        } catch (e: Settings.SettingNotFoundException) {
+            0
+        }
+
+        if (accessibilityEnabled == 1) {
+            val services = Settings.Secure.getString(contentResolver, Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES)
+            val serviceName = "${packageName}/${AppLaunchAccessibilityService::class.java.name}"
+            return !TextUtils.isEmpty(services) && services.contains(serviceName)
+        }
+        return false
+    }
+
+    private fun showAccessibilityPermissionDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Enable Accessibility Service")
+            .setMessage("To use delayed launch, please enable the FocusFade accessibility service in Settings > Accessibility > FocusFade.")
+            .setPositiveButton("Open Settings") { _, _ ->
+                try {
+                    val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
+                    startActivity(intent)
+                } catch (e: Exception) {
+                    Toast.makeText(this, "Could not open accessibility settings", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true

@@ -68,6 +68,8 @@ class ScreenTimeTrackingService : Service() {
         
         // Initialize screen state
         initializeScreenState()
+        // Start monitoring foreground apps continuously
+        startForegroundAppMonitor()
     }
     
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -118,10 +120,17 @@ class ScreenTimeTrackingService : Service() {
             val isWhitelisted = currentApp != null && settingsManager.getWhitelistedApps().contains(currentApp)
             if (isWhitelisted) {
                 focusStateManager.pauseBlurAccumulation()
+                focusStateManager.onScreenOn()
             } else {
                 focusStateManager.resumeBlurAccumulation()
+                // Redirect launch to delayed launch screen if app is not whitelisted
+                currentApp?.let {
+                    val launchIntent = Intent(applicationContext, com.focusfade.app.DelayedLaunchActivity::class.java)
+                    launchIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    launchIntent.putExtra("TARGET_PACKAGE", it)
+                    applicationContext.startActivity(launchIntent)
+                }
             }
-            focusStateManager.onScreenOn()
         }
     }
     
@@ -142,6 +151,29 @@ class ScreenTimeTrackingService : Service() {
                 focusStateManager.resumeBlurAccumulation()
             }
             focusStateManager.onScreenOn()
+        }
+    }
+
+    private fun startForegroundAppMonitor() {
+        serviceScope.launch {
+            var lastApp: String? = null
+            val whitelistManager = com.focusfade.app.manager.WhitelistManager(applicationContext, settingsManager)
+
+            while (true) {
+                val currentApp = whitelistManager.getCurrentForegroundApp()
+                if (currentApp != null && currentApp != packageName && currentApp != lastApp) {
+                    lastApp = currentApp
+                    val isWhitelisted = settingsManager.getWhitelistedApps().contains(currentApp)
+                    if (!isWhitelisted) {
+                        // Start delayed launch activity overlay
+                        val launchIntent = Intent(applicationContext, com.focusfade.app.DelayedLaunchActivity::class.java)
+                        launchIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        launchIntent.putExtra("TARGET_PACKAGE", currentApp)
+                        applicationContext.startActivity(launchIntent)
+                    }
+                }
+                kotlinx.coroutines.delay(1000) // check once per second
+            }
         }
     }
     

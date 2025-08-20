@@ -38,6 +38,9 @@ public final class ActivitySettingsBinding implements ViewBinding {
   public final MaterialButton buttonSelectPattern;
 
   @NonNull
+  public final IncludeLaunchDelaySettingsBinding includeLaunchDelay;
+
+  @NonNull
   public final Slider sliderMinBlurLevel;
 
   @NonNull
@@ -55,15 +58,18 @@ public final class ActivitySettingsBinding implements ViewBinding {
   private ActivitySettingsBinding(@NonNull LinearLayout rootView,
       @NonNull MaterialButton buttonDailyResetTime, @NonNull MaterialButton buttonResetSettings,
       @NonNull MaterialButton buttonSelectBlur, @NonNull MaterialButton buttonSelectColorShift,
-      @NonNull MaterialButton buttonSelectPattern, @NonNull Slider sliderMinBlurLevel,
-      @NonNull TextView textDailyResetTime, @NonNull TextView textMinBlurLevel,
-      @NonNull TextView textNextReset, @NonNull MaterialToolbar toolbar) {
+      @NonNull MaterialButton buttonSelectPattern,
+      @NonNull IncludeLaunchDelaySettingsBinding includeLaunchDelay,
+      @NonNull Slider sliderMinBlurLevel, @NonNull TextView textDailyResetTime,
+      @NonNull TextView textMinBlurLevel, @NonNull TextView textNextReset,
+      @NonNull MaterialToolbar toolbar) {
     this.rootView = rootView;
     this.buttonDailyResetTime = buttonDailyResetTime;
     this.buttonResetSettings = buttonResetSettings;
     this.buttonSelectBlur = buttonSelectBlur;
     this.buttonSelectColorShift = buttonSelectColorShift;
     this.buttonSelectPattern = buttonSelectPattern;
+    this.includeLaunchDelay = includeLaunchDelay;
     this.sliderMinBlurLevel = sliderMinBlurLevel;
     this.textDailyResetTime = textDailyResetTime;
     this.textMinBlurLevel = textMinBlurLevel;
@@ -128,6 +134,13 @@ public final class ActivitySettingsBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.includeLaunchDelay;
+      View includeLaunchDelay = ViewBindings.findChildViewById(rootView, id);
+      if (includeLaunchDelay == null) {
+        break missingId;
+      }
+      IncludeLaunchDelaySettingsBinding binding_includeLaunchDelay = IncludeLaunchDelaySettingsBinding.bind(includeLaunchDelay);
+
       id = R.id.sliderMinBlurLevel;
       Slider sliderMinBlurLevel = ViewBindings.findChildViewById(rootView, id);
       if (sliderMinBlurLevel == null) {
@@ -160,7 +173,8 @@ public final class ActivitySettingsBinding implements ViewBinding {
 
       return new ActivitySettingsBinding((LinearLayout) rootView, buttonDailyResetTime,
           buttonResetSettings, buttonSelectBlur, buttonSelectColorShift, buttonSelectPattern,
-          sliderMinBlurLevel, textDailyResetTime, textMinBlurLevel, textNextReset, toolbar);
+          binding_includeLaunchDelay, sliderMinBlurLevel, textDailyResetTime, textMinBlurLevel,
+          textNextReset, toolbar);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

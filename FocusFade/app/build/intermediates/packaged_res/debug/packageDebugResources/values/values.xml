@@ -31,6 +31,7 @@
     <color name="text_primary">#DE000000</color>
     <color name="text_secondary">#99000000</color>
     <color name="white">#FFFFFFFF</color>
+    <string name="accessibility_service_description">Detects when apps are launched to enable delayed launch feature for non-whitelisted apps</string>
     <string name="add_apps_description">Add apps that won\'t trigger blur accumulation</string>
     <string name="advanced_settings">Advanced Settings</string>
     <string name="all_apps">All Apps</string>
@@ -89,7 +90,7 @@
     <string name="settings_reset">Settings reset to defaults</string>
     <string name="stop">Stop</string>
     <string name="suggested_apps">Suggested Apps</string>
-    <string name="time_format">%02d:%02d</string>
+    <string formatted="false" name="time_format">%02d:%02d</string>
     <string name="today_at_format">Today at %s</string>
     <string name="tomorrow_at_format">Tomorrow at %s</string>
     <string name="usage_stats_permission_granted">Usage stats permission granted</string>

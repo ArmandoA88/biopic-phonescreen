@@ -154,6 +154,21 @@
 
             </com.google.android.material.card.MaterialCardView>
 
+            <!-- Launch Delay Settings -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <include
+                    android:id="@+id/includeLaunchDelay"
+                    layout="@layout/include_launch_delay_settings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.card.MaterialCardView>
+
             <!-- Blur Level Settings -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"

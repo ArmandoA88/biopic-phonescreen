@@ -12,12 +12,16 @@
         "source": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-main-44:\\layout\\activity_whitelist.xml"
     },
     {
+        "merged": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-mergeDebugResources-41:\\layout\\activity_delayed_launch.xml",
+        "source": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-main-44:\\layout\\activity_delayed_launch.xml"
+    },
+    {
         "merged": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-mergeDebugResources-41:\\layout\\activity_settings.xml",
         "source": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-main-44:\\layout\\activity_settings.xml"
     },
     {
-        "merged": "com.focusfade.app-mergeDebugResources-41:/layout/activity_whitelist.xml",
-        "source": "com.focusfade.app-main-44:/layout/activity_whitelist.xml"
+        "merged": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-mergeDebugResources-41:\\layout\\include_launch_delay_settings.xml",
+        "source": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-main-44:\\layout\\include_launch_delay_settings.xml"
     },
     {
         "merged": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-mergeDebugResources-41:\\layout\\notification_hourglass.xml",
@@ -26,5 +30,9 @@
     {
         "merged": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-mergeDebugResources-41:\\layout\\item_app.xml",
         "source": "C:\\Users\\Casa-Desktop\\.gradle\\daemon\\8.6\\com.focusfade.app-main-44:\\layout\\item_app.xml"
+    },
+    {
+        "merged": "com.focusfade.app-mergeDebugResources-41:/layout/include_launch_delay_settings.xml",
+        "source": "com.focusfade.app-main-44:/layout/include_launch_delay_settings.xml"
     }
 ]

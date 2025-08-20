@@ -21,6 +21,39 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
  * Manages app settings using DataStore
  */
 class SettingsManager(private val context: Context) {
+
+    /**
+     * Gets the delay (in seconds) before launching non-whitelisted apps.
+     * Default = 10 if not set.
+     */
+    fun getLaunchDelaySeconds(): Int {
+        val prefs = context.getSharedPreferences("focus_prefs", Context.MODE_PRIVATE)
+        return prefs.getInt("launch_delay_seconds", 10)
+    }
+
+    /**
+     * Sets the delay (in seconds) for delayed app launches.
+     */
+    fun setLaunchDelaySeconds(seconds: Int) {
+        val prefs = context.getSharedPreferences("focus_prefs", Context.MODE_PRIVATE)
+        prefs.edit().putInt("launch_delay_seconds", seconds).apply()
+    }
+
+    /**
+     * Gets whether delayed launch feature is enabled.
+     */
+    fun isDelayedLaunchEnabled(): Boolean {
+        val prefs = context.getSharedPreferences("focus_prefs", Context.MODE_PRIVATE)
+        return prefs.getBoolean("delayed_launch_enabled", false)
+    }
+
+    /**
+     * Sets whether delayed launch feature is enabled.
+     */
+    fun setDelayedLaunchEnabled(enabled: Boolean) {
+        val prefs = context.getSharedPreferences("focus_prefs", Context.MODE_PRIVATE)
+        prefs.edit().putBoolean("delayed_launch_enabled", enabled).apply()
+    }
     
     companion object {
         private const val TAG = "SettingsManager"

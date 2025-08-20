@@ -3283,6 +3283,9 @@ id decelerate
 id decelerateAndComplete
 id decor_content_parent
 id default_activity_button
+id delayCountdownView
+id delayProgressBar
+id delaySeekBar
 id deltaRelative
 id dependency_ordering
 id design_bottom_sheet
@@ -3368,6 +3371,7 @@ id ignoreRequest
 id image
 id imageAppIcon
 id immediateStop
+id includeLaunchDelay
 id included
 id indeterminate
 id info
@@ -3587,6 +3591,7 @@ id stretch
 id submenuarrow
 id submit_area
 id supportScrollUp
+id switchDelayedLaunch
 id switchServiceEnabled
 id tabMode
 id tag_accessibility_actions
@@ -3610,6 +3615,7 @@ id textBlurRecoveryRate
 id textCurrentBlurLevel
 id textDailyResetTime
 id textEnd
+id textLaunchDelay
 id textLogs
 id textMaxBlurLevel
 id textMinBlurLevel
@@ -3787,6 +3793,7 @@ layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
 layout activity_debug_log
+layout activity_delayed_launch
 layout activity_main
 layout activity_settings
 layout activity_whitelist
@@ -3808,6 +3815,7 @@ layout design_text_input_end_icon
 layout design_text_input_start_icon
 layout ime_base_split_test_activity
 layout ime_secondary_split_test_activity
+layout include_launch_delay_settings
 layout item_app
 layout m3_alert_dialog
 layout m3_alert_dialog_actions
@@ -3901,6 +3909,7 @@ string abc_searchview_description_voice
 string abc_shareactionprovider_share_with
 string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
+string accessibility_service_description
 string add_apps_description
 string advanced_settings
 string all_apps
@@ -5378,5 +5387,6 @@ styleable ViewPager2 android_orientation
 styleable ViewStubCompat android_id android_layout android_inflatedId
 styleable ViewTransition android_id SharedValue SharedValueId clearsTag duration ifTagNotSet ifTagSet motionInterpolator motionTarget onStateTransition pathMotionArc setsTag transitionDisable upDuration viewTransitionMode
 styleable include constraintSet
+xml accessibility_service_config
 xml backup_rules
 xml data_extraction_rules

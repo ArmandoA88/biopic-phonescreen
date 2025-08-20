@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">FocusFade</string>
+    <string name="accessibility_service_description">Detects when apps are launched to enable delayed launch feature for non-whitelisted apps</string>
     <string name="app_description">Mindful screen time through visual feedback</string>
     
     <!-- Main Activity -->
@@ -68,7 +69,7 @@
     <!-- Time formats -->
     <string name="today_at_format">Today at %s</string>
     <string name="tomorrow_at_format">Tomorrow at %s</string>
-    <string name="time_format">%02d:%02d</string>
+    <string name="time_format" formatted="false">%02d:%02d</string>
     
     <!-- Error messages -->
     <string name="error_generic">An error occurred</string>

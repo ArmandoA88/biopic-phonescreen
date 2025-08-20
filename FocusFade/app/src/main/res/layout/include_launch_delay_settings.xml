@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delayed Launch"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:paddingBottom="8dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show a delay screen before launching distracting apps"
+        android:textSize="14sp"
+        android:textColor="@android:color/darker_gray"
+        android:paddingBottom="12dp"/>
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchDelayedLaunch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enable delayed launch"
+        android:paddingBottom="16dp"/>
+
+    <TextView
+        android:id="@+id/textLaunchDelay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="App launch delay: 10 sec"
+        android:textSize="16sp"
+        android:paddingBottom="8dp"/>
+
+    <com.google.android.material.slider.Slider
+        android:id="@+id/delaySeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:value="10"
+        android:valueFrom="10"
+        android:valueTo="30"
+        android:stepSize="1"/>
+</LinearLayout>
