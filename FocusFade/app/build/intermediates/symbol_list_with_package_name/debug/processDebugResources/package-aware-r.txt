@@ -3112,6 +3112,7 @@ drawable notification_template_icon_bg
 drawable notification_template_icon_low_bg
 drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
+drawable progress_bar_green
 drawable progress_bar_with_thumb
 drawable progress_thumb
 drawable test_level_drawable
@@ -3197,6 +3198,7 @@ id animateToEnd
 id animateToStart
 id antiClockwise
 id anticipate
+id appIcon
 id arc
 id asConfigured
 id async
@@ -3506,6 +3508,7 @@ id position
 id postLayout
 id pressed
 id progressBlurLevel
+id progressPercentage
 id progress_circular
 id progress_horizontal
 id radio

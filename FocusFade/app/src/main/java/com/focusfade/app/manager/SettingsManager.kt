@@ -24,11 +24,11 @@ class SettingsManager(private val context: Context) {
 
     /**
      * Gets the delay (in seconds) before launching non-whitelisted apps.
-     * Default = 10 if not set.
+     * Default = 5 if not set.
      */
     fun getLaunchDelaySeconds(): Int {
         val prefs = context.getSharedPreferences("focus_prefs", Context.MODE_PRIVATE)
-        return prefs.getInt("launch_delay_seconds", 10)
+        return prefs.getInt("launch_delay_seconds", 5)
     }
 
     /**

@@ -4,27 +4,73 @@
     android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp"
+    android:padding="32dp"
     android:background="@android:color/black">
 
+    <!-- App Icon Placeholder -->
+    <ImageView
+        android:id="@+id/appIcon"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="24dp"
+        android:src="@drawable/ic_launcher_foreground"
+        android:background="@drawable/ic_launcher_background"
+        android:scaleType="centerCrop"/>
+
+    <!-- Title Text -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delayed Launch"
+        android:textSize="28sp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"/>
+
+    <!-- Subtitle -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Take a moment to consider if you really need this app"
+        android:textSize="16sp"
+        android:textColor="#CCFFFFFF"
+        android:layout_marginBottom="32dp"
+        android:gravity="center"
+        android:textAlignment="center"/>
+
+    <!-- Countdown Text -->
     <TextView
         android:id="@+id/delayCountdownView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Launching in..."
-        android:textSize="22sp"
+        android:text="Launching in 10 seconds..."
+        android:textSize="24sp"
         android:textColor="@android:color/white"
-        android:paddingBottom="16dp"
-        android:gravity="center"/>
+        android:layout_marginBottom="24dp"
+        android:gravity="center"
+        android:textStyle="bold"/>
 
+    <!-- Progress Bar -->
     <ProgressBar
         android:id="@+id/delayProgressBar"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="12dp"
         android:max="30"
         android:progress="0"
         android:indeterminate="false"
-        android:progressDrawable="@drawable/progress_bar_with_thumb"/>
+        android:progressDrawable="@drawable/progress_bar_green"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Progress Percentage -->
+    <TextView
+        android:id="@+id/progressPercentage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0%"
+        android:textSize="18sp"
+        android:textColor="#4CAF50"
+        android:textStyle="bold"/>
 
 </LinearLayout>

@@ -37,8 +37,10 @@ drawable ic_launcher_foreground
 drawable ic_notification
 drawable ic_refresh
 drawable ic_stop
+drawable progress_bar_green
 drawable progress_bar_with_thumb
 drawable progress_thumb
+id appIcon
 id bg_gradient
 id buttonAction
 id buttonBack
@@ -75,6 +77,7 @@ id imageAppIcon
 id includeLaunchDelay
 id percentText
 id progressBlurLevel
+id progressPercentage
 id recyclerAllApps
 id recyclerSuggestedApps
 id recyclerWhitelistedApps

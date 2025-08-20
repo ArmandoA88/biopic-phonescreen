@@ -32,7 +32,7 @@
         android:id="@+id/textLaunchDelay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="App launch delay: 10 sec"
+        android:text="App launch delay: 5 sec"
         android:textSize="16sp"
         android:paddingBottom="8dp"/>
 
@@ -40,8 +40,8 @@
         android:id="@+id/delaySeekBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:value="10"
-        android:valueFrom="10"
+        android:value="5"
+        android:valueFrom="1"
         android:valueTo="30"
         android:stepSize="1"/>
 </LinearLayout>
