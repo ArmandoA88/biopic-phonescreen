@@ -29,7 +29,8 @@ class DelayedLaunchActivity : Activity() {
         setContentView(R.layout.activity_delayed_launch)
 
         targetPackage = intent.getStringExtra("TARGET_PACKAGE")
-        val delaySeconds = settingsManager.getLaunchDelaySeconds()
+        // Get delay from intent, or fallback to default from settingsManager
+        val delaySeconds = intent.getIntExtra("DELAY_SECONDS", settingsManager.getLaunchDelaySeconds())
         
         progressBar = findViewById(R.id.delayProgressBar)
         countdownText = findViewById(R.id.delayCountdownView)

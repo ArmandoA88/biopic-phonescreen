@@ -32,8 +32,21 @@ class WhitelistManager(
     data class AppInfo(
         val packageName: String,
         val appName: String,
-        val icon: android.graphics.drawable.Drawable?
+        val icon: android.graphics.drawable.Drawable?,
+        val isSystemApp: Boolean = false // Added field to distinguish system apps
     )
+    
+    /**
+     * Checks if a given package is a system application.
+     */
+    fun isSystemApp(packageName: String): Boolean {
+        return try {
+            val appInfo = packageManager.getApplicationInfo(packageName, 0)
+            (appInfo.flags and ApplicationInfo.FLAG_SYSTEM) != 0
+        } catch (e: PackageManager.NameNotFoundException) {
+            false
+        }
+    }
     
     /**
      * Gets the currently active foreground app
@@ -134,7 +147,8 @@ class WhitelistManager(
                     
                     // Include all apps that are enabled and not hidden
                     if (appInfo.enabled) {
-                        apps.add(AppInfo(appInfo.packageName, appName, icon))
+                        val isSystem = isSystemApp(appInfo.packageName)
+                        apps.add(AppInfo(appInfo.packageName, appName, icon, isSystem))
                         addedPackages.add(appInfo.packageName)
                     }
                 }
@@ -161,8 +175,8 @@ class WhitelistManager(
                         } catch (e: Exception) {
                             null
                         }
-                        
-                        apps.add(AppInfo(packageName, appName, icon))
+                        val isSystem = isSystemApp(packageName)
+                        apps.add(AppInfo(packageName, appName, icon, isSystem))
                         addedPackages.add(packageName)
                     }
                 }
@@ -188,8 +202,8 @@ class WhitelistManager(
                         } catch (e: Exception) {
                             null
                         }
-                        
-                        apps.add(AppInfo(appInfo.packageName, appName, icon))
+                        val isSystem = isSystemApp(appInfo.packageName)
+                        apps.add(AppInfo(appInfo.packageName, appName, icon, isSystem))
                         addedPackages.add(appInfo.packageName)
                     }
                 }

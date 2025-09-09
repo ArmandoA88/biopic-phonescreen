@@ -114,21 +114,39 @@ class ScreenTimeTrackingService : Service() {
     }
     
     private fun handleScreenOn() {
-        serviceScope.launch {
+        serviceScope.launch handleScreenOnLaunch@{ // Labeled launch block
             val whitelistManager = com.focusfade.app.manager.WhitelistManager(applicationContext, settingsManager)
             val currentApp = whitelistManager.getCurrentForegroundApp()
+            
+            // Exclude FocusFade's own activities, especially DelayedLaunchActivity
+            if (currentApp == packageName || currentApp == "com.focusfade.app.DelayedLaunchActivity") {
+                focusStateManager.pauseBlurAccumulation() // Ensure blur doesn't accumulate on self
+                focusStateManager.onScreenOn()
+                return@handleScreenOnLaunch // Return from this specific launch block
+            }
+            
+            val isSystemApp = currentApp != null && whitelistManager.isSystemApp(currentApp)
             val isWhitelisted = currentApp != null && settingsManager.getWhitelistedApps().contains(currentApp)
-            if (isWhitelisted) {
+            
+            if (isWhitelisted || isSystemApp) { // No delay for whitelisted or system apps
                 focusStateManager.pauseBlurAccumulation()
                 focusStateManager.onScreenOn()
             } else {
                 focusStateManager.resumeBlurAccumulation()
-                // Redirect launch to delayed launch screen if app is not whitelisted
+                // Check if delayed launch is enabled and if this app is in the delayed launch list
+                // New logic: All apps are whitelisted by default, only selected apps get delayed
                 currentApp?.let {
-                    val launchIntent = Intent(applicationContext, com.focusfade.app.DelayedLaunchActivity::class.java)
-                    launchIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    launchIntent.putExtra("TARGET_PACKAGE", it)
-                    applicationContext.startActivity(launchIntent)
+                    val delayedLaunchApps = settingsManager.getDelayedLaunchApps()
+                    if (settingsManager.isDelayedLaunchEnabled() && delayedLaunchApps.contains(it)) {
+                        val appSpecificDelay = settingsManager.getAppSpecificDelay(it)
+                        val delaySeconds = appSpecificDelay ?: settingsManager.getLaunchDelaySeconds()
+                        
+                        val launchIntent = Intent(applicationContext, com.focusfade.app.DelayedLaunchActivity::class.java)
+                        launchIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        launchIntent.putExtra("TARGET_PACKAGE", it)
+                        launchIntent.putExtra("DELAY_SECONDS", delaySeconds) // Pass the delay to DelayedLaunchActivity
+                        applicationContext.startActivity(launchIntent)
+                    }
                 }
             }
         }
@@ -155,20 +173,36 @@ class ScreenTimeTrackingService : Service() {
     }
 
     private fun startForegroundAppMonitor() {
-        serviceScope.launch {
+        serviceScope.launch startForegroundAppMonitorLaunch@{ // Labeled launch block
             var lastApp: String? = null
             val whitelistManager = com.focusfade.app.manager.WhitelistManager(applicationContext, settingsManager)
 
             while (true) {
                 val currentApp = whitelistManager.getCurrentForegroundApp()
-                if (currentApp != null && currentApp != packageName && currentApp != lastApp) {
+                
+                // Exclude FocusFade's own activities, especially DelayedLaunchActivity
+                if (currentApp == packageName || currentApp == "com.focusfade.app.DelayedLaunchActivity") {
+                    lastApp = currentApp // Update lastApp to prevent re-triggering on self
+                    kotlinx.coroutines.delay(1000)
+                    continue // Skip processing for self or DelayedLaunchActivity
+                }
+
+                if (currentApp != null && currentApp != lastApp) {
                     lastApp = currentApp
-                    val isWhitelisted = settingsManager.getWhitelistedApps().contains(currentApp)
-                    if (!isWhitelisted) {
+                    
+                    // New logic: Check if delayed launch is enabled and if this app is in the delayed launch list
+                    // All apps are whitelisted by default, only selected apps get delayed
+                    val delayedLaunchApps = settingsManager.getDelayedLaunchApps()
+                    if (settingsManager.isDelayedLaunchEnabled() && 
+                        delayedLaunchApps.contains(currentApp)) { // Apply delay only if enabled and app is in the delayed launch list
+                        val appSpecificDelay = settingsManager.getAppSpecificDelay(currentApp)
+                        val delaySeconds = appSpecificDelay ?: settingsManager.getLaunchDelaySeconds()
+                        
                         // Start delayed launch activity overlay
                         val launchIntent = Intent(applicationContext, com.focusfade.app.DelayedLaunchActivity::class.java)
                         launchIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
                         launchIntent.putExtra("TARGET_PACKAGE", currentApp)
+                        launchIntent.putExtra("DELAY_SECONDS", delaySeconds) // Pass the delay to DelayedLaunchActivity
                         applicationContext.startActivity(launchIntent)
                     }
                 }

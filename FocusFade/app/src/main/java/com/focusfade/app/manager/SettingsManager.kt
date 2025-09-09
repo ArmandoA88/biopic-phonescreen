@@ -22,39 +22,6 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
  */
 class SettingsManager(private val context: Context) {
 
-    /**
-     * Gets the delay (in seconds) before launching non-whitelisted apps.
-     * Default = 5 if not set.
-     */
-    fun getLaunchDelaySeconds(): Int {
-        val prefs = context.getSharedPreferences("focus_prefs", Context.MODE_PRIVATE)
-        return prefs.getInt("launch_delay_seconds", 5)
-    }
-
-    /**
-     * Sets the delay (in seconds) for delayed app launches.
-     */
-    fun setLaunchDelaySeconds(seconds: Int) {
-        val prefs = context.getSharedPreferences("focus_prefs", Context.MODE_PRIVATE)
-        prefs.edit().putInt("launch_delay_seconds", seconds).apply()
-    }
-
-    /**
-     * Gets whether delayed launch feature is enabled.
-     */
-    fun isDelayedLaunchEnabled(): Boolean {
-        val prefs = context.getSharedPreferences("focus_prefs", Context.MODE_PRIVATE)
-        return prefs.getBoolean("delayed_launch_enabled", false)
-    }
-
-    /**
-     * Sets whether delayed launch feature is enabled.
-     */
-    fun setDelayedLaunchEnabled(enabled: Boolean) {
-        val prefs = context.getSharedPreferences("focus_prefs", Context.MODE_PRIVATE)
-        prefs.edit().putBoolean("delayed_launch_enabled", enabled).apply()
-    }
-    
     companion object {
         private const val TAG = "SettingsManager"
         
@@ -68,6 +35,10 @@ class SettingsManager(private val context: Context) {
         private val WHITELISTED_APPS = stringSetPreferencesKey("whitelisted_apps")
         private val SERVICE_ENABLED = booleanPreferencesKey("service_enabled")
         private val FIRST_LAUNCH = booleanPreferencesKey("first_launch")
+        private val LAUNCH_DELAY_SECONDS = intPreferencesKey("launch_delay_seconds")
+        private val DELAYED_LAUNCH_ENABLED = booleanPreferencesKey("delayed_launch_enabled")
+        private val APP_SPECIFIC_DELAYS = stringSetPreferencesKey("app_specific_delays") // Stores "packageName:delaySeconds"
+        private val DELAYED_LAUNCH_APPS = stringSetPreferencesKey("delayed_launch_apps") // Apps that have delayed launch enabled
         
         // Default values
         const val DEFAULT_BLUR_GAIN_RATE = 10 // 10% every 10 minutes
@@ -76,7 +47,123 @@ class SettingsManager(private val context: Context) {
         const val DEFAULT_MAX_BLUR_LEVEL = 100f
         const val DEFAULT_DAILY_RESET_HOUR = 0 // midnight
         const val DEFAULT_DAILY_RESET_MINUTE = 0
+        const val DEFAULT_LAUNCH_DELAY_SECONDS = 5 // Default delay of 5 seconds
+        const val DEFAULT_DELAYED_LAUNCH_ENABLED = false
     }
+    
+    // Launch delay (in seconds)
+    fun getLaunchDelaySeconds(): Int {
+        return try {
+            runBlocking {
+                context.dataStore.data.map { preferences ->
+                    preferences[LAUNCH_DELAY_SECONDS] ?: DEFAULT_LAUNCH_DELAY_SECONDS
+                }.first()
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error in getLaunchDelaySeconds()", e)
+            DEFAULT_LAUNCH_DELAY_SECONDS
+        }
+    }
+    
+    suspend fun setLaunchDelaySeconds(seconds: Int) {
+        context.dataStore.edit { preferences ->
+            preferences[LAUNCH_DELAY_SECONDS] = seconds
+        }
+    }
+    
+    fun getLaunchDelaySecondsFlow(): Flow<Int> = context.dataStore.data.map { preferences ->
+        preferences[LAUNCH_DELAY_SECONDS] ?: DEFAULT_LAUNCH_DELAY_SECONDS
+    }
+    
+    // Delayed launch enabled state
+    fun isDelayedLaunchEnabled(): Boolean {
+        return try {
+            runBlocking {
+                context.dataStore.data.map { preferences ->
+                    preferences[DELAYED_LAUNCH_ENABLED] ?: DEFAULT_DELAYED_LAUNCH_ENABLED
+                }.first()
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error in isDelayedLaunchEnabled()", e)
+            DEFAULT_DELAYED_LAUNCH_ENABLED
+        }
+    }
+    
+    suspend fun setDelayedLaunchEnabled(enabled: Boolean) {
+        context.dataStore.edit { preferences ->
+            preferences[DELAYED_LAUNCH_ENABLED] = enabled
+        }
+    }
+    
+    fun getDelayedLaunchEnabledFlow(): Flow<Boolean> = context.dataStore.data.map { preferences ->
+        preferences[DELAYED_LAUNCH_ENABLED] ?: DEFAULT_DELAYED_LAUNCH_ENABLED
+    }
+    
+    // App-specific delays
+    fun getAppSpecificDelay(packageName: String): Int? {
+        return try {
+            runBlocking {
+                context.dataStore.data.map { preferences ->
+                    val delays = preferences[APP_SPECIFIC_DELAYS] ?: emptySet()
+                    delays.firstOrNull { it.startsWith("$packageName:") }?.split(":")?.get(1)?.toIntOrNull()
+                }.first()
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error in getAppSpecificDelay() for $packageName", e)
+            null
+        }
+    }
+    
+    suspend fun setAppSpecificDelay(packageName: String, delaySeconds: Int) {
+        context.dataStore.edit { preferences ->
+            val currentDelays = preferences[APP_SPECIFIC_DELAYS] ?: emptySet()
+            val newDelays = currentDelays.filter { !it.startsWith("$packageName:") }.toMutableSet()
+            newDelays.add("$packageName:$delaySeconds")
+            preferences[APP_SPECIFIC_DELAYS] = newDelays
+        }
+    }
+    
+    suspend fun removeAppSpecificDelay(packageName: String) {
+        context.dataStore.edit { preferences ->
+            val currentDelays = preferences[APP_SPECIFIC_DELAYS] ?: emptySet()
+            preferences[APP_SPECIFIC_DELAYS] = currentDelays.filter { !it.startsWith("$packageName:") }.toSet()
+        }
+    }
+    
+    fun getAllAppSpecificDelays(): Map<String, Int> {
+        return try {
+            runBlocking {
+                context.dataStore.data.map { preferences ->
+                    val delays = preferences[APP_SPECIFIC_DELAYS] ?: emptySet()
+                    delays.mapNotNull {
+                        val parts = it.split(":")
+                        if (parts.size == 2) {
+                            val delay = parts[1].toIntOrNull()
+                            if (delay != null) parts[0] to delay
+                            else null
+                        } else null
+                    }.toMap()
+                }.first()
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error in getAllAppSpecificDelays()", e)
+            emptyMap()
+        }
+    }
+    
+    fun getAllAppSpecificDelaysFlow(): Flow<Map<String, Int>> = context.dataStore.data.map { preferences ->
+        val delays = preferences[APP_SPECIFIC_DELAYS] ?: emptySet()
+        delays.mapNotNull {
+            val parts = it.split(":")
+            if (parts.size == 2) {
+                val delay = parts[1].toIntOrNull()
+                if (delay != null) parts[0] to delay
+                else null
+            } else null
+        }.toMap()
+    }
+    
+    // Removed the filterNotNullValues helper function as it's no longer needed.
     
     // Blur gain rate (minutes per 10% blur increase)
     fun getBlurGainRate(): Int {
@@ -325,5 +412,37 @@ class SettingsManager(private val context: Context) {
             whitelistedApps = preferences[WHITELISTED_APPS] ?: emptySet(),
             serviceEnabled = preferences[SERVICE_ENABLED] ?: true
         )
+    }
+    
+    // Delayed launch apps management
+    fun getDelayedLaunchApps(): Set<String> {
+        return try {
+            runBlocking {
+                context.dataStore.data.map { preferences ->
+                    preferences[DELAYED_LAUNCH_APPS] ?: emptySet()
+                }.first()
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error in getDelayedLaunchApps()", e)
+            emptySet()
+        }
+    }
+    
+    suspend fun addDelayedLaunchApp(packageName: String) {
+        context.dataStore.edit { preferences ->
+            val currentApps = preferences[DELAYED_LAUNCH_APPS] ?: emptySet()
+            preferences[DELAYED_LAUNCH_APPS] = currentApps + packageName
+        }
+    }
+    
+    suspend fun removeDelayedLaunchApp(packageName: String) {
+        context.dataStore.edit { preferences ->
+            val currentApps = preferences[DELAYED_LAUNCH_APPS] ?: emptySet()
+            preferences[DELAYED_LAUNCH_APPS] = currentApps - packageName
+        }
+    }
+    
+    fun getDelayedLaunchAppsFlow(): Flow<Set<String>> = context.dataStore.data.map { preferences ->
+        preferences[DELAYED_LAUNCH_APPS] ?: emptySet()
     }
 }

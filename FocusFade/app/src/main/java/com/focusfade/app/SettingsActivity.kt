@@ -102,27 +102,36 @@ class SettingsActivity : AppCompatActivity() {
                 
                 // Delayed launch switch
                 includeLaunchDelay.switchDelayedLaunch.setOnCheckedChangeListener { _, isChecked ->
-                    if (isChecked) {
-                        // Check if accessibility service is enabled
-                        if (!isAccessibilityServiceEnabled()) {
-                            // Show dialog to enable accessibility service
-                            showAccessibilityPermissionDialog()
-                            // Revert switch state
-                            includeLaunchDelay.switchDelayedLaunch.isChecked = false
+                    lifecycleScope.launch { // Wrap in coroutine
+                        if (isChecked) {
+                            // Check if accessibility service is enabled
+                            if (!isAccessibilityServiceEnabled()) {
+                                // Show dialog to enable accessibility service
+                                showAccessibilityPermissionDialog()
+                                // Revert switch state
+                                includeLaunchDelay.switchDelayedLaunch.isChecked = false
+                            } else {
+                                settingsManager.setDelayedLaunchEnabled(true)
+                            }
                         } else {
-                            settingsManager.setDelayedLaunchEnabled(true)
+                            settingsManager.setDelayedLaunchEnabled(false)
                         }
-                    } else {
-                        settingsManager.setDelayedLaunchEnabled(false)
                     }
                 }
 
                 // Launch delay seekbar
                 includeLaunchDelay.delaySeekBar.addOnChangeListener { _, value, fromUser ->
                     if (fromUser) {
-                        settingsManager.setLaunchDelaySeconds(value.toInt())
+                        lifecycleScope.launch { // Wrap in coroutine
+                            settingsManager.setLaunchDelaySeconds(value.toInt())
+                        }
                         updateDelayText(value.toInt())
                     }
+                }
+
+                // Advanced Delayed Launch Settings button
+                findViewById<com.google.android.material.button.MaterialButton>(R.id.buttonAdvancedDelaySettings).setOnClickListener {
+                    startActivity(Intent(this@SettingsActivity, DelayedLaunchSettingsActivity::class.java))
                 }
 
                 // Min blur level slider

@@ -162,11 +162,38 @@
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp">
 
-                <include
-                    android:id="@+id/includeLaunchDelay"
-                    layout="@layout/include_launch_delay_settings"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <include
+                        android:id="@+id/includeLaunchDelay"
+                        layout="@layout/include_launch_delay_settings"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <!-- Advanced Delayed Launch Settings Button -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="16dp"
+                        android:paddingTop="0dp">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/buttonAdvancedDelaySettings"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Advanced Delay Settings"
+                            style="@style/Widget.Material3.Button.OutlinedButton"
+                            android:drawableStart="@android:drawable/ic_menu_preferences"
+                            android:drawablePadding="8dp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
             </com.google.android.material.card.MaterialCardView>
 
             <!-- Blur Level Settings -->
