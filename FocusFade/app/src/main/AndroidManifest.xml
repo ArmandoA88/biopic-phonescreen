@@ -113,7 +113,9 @@
             android:name=".DelayedLaunchActivity"
             android:exported="false"
             android:theme="@style/Theme.FocusFade"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"
+            android:screenOrientation="locked"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
 
         <!-- App Launch Accessibility Service -->
         <service

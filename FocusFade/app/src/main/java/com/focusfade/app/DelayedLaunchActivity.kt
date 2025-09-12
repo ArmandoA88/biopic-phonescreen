@@ -22,31 +22,70 @@ class DelayedLaunchActivity : Activity() {
     private lateinit var progressBar: ProgressBar
     private lateinit var countdownText: TextView
     private lateinit var progressPercentage: TextView
+    
+    private var totalDelaySeconds: Int = 0
+    private var remainingTimeMs: Long = 0
+    private var startTime: Long = 0
+    
+    companion object {
+        private const val KEY_TARGET_PACKAGE = "target_package"
+        private const val KEY_TOTAL_DELAY = "total_delay"
+        private const val KEY_START_TIME = "start_time"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         settingsManager = SettingsManager(this)
         setContentView(R.layout.activity_delayed_launch)
 
-        targetPackage = intent.getStringExtra("TARGET_PACKAGE")
-        // Get delay from intent, or fallback to default from settingsManager
-        val delaySeconds = intent.getIntExtra("DELAY_SECONDS", settingsManager.getLaunchDelaySeconds())
-        
         progressBar = findViewById(R.id.delayProgressBar)
         countdownText = findViewById(R.id.delayCountdownView)
         progressPercentage = findViewById(R.id.progressPercentage)
+
+        // Check if we're restoring from a saved state
+        if (savedInstanceState != null) {
+            // Restore state
+            targetPackage = savedInstanceState.getString(KEY_TARGET_PACKAGE)
+            totalDelaySeconds = savedInstanceState.getInt(KEY_TOTAL_DELAY)
+            startTime = savedInstanceState.getLong(KEY_START_TIME)
+            
+            // Calculate remaining time
+            val elapsedTime = System.currentTimeMillis() - startTime
+            remainingTimeMs = (totalDelaySeconds * 1000L) - elapsedTime
+            
+            // If time has already expired, launch immediately
+            if (remainingTimeMs <= 0) {
+                launchTargetApp()
+                return
+            }
+        } else {
+            // Fresh start
+            targetPackage = intent.getStringExtra("TARGET_PACKAGE")
+            totalDelaySeconds = intent.getIntExtra("DELAY_SECONDS", settingsManager.getLaunchDelaySeconds())
+            startTime = System.currentTimeMillis()
+            remainingTimeMs = totalDelaySeconds * 1000L
+        }
         
+        setupUI()
+        startCountdown()
+    }
+    
+    private fun setupUI() {
         // Set up progress bar
-        progressBar.max = delaySeconds
-        progressBar.progress = 0
+        progressBar.max = totalDelaySeconds
         
-        // Animate progress bar
-        val progressAnimator = ObjectAnimator.ofInt(progressBar, "progress", 0, delaySeconds)
-        progressAnimator.duration = (delaySeconds * 1000).toLong()
+        // Calculate current progress based on elapsed time
+        val elapsedTime = System.currentTimeMillis() - startTime
+        val currentProgress = ((elapsedTime / 1000).toInt()).coerceAtMost(totalDelaySeconds)
+        progressBar.progress = currentProgress
+        
+        // Animate progress bar from current position
+        val progressAnimator = ObjectAnimator.ofInt(progressBar, "progress", currentProgress, totalDelaySeconds)
+        progressAnimator.duration = remainingTimeMs
         progressAnimator.interpolator = AccelerateDecelerateInterpolator()
         progressAnimator.addUpdateListener { animation ->
             val progress = animation.animatedValue as Int
-            val percentage = (progress * 100) / delaySeconds
+            val percentage = (progress * 100) / totalDelaySeconds
             progressPercentage.text = "$percentage%"
         }
         progressAnimator.start()
@@ -62,24 +101,44 @@ class DelayedLaunchActivity : Activity() {
         scaleAnimator.duration = 500
         scaleAnimator.repeatCount = ValueAnimator.INFINITE
         scaleAnimator.start()
-
-        timer = object : CountDownTimer((delaySeconds * 1000).toLong(), 100) {
+    }
+    
+    private fun startCountdown() {
+        timer = object : CountDownTimer(remainingTimeMs, 100) {
             override fun onTick(millisUntilFinished: Long) {
+                remainingTimeMs = millisUntilFinished
                 val secondsLeft = (millisUntilFinished / 1000).toInt() + 1
                 countdownText.text = "Launching in $secondsLeft seconds..."
             }
             override fun onFinish() {
-                countdownText.text = "Launching now..."
-                progressPercentage.text = "100%"
-                targetPackage?.let {
-                    val launchIntent = packageManager.getLaunchIntentForPackage(it)
-                    if (launchIntent != null) {
-                        startActivity(launchIntent)
-                    }
-                }
-                finish()
+                launchTargetApp()
             }
         }.start()
+    }
+    
+    private fun launchTargetApp() {
+        countdownText.text = "Launching now..."
+        progressPercentage.text = "100%"
+        targetPackage?.let {
+            val launchIntent = packageManager.getLaunchIntentForPackage(it)
+            if (launchIntent != null) {
+                startActivity(launchIntent)
+            }
+        }
+        finish()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(KEY_TARGET_PACKAGE, targetPackage)
+        outState.putInt(KEY_TOTAL_DELAY, totalDelaySeconds)
+        outState.putLong(KEY_START_TIME, startTime)
+    }
+    
+    override fun onConfigurationChanged(newConfig: android.content.res.Configuration) {
+        super.onConfigurationChanged(newConfig)
+        // Activity will handle configuration changes without recreating
+        // The countdown will continue uninterrupted
     }
 
     override fun onDestroy() {
