@@ -77,26 +77,19 @@ class SettingsManager(private val context: Context) {
     
     // Delayed launch enabled state
     fun isDelayedLaunchEnabled(): Boolean {
-        return try {
-            runBlocking {
-                context.dataStore.data.map { preferences ->
-                    preferences[DELAYED_LAUNCH_ENABLED] ?: DEFAULT_DELAYED_LAUNCH_ENABLED
-                }.first()
-            }
-        } catch (e: Exception) {
-            Log.e(TAG, "Error in isDelayedLaunchEnabled()", e)
-            DEFAULT_DELAYED_LAUNCH_ENABLED
-        }
+        // Delayed app launch is intentionally disabled globally.
+        return false
     }
     
     suspend fun setDelayedLaunchEnabled(enabled: Boolean) {
         context.dataStore.edit { preferences ->
-            preferences[DELAYED_LAUNCH_ENABLED] = enabled
+            // Keep this setting forced off to prevent delayed app launches.
+            preferences[DELAYED_LAUNCH_ENABLED] = enabled && false
         }
     }
     
-    fun getDelayedLaunchEnabledFlow(): Flow<Boolean> = context.dataStore.data.map { preferences ->
-        preferences[DELAYED_LAUNCH_ENABLED] ?: DEFAULT_DELAYED_LAUNCH_ENABLED
+    fun getDelayedLaunchEnabledFlow(): Flow<Boolean> = context.dataStore.data.map { _ ->
+        false
     }
     
     // App-specific delays
