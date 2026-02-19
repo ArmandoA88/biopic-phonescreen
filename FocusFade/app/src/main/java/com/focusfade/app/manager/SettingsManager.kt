@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
@@ -36,6 +37,7 @@ class SettingsManager(private val context: Context) {
         private val SERVICE_ENABLED = booleanPreferencesKey("service_enabled")
         private val FIRST_LAUNCH = booleanPreferencesKey("first_launch")
         private val LAUNCH_DELAY_SECONDS = intPreferencesKey("launch_delay_seconds")
+        private val DELAY_GOAL_TEXT = stringPreferencesKey("delay_goal_text")
         private val DELAYED_LAUNCH_ENABLED = booleanPreferencesKey("delayed_launch_enabled")
         private val APP_SPECIFIC_DELAYS = stringSetPreferencesKey("app_specific_delays") // Stores "packageName:delaySeconds"
         private val DELAYED_LAUNCH_APPS = stringSetPreferencesKey("delayed_launch_apps") // Apps that have delayed launch enabled
@@ -48,6 +50,7 @@ class SettingsManager(private val context: Context) {
         const val DEFAULT_DAILY_RESET_HOUR = 0 // midnight
         const val DEFAULT_DAILY_RESET_MINUTE = 0
         const val DEFAULT_LAUNCH_DELAY_SECONDS = 5 // Default delay of 5 seconds
+        const val DEFAULT_DELAY_GOAL_TEXT = ""
         const val DEFAULT_DELAYED_LAUNCH_ENABLED = false
     }
     
@@ -74,22 +77,53 @@ class SettingsManager(private val context: Context) {
     fun getLaunchDelaySecondsFlow(): Flow<Int> = context.dataStore.data.map { preferences ->
         preferences[LAUNCH_DELAY_SECONDS] ?: DEFAULT_LAUNCH_DELAY_SECONDS
     }
+
+    // Goal text shown on delayed launch screen
+    fun getDelayGoalText(): String {
+        return try {
+            runBlocking {
+                context.dataStore.data.map { preferences ->
+                    preferences[DELAY_GOAL_TEXT] ?: DEFAULT_DELAY_GOAL_TEXT
+                }.first()
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error in getDelayGoalText()", e)
+            DEFAULT_DELAY_GOAL_TEXT
+        }
+    }
+
+    suspend fun setDelayGoalText(goalText: String) {
+        context.dataStore.edit { preferences ->
+            preferences[DELAY_GOAL_TEXT] = goalText.trim().take(140)
+        }
+    }
+
+    fun getDelayGoalTextFlow(): Flow<String> = context.dataStore.data.map { preferences ->
+        preferences[DELAY_GOAL_TEXT] ?: DEFAULT_DELAY_GOAL_TEXT
+    }
     
     // Delayed launch enabled state
     fun isDelayedLaunchEnabled(): Boolean {
-        // Delayed app launch is intentionally disabled globally.
-        return false
+        return try {
+            runBlocking {
+                context.dataStore.data.map { preferences ->
+                    preferences[DELAYED_LAUNCH_ENABLED] ?: DEFAULT_DELAYED_LAUNCH_ENABLED
+                }.first()
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error in isDelayedLaunchEnabled()", e)
+            DEFAULT_DELAYED_LAUNCH_ENABLED
+        }
     }
     
     suspend fun setDelayedLaunchEnabled(enabled: Boolean) {
         context.dataStore.edit { preferences ->
-            // Keep this setting forced off to prevent delayed app launches.
-            preferences[DELAYED_LAUNCH_ENABLED] = enabled && false
+            preferences[DELAYED_LAUNCH_ENABLED] = enabled
         }
     }
     
-    fun getDelayedLaunchEnabledFlow(): Flow<Boolean> = context.dataStore.data.map { _ ->
-        false
+    fun getDelayedLaunchEnabledFlow(): Flow<Boolean> = context.dataStore.data.map { preferences ->
+        preferences[DELAYED_LAUNCH_ENABLED] ?: DEFAULT_DELAYED_LAUNCH_ENABLED
     }
     
     // App-specific delays

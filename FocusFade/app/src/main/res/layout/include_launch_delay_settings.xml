@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="16dp"
     android:layout_width="match_parent"
@@ -44,4 +45,41 @@
         android:valueFrom="1"
         android:valueTo="30"
         android:stepSize="1"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="6dp"
+        android:text="Goal text"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        app:counterEnabled="true"
+        app:counterMaxLength="140"
+        app:hintEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextDelayGoal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Write your reminder..."
+            android:inputType="textCapSentences|textMultiLine"
+            android:maxLength="140"
+            android:maxLines="2"
+            android:minLines="1" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Shown on the delayed launch screen."
+        android:textColor="@android:color/darker_gray"
+        android:textSize="12sp" />
 </LinearLayout>

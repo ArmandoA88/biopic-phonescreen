@@ -1,76 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:gravity="center"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/delayRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="32dp"
-    android:background="@android:color/black">
+    android:background="@drawable/delayed_launch_background">
 
-    <!-- App Icon Placeholder -->
+    <com.focusfade.app.view.DelayVisualFeedbackView
+        android:id="@+id/visualFeedbackView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <ImageView
-        android:id="@+id/appIcon"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginBottom="24dp"
-        android:src="@drawable/ic_launcher_foreground"
-        android:background="@drawable/ic_launcher_background"
-        android:scaleType="centerCrop"/>
+        android:id="@+id/inversionFlashOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@null"
+        android:scaleType="fitXY"
+        android:visibility="gone" />
 
-    <!-- Title Text -->
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/contentContainer"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Delayed Launch"
-        android:textSize="28sp"
-        android:textColor="@android:color/white"
-        android:textStyle="bold"
-        android:layout_marginBottom="8dp"
-        android:gravity="center"/>
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingStart="24dp"
+        android:paddingTop="24dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="24dp">
 
-    <!-- Subtitle -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Take a moment to consider if you really need this app"
-        android:textSize="16sp"
-        android:textColor="#CCFFFFFF"
-        android:layout_marginBottom="32dp"
-        android:gravity="center"
-        android:textAlignment="center"/>
+        <TextView
+            android:id="@+id/streakBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_background_accent"
+            android:paddingStart="12dp"
+            android:paddingTop="6dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="6dp"
+            android:text="1-day streak | 1 mindful pause"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
-    <!-- Countdown Text -->
-    <TextView
-        android:id="@+id/delayCountdownView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Launching in 10 seconds..."
-        android:textSize="24sp"
-        android:textColor="@android:color/white"
-        android:layout_marginBottom="24dp"
-        android:gravity="center"
-        android:textStyle="bold"/>
+        <ImageView
+            android:id="@+id/appIcon"
+            android:layout_width="78dp"
+            android:layout_height="78dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="14dp"
+            android:background="@drawable/ic_launcher_background"
+            android:contentDescription="@string/app_icon"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher_foreground" />
 
-    <!-- Progress Bar -->
-    <ProgressBar
-        android:id="@+id/delayProgressBar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="300dp"
-        android:layout_height="12dp"
-        android:max="30"
-        android:progress="0"
-        android:indeterminate="false"
-        android:progressDrawable="@drawable/progress_bar_green"
-        android:layout_marginBottom="16dp"/>
+        <TextView
+            android:id="@+id/delayTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Delayed Launch"
+            android:textColor="@android:color/white"
+            android:textSize="26sp"
+            android:textStyle="bold" />
 
-    <!-- Progress Percentage -->
-    <TextView
-        android:id="@+id/progressPercentage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0%"
-        android:textSize="18sp"
-        android:textColor="#4CAF50"
-        android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/delaySubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:text="Pause, breathe, and choose intentionally."
+            android:textAlignment="center"
+            android:textColor="#D9FFFFFF"
+            android:textSize="15sp" />
 
-</LinearLayout>
+        <FrameLayout
+            android:id="@+id/ringContainer"
+            android:layout_width="240dp"
+            android:layout_height="240dp"
+            android:layout_gravity="center">
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/countdownRing"
+                android:layout_width="240dp"
+                android:layout_height="240dp"
+                android:layout_gravity="center"
+                android:max="1000"
+                android:progress="0"
+                android:indeterminate="false"
+                app:indicatorColor="@color/focus_green"
+                app:indicatorDirectionCircular="clockwise"
+                app:indicatorInset="0dp"
+                app:indicatorSize="240dp"
+                app:trackColor="#55FFFFFF"
+                app:trackThickness="12dp" />
+
+            <TextView
+                android:id="@+id/progressPercentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="0%"
+                android:textColor="@android:color/white"
+                android:textSize="40sp"
+                android:textStyle="bold" />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/delayCountdownView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Launching in 10 seconds..."
+            android:textColor="@android:color/white"
+            android:textSize="21sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/goalCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            app:cardBackgroundColor="#2AFFFFFF"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="0dp"
+            app:strokeColor="#4DFFFFFF"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Your Goal"
+                    android:textColor="#CCFFFFFF"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/goalText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Use this app only for what matters right now."
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/quoteText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Small pauses create big control."
+                    android:textColor="#D9FFFFFF"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+
+</FrameLayout>

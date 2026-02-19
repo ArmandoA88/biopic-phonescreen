@@ -10,6 +10,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import com.focusfade.app.databinding.ActivitySettingsBinding
 import com.focusfade.app.manager.SettingsManager
@@ -22,6 +23,7 @@ class SettingsActivity : AppCompatActivity() {
     
     private lateinit var binding: ActivitySettingsBinding
     private lateinit var settingsManager: SettingsManager
+    private var isUpdatingGoalText = false
     
     companion object {
         private const val TAG = "SettingsActivity"
@@ -129,6 +131,13 @@ class SettingsActivity : AppCompatActivity() {
                     }
                 }
 
+                includeLaunchDelay.editTextDelayGoal.doAfterTextChanged { editable ->
+                    if (isUpdatingGoalText) return@doAfterTextChanged
+                    lifecycleScope.launch {
+                        settingsManager.setDelayGoalText(editable?.toString().orEmpty())
+                    }
+                }
+
                 // Advanced Delayed Launch Settings button
                 findViewById<com.google.android.material.button.MaterialButton>(R.id.buttonAdvancedDelaySettings).setOnClickListener {
                     startActivity(Intent(this@SettingsActivity, DelayedLaunchSettingsActivity::class.java))
@@ -181,6 +190,12 @@ class SettingsActivity : AppCompatActivity() {
                         Toast.makeText(this@SettingsActivity, "Error selecting pattern mode", Toast.LENGTH_SHORT).show()
                     }
                 }
+            }
+
+            lifecycleScope.launch {
+                isUpdatingGoalText = true
+                binding.includeLaunchDelay.editTextDelayGoal.setText(settingsManager.getDelayGoalText())
+                isUpdatingGoalText = false
             }
             Log.d(TAG, "UI setup completed")
         } catch (e: Exception) {
